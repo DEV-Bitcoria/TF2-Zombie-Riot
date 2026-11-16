@@ -97,7 +97,6 @@ static bool b_AntiSameFrameUpdate[MAXPLAYERS];
 
 #if defined ZR
 static int TeutonModelIndex;
-bool b_IsRobot[MAXPLAYERS];
 #endif
 
 void ViewChange_MapStart()
@@ -608,8 +607,10 @@ void ViewChange_Switch(int client, int active, const char[] classname)
 			return;
 		}
 	}
+#if defined ZR
 	if(GetTeam(client) != 2)
 		Modifier_RecolourAlly_SecondaryMercsInternal(client);
+#endif
 	ViewChange_DeleteHands(client);
 	WeaponClass[client] = TFClass_Unknown;
 }

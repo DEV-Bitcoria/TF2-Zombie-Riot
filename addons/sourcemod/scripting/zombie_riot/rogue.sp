@@ -631,7 +631,7 @@ void Rogue_SetupVote(KeyValues kv, const char[] artifactOnly = "")
 		
 		for(int client=1; client<=MaxClients; client++)
 		{
-			if(IsClientInGame(client) && GetClientTeam(client) > 1)
+			if(IsClientInGame(client) && !IsFakeClient(client) && GetClientTeam(client) > 1)
 			{
 				Waves_RoundStart();
 				break;
@@ -650,6 +650,16 @@ void Rogue_RevoteCmd(int client)	// Waves_RevoteCmd
 bool Rogue_VoteActive()
 {
 	return view_as<bool>(Voting);
+}
+
+ArrayList Rogue_GetActiveVote()
+{
+	return Voting;
+}
+
+float Rogue_VoteGameTime()
+{
+	return VoteEndTime;
 }
 
 bool Rogue_CallVote(int client, bool force = false)	// Waves_CallVote
@@ -681,14 +691,14 @@ bool Rogue_CallVote(int client, bool force = false)	// Waves_CallVote
 					
 					for(int target = 1; target <= MaxClients; target++)
 					{
-						if(IsClientInGame(target) && GetClientTeam(target) == 2 && Items_HasNamedItem(target, vote.Config))
+						if(IsClientInGame(target) && !IsFakeClient(client) && GetClientTeam(target) > 1 && Items_HasNamedItem(target, vote.Config))
 						{
 							locked = false;
 							break;
 						}
 					}
 				}
-
+				
 				Format(vote.Config, sizeof(vote.Config), "%t%s", vote.Name, locked ? " (Locked)" : "");
 				menu.AddItem(vote.Name, vote.Config, locked ? ITEMDRAW_DISABLED : ITEMDRAW_DEFAULT);
 			}
@@ -761,7 +771,7 @@ static void DisplayHintVote()
 		int[] votes = new int[length + 1];
 		for(int client = 1; client <= MaxClients; client++)
 		{
-			if(IsClientInGame(client) && GetClientTeam(client) == 2)
+			if(IsClientInGame(client) && !IsFakeClient(client) && GetClientTeam(client) > 1)
 			{
 				total++;
 
@@ -801,50 +811,46 @@ static void DisplayHintVote()
 
 		if(top[0] != -1)
 		{
-			Vote vote;
-			Voting.GetArray(top[0], vote);
-			
 			for(int client = 1; client <= MaxClients; client++)
 			{
 				if(IsClientInGame(client))
 				{
 					SetGlobalTransTarget(client);
 					
-					char buffer[256];
-					FormatEx(buffer, sizeof(buffer), "Votes: %d/%d, %ds left\n1. %t%s: (%d)", count, total, RoundFloat(VoteEndTime - GetGameTime()), vote.Name, vote.Append, votes[top[0]]);
+					Vote vote;
+					Voting.GetArray(top[0], vote);
+					
+					char buffer[256], buffer2[128];
+					if(vote.DisplayFormat[0])
+					{
+						FormatEx(buffer2, sizeof(buffer2), vote.DisplayFormat, vote.Name, vote.Append);
+						FormatEx(buffer, sizeof(buffer), "Votes: %d/%d, %ds left\n1. %s: (%d)", count, total, RoundFloat(VoteEndTime - GetGameTime()), buffer2, votes[top[0]]);
+					}
+					else
+					{
+						FormatEx(buffer, sizeof(buffer), "Votes: %d/%d, %ds left\n1. %t%s: (%d)", count, total, RoundFloat(VoteEndTime - GetGameTime()), vote.Name, vote.Append, votes[top[0]]);
+					}
 					
 					for(int i = 1; i < sizeof(top); i++)
 					{
 						if(top[i] != -1)
 						{
 							Voting.GetArray(top[i], vote);
-
-							Format(buffer, sizeof(buffer), "%s\n%d. %t%s: (%d)", buffer, i + 1, vote.Name, vote.Append, votes[top[i]]);
+							if(vote.DisplayFormat[0])
+							{
+								FormatEx(buffer2, sizeof(buffer2), vote.DisplayFormat, vote.Name, vote.Append);
+								Format(buffer, sizeof(buffer), "%s\n%d. %s: (%d)", buffer, i + 1, buffer2, votes[top[i]]);
+							}
+							else
+							{
+								Format(buffer, sizeof(buffer), "%s\n%d. %t%s: (%d)", buffer, i + 1, vote.Name, vote.Append, votes[top[i]]);
+							}
 						}
 					}
 					
 					PrintHintText(client, "%s", buffer);
 				}
 			}
-			
-			/*
-			SetGlobalTransTarget(LANG_SERVER);
-
-			char buffer[256];
-			FormatEx(buffer, sizeof(buffer), "Votes: %d/%d, %ds left\n1. %t: (%d)", count, total, RoundFloat(VoteEndTime - GetGameTime()), vote.Name, votes[top[0]]);
-
-			for(int i = 1; i < sizeof(top); i++)
-			{
-				if(top[i] != -1)
-				{
-					Voting.GetArray(top[i], vote);
-
-					Format(buffer, sizeof(buffer), "%s\n%d. %t: (%d)", buffer, i + 1, vote.Name, votes[top[i]]);
-				}
-			}
-
-			PrintHintTextToAll(buffer);
-			*/
 		}
 	}
 	else
@@ -1005,9 +1011,9 @@ public Action Rogue_EndVote(Handle timer, float time)
 			int[] votes = new int[length];
 			for(int client = 1; client <= MaxClients; client++)
 			{
-				if(IsClientInGame(client))
+				if(IsClientInGame(client) && !IsFakeClient(client))
 				{
-					if(VotedFor[client] > 0 && GetClientTeam(client) == 2)
+					if(VotedFor[client] > 0 && GetClientTeam(client) > 1)
 					{
 						votes[VotedFor[client]-1]++;
 					}
@@ -1055,11 +1061,22 @@ public Action Rogue_RoundStartTimer(Handle timer)
 {
 	ProgressTimer = null;
 	
-	if(!Voting && GameRules_GetRoundState() == RoundState_ZombieRiot)
+	if(!Voting && GameRules_GetRoundState() != RoundState_BetweenRounds)
 	{
 		if(CvarNoRoundStart.BoolValue)
 		{
 			PrintToChatAll("zr_noroundstart is enabled");
+		}
+		else if(Arena_Mode())
+		{
+			for(int client=1; client<=MaxClients; client++)
+			{
+				if(IsClientInGame(client) && !IsFakeClient(client))
+				{
+					Arena_Start();
+					return Plugin_Stop;
+				}
+			}
 		}
 		else if(Dungeon_Mode())
 		{
@@ -1090,6 +1107,17 @@ public Action Rogue_RoundStartTimer(Handle timer)
 				if(IsClientInGame(client) && GetClientTeam(client) == 2 && !IsFakeClient(client))
 				{
 					Rogue_NextProgress();
+					return Plugin_Stop;
+				}
+			}
+		}
+		else if(Holdout_Mode())
+		{
+			for(int client=1; client<=MaxClients; client++)
+			{
+				if(IsClientInGame(client) && GetClientTeam(client) == 2 && !IsFakeClient(client))
+				{
+					Holdout_Start();
 					return Plugin_Stop;
 				}
 			}
@@ -1330,7 +1358,7 @@ void Rogue_NextProgress()
 			int highestLevel;
 			for(int client = 1; client <= MaxClients; client++)
 			{
-				if(IsClientInGame(client) && GetClientTeam(client) == 2)
+				if(IsClientInGame(client) && !IsFakeClient(client) && GetClientTeam(client) == 2)
 				{
 					int amount = SkillTree_GetByName(client, "Ingot Up 1");
 					if(amount > highestLevel)
@@ -1438,7 +1466,7 @@ void Rogue_NextProgress()
 			}
 
 			int maxRooms = floor.RoomCount + ExtraStageCount;
-
+			
 			bool removeCurse;
 			switch(RogueTheme)
 			{
@@ -1657,6 +1685,9 @@ void Rogue_NextProgress()
 				Vote vote;
 				for(int i; i < count; i++)
 				{
+					// Reset Display Format.
+					strcopy(vote.DisplayFormat, sizeof(vote.DisplayFormat), "");
+					
 					int id = GetRandomStage(floor, stage, 0, ForcedVoteSeed, CurrentCount + 2, maxRooms + 2);
 					if(id != -1)
 					{
@@ -1712,11 +1743,15 @@ void Rogue_NextProgress()
 								{
 									if(stage.Hidden)
 									{
-										strcopy(vote.Append, sizeof(vote.Append), "  (→ Encounter)");
+										Format(vote.DisplayFormat, sizeof(vote.DisplayFormat), "%s  (→ %s)", "%t", "%t");
+										strcopy(vote.Append, sizeof(vote.Append), "Encounter");
+										//strcopy(vote.Append, sizeof(vote.Append), "  (→ Encounter)");
 									}
 									else
 									{
-										Format(vote.Append, sizeof(vote.Append), "  (→ %T)", stage.Name, LANG_SERVER);
+										Format(vote.DisplayFormat, sizeof(vote.DisplayFormat), "%s  (→ %s)", "%t", "%t");
+										strcopy(vote.Append, sizeof(vote.Append), stage.Name);
+										//Format(vote.Append, sizeof(vote.Append), "  (→ %T)", stage.Name, LANG_SERVER);
 									}
 								}
 							}
@@ -1918,12 +1953,17 @@ bool Rogue_ShowStatus(int client)
 				if(DisplayDo <= 1)
 					DisplayDo = 1;
 				
-				ShowSyncHudText(client, SyncHud_WandMana, "%T", "Rogue Stage Status",client, floor.Name, DisplayDo, (floor.RoomCount + ExtraStageCount) + 2);
+				ShowSyncHudText(client, SyncHud_WandMana, "%T", "Rogue Stage Status", client, floor.Name, DisplayDo, (floor.RoomCount + ExtraStageCount) + 2);
 				return true;
 			}
 		}
 	}
-
+	else if(Holdout_Mode())
+	{
+		if(Holdout_ShowStatus(client))
+			return true;
+	}
+	
 	return false;
 }
 
@@ -1994,7 +2034,7 @@ void Rogue_StartGenericVote(float time = 20.0)
 
 	for(int client = 1; client <= MaxClients; client++)
 	{
-		if(IsClientInGame(client) && GetClientTeam(client) == 2 && GetClientMenu(client) == MenuSource_None)
+		if(IsClientInGame(client) && !IsFakeClient(client) && GetClientTeam(client) > 1 && GetClientMenu(client) == MenuSource_None)
 			Rogue_CallVote(client);
 	}
 }
@@ -2018,7 +2058,14 @@ static bool CallGenericVote(int client)
 	for(int i; i < length; i++)
 	{
 		Voting.GetArray(i, vote);
-		Format(vote.Name, sizeof(vote.Name), "%t%s", vote.Name, vote.Append);
+		if(vote.DisplayFormat[0])
+		{
+			Format(vote.Name, sizeof(vote.Name), vote.DisplayFormat, vote.Name, vote.Append);
+		}
+		else
+		{
+			Format(vote.Name, sizeof(vote.Name), "%t%s", vote.Name, vote.Append);
+		}
 		menu.AddItem(vote.Config, vote.Name, vote.Locked ? ITEMDRAW_DISABLED : ITEMDRAW_DEFAULT);
 	}
 
@@ -2192,7 +2239,7 @@ static void StartStage(const Stage stage)
 	BattleIngots = CurrentFloor > 1 ? 4 : 3;
 	RequiredBattle = false;
 	SetAllCamera();
-
+	
 	if(stage.IntroMusic.Path[0])
 	{
 		for(int client = 1; client <= MaxClients; client++)
@@ -2978,7 +3025,7 @@ void Rogue_GiveNamedArtifact(const char[] name, bool silent = false, bool noFail
 					for(int a; a < i_MaxcountNpcTotal; a++)
 					{
 						int entity = EntRefToEntIndexFast(i_ObjectsNpcsTotal[a]);
-						if(entity != INVALID_ENT_REFERENCE && IsEntityAlive(entity) && GetTeam(entity) == TFTeam_Red)
+						if(entity != INVALID_ENT_REFERENCE && IsEntityAlive(entity) && (Arena_Mode() || GetTeam(entity) == TFTeam_Red))
 						{
 							Call_StartFunction(null, artifact.FuncAlly);
 							Call_PushCell(entity);

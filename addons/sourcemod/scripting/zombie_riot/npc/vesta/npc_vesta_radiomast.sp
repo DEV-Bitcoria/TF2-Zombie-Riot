@@ -82,7 +82,7 @@ methodmap VestaRadiomast < CClotBody
 		npc.m_iWearable1 = npc.EquipItemSeperate(VestaRadiomast_MODEL_1,_,1);
 		SetVariantString("0.5");
 		AcceptEntityInput(npc.m_iWearable1, "SetModelScale");
-		npc.m_iWearable2 = npc.EquipItemSeperate(VestaRadiomast_MODEL_2,_,_,_,70.0);
+		npc.m_iWearable2 = npc.EquipItemSeperate(VestaRadiomast_MODEL_2,_,1,_,70.0);
 		SetVariantString("1.0");
 		AcceptEntityInput(npc.m_iWearable2, "SetModelScale");
 		npc.m_iWearable3 = npc.EquipItemSeperate(VestaRadiomast_MODEL_3,_,1);
@@ -119,8 +119,15 @@ methodmap VestaRadiomast < CClotBody
 		npc.m_bFUCKYOU = (StrContains(data, "death_func") != -1);
 		npc.m_flSpawnDelay = 0.0;
 		
-		npc.m_flMeleeArmor = 2.5;
+		npc.m_flMeleeArmor = 1.25;
 		npc.m_flRangedArmor = 0.9;
+
+		if(StrContains(data, "surv") != -1)
+		{
+			b_NpcUnableToDie[npc.index] = true;
+			b_NpcIsInvulnerable[npc.index] = true;
+			b_NoHealthbar[npc.index] = 1;
+		}
 		
 		int Decicion = TeleportDiversioToRandLocation(npc.index, true, 1500.0, 1000.0, .NeedLOSPlayer = true);
 		switch(Decicion)
@@ -171,6 +178,35 @@ methodmap VestaRadiomast < CClotBody
 			IdRef++;
 			event.SetInt("id", IdRef); //What to enter inside? Need a way to identify annotations by entindex!
 			event.Fire();
+		}
+
+		int health = ReturnEntityMaxHealth(npc.index) / 8;
+		float pos[3]; GetEntPropVector(npc.index, Prop_Data, "m_vecAbsOrigin", pos);
+		float ang[3]; GetEntPropVector(npc.index, Prop_Data, "m_angRotation", ang);
+		int team = GetTeam(npc.index);
+
+		char Adddeta[512];
+		FormatEx(Adddeta, sizeof(Adddeta), "target%i;", EntIndexToEntRef(npc.index));
+		for(int i=1; i<=2; i++)
+		{
+			int other = NPC_CreateByName("npc_radioguard", -1, pos, ang, team, Adddeta);
+			if(other > MaxClients)
+			{
+				if(team != TFTeam_Red)
+					Zombies_Currently_Still_Ongoing++;
+				
+				SetEntProp(other, Prop_Data, "m_iHealth", health);
+				SetEntProp(other, Prop_Data, "m_iMaxHealth", health);
+				NpcAddedToZombiesLeftCurrently(other, true);
+				fl_Extra_MeleeArmor[other] = fl_Extra_MeleeArmor[npc.index];
+				fl_Extra_RangedArmor[other] = fl_Extra_RangedArmor[npc.index];
+				fl_Extra_Speed[other] = fl_Extra_Speed[npc.index];
+				fl_Extra_Damage[other] = fl_Extra_Damage[npc.index];
+				b_thisNpcIsABoss[other] = b_thisNpcIsABoss[npc.index];
+				b_StaticNPC[other] = b_StaticNPC[npc.index];
+				if(b_StaticNPC[other])
+					AddNpcToAliveList(other, 1);
+			}
 		}
 		return npc;
 	}

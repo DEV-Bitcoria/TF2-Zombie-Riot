@@ -305,6 +305,7 @@ void NPC_ConfigSetup()
 	Donnerkrieg_OnMapStart_NPC();
 	Schwertkrieg_OnMapStart_NPC();
 	PhantomKnight_OnMapStart_NPC();
+	Nothing_There_OnMapStart_NPC();
 	BeheadedKamiKaze_OnMapStart_NPC();
 	Alt_Medic_Constructor_OnMapStart_NPC();	//3rd alt medic.
 	/*
@@ -1235,40 +1236,35 @@ void NPC_ConfigSetup()
 	DungeonLoot_MapStart();
 	
 	// Foolish
-	EasyBobTheFirst_OnMapStart();
-	EasyAlaxios_OnMapStart();
+	// EasyBobTheFirst_OnMapStart();
+	// EasyAlaxios_OnMapStart();
 	
 	// Gmod ZS
+	ZSBase_OnMapStart_NPC();
+	
 	ZSZombie_OnMapStart_NPC();
 	ZSHeadcrab_OnMapStart_NPC();
 	Ghoul_OnMapStart_NPC();
 	ZSPoisonZombie_OnMapStart_NPC();
 	ZSPoisonHeadcrab_MapStart();
-	ZSFortifiedGiantPoisonZombie_OnMapStart_NPC();
 	Butcher_OnMapStart_NPC();
 	ZSThe_Shit_Slapper_OnMapStart_NPC();
 	BloatedZombie_OnMapStart_NPC();
 	ZSFastZombie_OnMapStart_NPC();
 	Skeleton_OnMapStart_NPC();
 	ShadowWalker_OnMapStart_NPC();
-	ElderGhoul_OnMapStart_NPC();
 	GoreBlaster_OnMapStart_NPC();
 	Bastardzine_OnMapStart_NPC();
 	FastHeadcrab_OnMapStart_NPC();
-	VileBloatedZombie_OnMapStart_NPC();
 	FleshCreeper_OnMapStart_NPC();
 	Nest_OnMapStart_NPC();
 	ZSZmain_OnMapStart_NPC();
-	ZombieSummonRandom_OnMapStart_NPC();
+	ZS_Pukepus_OnMapStart_NPC();
 	PoyoSummonRandom_OnMapStart_NPC();
 	Amplification_Precache();
 	Pregnant_Precache();
-	ZSHeadcrabZombie_OnMapStart_NPC();
-	ZSFastheadcrabZombie_OnMapStart_NPC();
-	ZSPoisonheadcrabZombie_OnMapStart_NPC();
 	ZsSpitter_Precache();
 	Zsrunner_Precache();
-	ZSsoldierOnMapStart();
 	ZsSpy_OnMapStart_NPC();
 	ZSscout_OnMapStart_NPC();
 	InfectedHeavy_Precache();
@@ -1292,8 +1288,7 @@ void NPC_ConfigSetup()
 	InfectedFatSpy_Precache();
 	InfectedCleaner_OnMapStart_NPC();
 	InfectedFireFighter_OnMapStart_NPC();
-	ZSCombineElite_OnMapStart_NPC();
-	ZSVILEPoisonheadcrabZombie_OnMapStart_NPC();
+//	ZSCombineElite_OnMapStart_NPC();
 	StrangPyro_OnMapStart_NPC();
 	InfectedMessengerOnMapStart();
 	InfectedHazardous_OnMapStart_NPC();
@@ -1306,12 +1301,7 @@ void NPC_ConfigSetup()
 	StoneAgeMaker_OnMapStart_NPC();
 	MassShootingLover_OnMapStart_NPC();
 	ZSZombine_OnMapStart_NPC();
-	ZSMainHeadcrab_OnMapStart_NPC();
-	ZSMainHeadcrabZombie_OnMapStart_NPC();
 	ZSMainPoisonZombie_OnMapStart_NPC();
-	ZSSoldierGiant_OnMapStart_NPC();
-	ZSSoldierMinion_OnMapStart_NPC();
-	Angryheadcrab_MapStart();
 	Headcrabmilloperator_OnMapStart_NPC();
 	ManhattanParrot_OnMapStart_NPC();
 	InfectedTomislavMain_OnMapStart_NPC();
@@ -1352,9 +1342,68 @@ void NPC_ConfigSetup()
 	AgentSmithFollower_Setup();
 	KevinmeryFollower_Setup();
 	
-	Dimension_Ripper_Base_OnMapStart_NPC();
+	// Dimension_Ripper_Base_OnMapStart_NPC();
+	
+	AltExtra_Base_MapStart();
+	AltExtra_Mecha_Loader_MapStart();
+	AltExtra_Mecha_Duelist_MapStart();
+	AltExtra_Mecha_HeavyParticleRifle_MapStart();
+	AltExtra_Mecha_AirStriker_OnMapStart();
+	KommandantStahlherz_OnMapStart();
+	AltExtra_Mecha_Dimension_Ripper_OnMapStart();
+	AltExtra_Mecha_Base_Destroyer_MapStart();
+	AltExtra_Mechanized_Wall_MapStart();
+	AltExtra_CombineOverlord_OnMapStart();
+	AltExtra_CombineCollos_OnMapStart();
+	AltExtra_Mecha_FatherGrigori_OnMapStart();
+	AltExtra_Mecha_Pyro_Chef_OnMapStart();
+	AltExtra_Mecha_Plunderer_Pyro_OnMapStart();
+	AltExtra_Intruso_OnMapStart();
+	AltExtra_Sensal_Clone_OnMapStart();
+	AltExtra_Mecha_Overclocker_OnMapStart();
+	AltExtra_CombineDDT_OnMapStart();
+	AltExtra_Mecha_Sniper_Railgunner_OnMapStart();
+	AltExtra_Mecha_Conqueror_OnMapStart();
+	AltExtra_Medic_Master_Mage_OnMapStart();
+	AltExtra_Mecha_Sniper_Main_OnMapStart();
+	AltExtra_Sergeant_Charbomb_OnMapStart();
+	AltExtra_Mecha_Flaregun_Main_OnMapStart();
+	AltExtra_Mecha_Killing_Order_OnMapStart();
+	AltExtra_Mecha_Kamikaze_Demo_OnMapStart();
+	AltExtra_Sensal_Clone_Perfected_OnMapStart();
+	AltExtra_Mecha_Tornado_Blitz_MapStart();
+	AltExtra_Mecha_Wizard_Heavy_MapStart();
+	AltExtra_Mecha_Flametail_Scout_OnMapStart();
+	AltExtra_Mecha_Elite_Sniper_OnMapStart();
+	AltExtra_Mecha_Berserker_Demo_OnMapStart();
+	
+	Ruina_Galahad_MapStart();
+	
+	//Barrack_Lab_Combatant_MapStart();
+	//Barrack_Lab_Huntsman_MapStart();
+	//Barrack_Lab_Crusher_MapStart();
+	
+	Combine_Base_OnMapStart();
+	//Whiteflower_CombineSmg_OnMapStart_NPC();
+	//WFCombineRevolver_OnMapStart_NPC();
+	//WFCombineGrenadier_OnMapStart_NPC();
+	//Whiteflower_CombineBazooka_OnMapStart_NPC();
+	
+	Combine_Pretorian_Guard_OnMapStart();
+	CombineSupremeOverlord_OnMapStart_NPC();
+	Anti_Chaos_Robot_OnMapStart_NPC();
+	WhiteFlower_BoltSmasher_OnMapStart_NPC();
+	Combine_Tank_Commander_OnMapStart();
+	Combine_Heavy_Armored_Titan_OnMapStart();
+	Combine_Expert_Fighter_OnMapStart();
+	
+	//RaidbossKnightOfTheCurtain_OnMapStart_NPC();
+	//RaidbossTraitorPrescott_OnMapStart_NPC();
 	
 	VScript_CacheNPCs();
+	//precache instantlyx
+	if(HasNTOnServer())
+		NPC_GetByPlugin("npc_nothing_there");
 }
 
 void NPC_MapEnd()
@@ -1414,7 +1463,7 @@ stock void NPC_GetById(int id, NPCData data)
 	NPCList.GetArray(id, data);
 }
 
-stock int NPC_GetByPlugin(const char[] name, NPCData data = {}, const char[] chardata = "")
+stock int NPC_GetByPlugin(const char[] name, NPCData data = {""}, const char[] chardata = "")
 {
 	int index = NPCList.FindString(name, NPCData::Plugin);
 	if(index != -1)
@@ -1527,7 +1576,7 @@ static int CreateNPC(NPCData npcdata, int id, int client, float vecPos[3], float
 
 void NPC_PostSetup(int entity)
 {
-	if(GetTeam(entity) == 2)
+	if(GetTeam(entity) == 2 || Arena_Mode())
 	{
 		Rogue_AllySpawned(entity);
 		Waves_AllySpawned(entity);
@@ -1671,8 +1720,8 @@ Action NpcSpecificOnTakeDamage(int victim, int &attacker, int &inflictor, float 
 	{
 		CheckHpThreshhold *= npc.m_iHealthBar;
 	}
-	float WhichThreshholdDamageAt = 0.075;
-	//normal enemies need to take atleast 7.5% of their hp as damage in 1 hit so it does the hurt animation
+	float WhichThreshholdDamageAt = 0.05;
+	//normal enemies need to take atleast 0.5% of their hp as damage in 1 hit so it does the hurt animation
 	if(b_thisNpcIsARaid[victim])
 	{
 		WhichThreshholdDamageAt *= 0.025;
@@ -1681,7 +1730,12 @@ Action NpcSpecificOnTakeDamage(int victim, int &attacker, int &inflictor, float 
 	{
 		WhichThreshholdDamageAt *= 0.15;
 	}
-	WhichThreshholdDamageAt *= float(flHealth);
+	else
+	{
+		//normal enemies should always
+		WhichThreshholdDamageAt = 0.0;
+	}
+	WhichThreshholdDamageAt *= float(CheckHpThreshhold);
 	if(WhichThreshholdDamageAt >= damage)
 	{
 		PreventHurtsound = true;
@@ -1889,6 +1943,7 @@ Action NpcSpecificOnTakeDamage(int victim, int &attacker, int &inflictor, float 
 #include "npc/special/npc_sawrunner.sp"
 #include "npc/special/npc_l4d2_tank.sp"
 #include "npc/special/npc_phantom_knight.sp"
+#include "npc/special/npc_nothing_there.sp"
 #include "npc/special/npc_beheaded_kamikaze.sp"
 #include "npc/special/npc_doctor.sp"
 #include "npc/special/npc_drdam_special_delivery.sp"
@@ -2174,6 +2229,8 @@ Action NpcSpecificOnTakeDamage(int victim, int &attacker, int &inflictor, float 
 #include "npc/ally/almina_barracks/npc_barrack_headhunter.sp"
 #include "npc/ally/almina_barracks/npc_barrack_inquisitor.sp"
 #include "npc/ally/almina_barracks/npc_barrack_lighthouse_guardian.sp"
+
+//#include "npc/ally/void_barracks/npc_barrack_void_expander.sp"
 
 #include "npc/ally/npc_nearl_sword.sp"
 #include "npc/ally/npc_ritualist.sp"
@@ -2882,10 +2939,12 @@ Action NpcSpecificOnTakeDamage(int victim, int &attacker, int &inflictor, float 
 #include "npc/construction/npc_dungeon_loot.sp"
 
 // Foolish
-#include "npc/foolish/npc_easy_god_alaxios.sp"
-#include "npc/foolish/npc_easy_bob_the_first_last_savior.sp"
+// #include "npc/foolish/npc_easy_god_alaxios.sp"
+// #include "npc/foolish/npc_easy_bob_the_first_last_savior.sp"
 
 // Gmod ZS
+#include "npc/gmod_zs/npc_zs_base.sp"
+
 #include "npc/gmod_zs/15/npc_zs_zombie.sp"
 #include "npc/gmod_zs/15/npc_zs_headcrab.sp"
 #include "npc/gmod_zs/15/npc_zs_ghoul.sp"
@@ -2896,16 +2955,10 @@ Action NpcSpecificOnTakeDamage(int victim, int &attacker, int &inflictor, float 
 #include "npc/gmod_zs/15/npc_zs_poisonheadcrab.sp"
 #include "npc/gmod_zs/15/npc_zs_poisonzombie.sp"
 #include "npc/gmod_zs/30/npc_zs_gore_blaster.sp"
-#include "npc/gmod_zs/30/npc_zs_elder_ghoul.sp"
 #include "npc/gmod_zs/30/npc_zs_fast_headcrab.sp"
-#include "npc/gmod_zs/30/npc_zs_vile_bloated_zombie.sp"
-#include "npc/gmod_zs/30/npc_zs_headcrabzombie.sp"
-#include "npc/gmod_zs/30/npc_zs_fastheadcrab_zombie.sp"
-#include "npc/gmod_zs/30/npc_zs_poisonheadcrab_zombie.sp"
 #include "npc/gmod_zs/30/npc_zs_runner.sp"
 #include "npc/gmod_zs/30/npc_zs_spitter.sp"
 #include "npc/gmod_zs/45/npc_zs_zombie_scout.sp"
-#include "npc/gmod_zs/45/npc_zs_zombie_soldier_pickaxe.sp"
 #include "npc/gmod_zs/45/npc_zs_zombie_spy.sp"
 #include "npc/gmod_zs/45/npc_zs_zombie_heavy.sp"
 #include "npc/gmod_zs/45/npc_zs_zombie_soldier.sp"
@@ -2916,7 +2969,6 @@ Action NpcSpecificOnTakeDamage(int victim, int &attacker, int &inflictor, float 
 #include "npc/gmod_zs/45/npc_zs_zombie_engineer.sp"
 #include "npc/gmod_zs/45/npc_zs_medic_healer.sp"
 #include "npc/gmod_zs/45/npc_zs_huntsman.sp"
-#include "npc/gmod_zs/45/npc_angryheadcrab.sp"
 #include "npc/gmod_zs/45/npc_zs_hmo.sp"
 #include "npc/gmod_zs/45/npc_infected_tomislav_main.sp"
 #include "npc/gmod_zs/60/npc_zs_eradicator.sp"
@@ -2924,7 +2976,6 @@ Action NpcSpecificOnTakeDamage(int victim, int &attacker, int &inflictor, float 
 #include "npc/gmod_zs/60/npc_zs_medic_main.sp"
 #include "npc/gmod_zs/60/npc_zs_zombie_fatscout.sp"
 #include "npc/gmod_zs/60/npc_zs_cleaner.sp"
-#include "npc/gmod_zs/60/npc_zs_vile_poisonheadcrab_zombie.sp"
 #include "npc/gmod_zs/60/npc_zs_stranger.sp"
 #include "npc/gmod_zs/60/npc_zs_soldier_messenger.sp"
 #include "npc/gmod_zs/60/npc_zs_ihbc.sp"
@@ -2934,15 +2985,13 @@ Action NpcSpecificOnTakeDamage(int victim, int &attacker, int &inflictor, float 
 #include "npc/gmod_zs/60/npc_zs_sam.sp"
 #include "npc/gmod_zs/60/npc_zs_mlsm.sp"
 #include "npc/gmod_zs/60/npc_zs_manhattan_parrot.sp"
-#include "npc/gmod_zs/bandit/npc_zs_combine_soldier_elite.sp"
-#include "npc/gmod_zs/npc_zs_zmain.sp"
+//#include "npc/gmod_zs/bandit/npc_zs_combine_soldier_elite.sp"
+#include "npc/gmod_zs/npc_zs_pukepus.sp"
 #include "npc/gmod_zs/special/npc_zs_flesh_creeper.sp"
 #include "npc/gmod_zs/special/npc_zs_nest.sp"
-#include "npc/gmod_zs/special/npc_random_zombie.sp"
 #include "npc/gmod_zs/special/npc_random_poyo.sp"
 #include "npc/gmod_zs/special/npc_zs_amplification.sp"
 #include "npc/gmod_zs/special/npc_zs_howler.sp"
-#include "npc/gmod_zs/special/npc_zs_poisonzombie_fortified_giant.sp"
 #include "npc/gmod_zs/special/npc_zs_the_shit_slapper.sp"
 #include "npc/gmod_zs/special/npc_zs_butcher.sp"
 #include "npc/gmod_zs/special/npc_zs_bastardzine.sp"
@@ -2950,11 +2999,8 @@ Action NpcSpecificOnTakeDamage(int victim, int &attacker, int &inflictor, float 
 #include "npc/gmod_zs/special/npc_zs_red_marrow.sp"
 #include "npc/gmod_zs/special/npc_zs_bonemesh.sp"
 #include "npc/gmod_zs/special/npc_zs_zombine.sp"
-#include "npc/gmod_zs/special/npc_zs_zmain_headcrab.sp"
 #include "npc/gmod_zs/special/npc_zs_zmain_headcrabzombie.sp"
 #include "npc/gmod_zs/special/npc_zs_zmain_poisonzombie.sp"
-#include "npc/gmod_zs/special/npc_zs_soldier_giant_grave.sp"
-#include "npc/gmod_zs/special/npc_zs_soldier_minion_grave.sp"
 #include "npc/gmod_zs/bosses/npc_zs_nightmare.sp"
 #include "npc/gmod_zs/bosses/npc_zs_sphynx.sp"
 #include "npc/gmod_zs/bosses/npc_zs_pregnant.sp"
@@ -2962,13 +3008,78 @@ Action NpcSpecificOnTakeDamage(int victim, int &attacker, int &inflictor, float 
 #include "npc/gmod_zs/bosses/npc_zs_soldier_barrager.sp"
 #include "npc/gmod_zs/bosses/npc_zs_unspeakable.sp"
 #include "npc/gmod_zs/bosses/npc_doctor_unclean_one.sp"
-//#include "npc/gmod_zs/npc_zs_pukepus.sp"
 #include "npc/gmod_zs/npc_zs_ally_medic.sp"
 #include "npc/gmod_zs/npc_zs_ally_soldier.sp"
 #include "npc/gmod_zs/npc_zs_ally_heavy.sp"
 #include "npc/gmod_zs/npc_zs_ally_sniper.sp"
 
-// Dimension ripper
-#include "npc/ally/dimension_ripper/npc_dimension_ripper_base.sp"
+// Ruina Barracks
+// #include "npc/ally/ruina_barracks/npc_barrack_iana.sp"
+// #include "npc/ally/ruina_barracks/npc_barrack_ruliana.sp"
 
-// #include "npc/foolish/npc_get_it_on_heavy.sp"
+// Dimension ripper
+// #include "npc/ally/dimension_ripper/npc_dimension_ripper_base.sp"
+
+// Alt Extra
+// #include "npc/alt_extra/npc_alt_extra_body.sp"
+#include "npc/alt_extra/npc_alt_extra_base.sp"
+#include "npc/alt_extra/npc_alt_extra_mecha_loader.sp"
+#include "npc/alt_extra/npc_alt_extra_mecha_duelist.sp"
+#include "npc/alt_extra/npc_alt_extra_mecha_heavy_particle_rifle.sp"
+#include "npc/alt_extra/npc_alt_extra_mecha_airstriker.sp"
+#include "npc/alt_extra/npc_alt_extra_kommandant_stahlherz.sp"
+#include "npc/alt_extra/npc_alt_extra_mecha_dimension_ripper.sp"
+#include "npc/alt_extra/npc_alt_extra_mecha_base_destroyer.sp"
+#include "npc/alt_extra/npc_alt_extra_mecha_wall.sp"
+#include "npc/alt_extra/npc_alt_extra_combine_overlord.sp"
+#include "npc/alt_extra/npc_alt_extra_golden_collos.sp"
+#include "npc/alt_extra/npc_alt_extra_last_survivor.sp"
+#include "npc/alt_extra/npc_alt_extra_mecha_pyro_chef.sp"
+#include "npc/alt_extra/npc_alt_extra_mecha_plunderer_pyro.sp"
+#include "npc/alt_extra/npc_alt_extra_sensal_clone.sp"
+#include "npc/alt_extra/npc_alt_extra_mecha_overclocker.sp"
+#include "npc/alt_extra/npc_alt_extra_combine_swordsman_ddt.sp"
+#include "npc/alt_extra/npc_alt_extra_mecha_sniper_railgunner.sp"
+#include "npc/alt_extra/npc_alt_extra_mecha_berserker_demo.sp"
+#include "npc/alt_extra/npc_alt_extra_mecha_conqueror.sp"
+#include "npc/alt_extra/npc_alt_extra_master_mage.sp"
+//#include "npc/alt_extra/npc_alt_extra_mecha_fuel_rusher.sp"
+#include "npc/alt_extra/npc_alt_extra_intruso.sp"
+#include "npc/alt_extra/npc_alt_extra_mecha_sniper_main.sp"
+#include "npc/alt_extra/npc_alt_extra_mecha_kamikaze_demo.sp"
+#include "npc/alt_extra/npc_alt_extra_sergeant_charbomb.sp"
+#include "npc/alt_extra/npc_alt_extra_mecha_flaregun_main.sp"
+#include "npc/alt_extra/npc_alt_extra_mecha_killing_order.sp"
+#include "npc/alt_extra/npc_alt_extra_sensal_clone_perfected.sp"
+#include "npc/alt_extra/npc_alt_extra_mecha_tornado_blitz.sp"
+#include "npc/alt_extra/npc_alt_extra_mecha_wizard_heavy.sp"
+#include "npc/alt_extra/npc_alt_extra_mecha_flametail_scout.sp"
+#include "npc/alt_extra/npc_alt_extra_mecha_elite_sniper.sp"
+//#include "npc/alt_extra/npc_alt_extra_mecha_immortalizer.sp"
+//#include "npc/alt_extra/npc_alt_extra_mecha_shotgun_main.sp"
+//#include "npc/alt_extra/npc_alt_extra_mega_mecha_loader.sp"
+
+// Lab barracks.
+// #include "npc/ally/lab_barracks/npc_barrack_lab_combatant.sp"
+// #include "npc/ally/lab_barracks/npc_barrack_lab_huntsman.sp"
+// #include "npc/ally/lab_barracks/npc_barrack_lab_crusher.sp"
+
+// Test.
+#include "npc/blackoak/npc_ruina_galahad.sp"
+
+// Whiteflower survivors
+#include "npc/wf_survivors/npc_combine_base.sp"
+//#include "npc/wf_survivors/npc_wf_combine_smg.sp"
+//#include "npc/wf_survivors/npc_wf_combine_grenadier.sp"
+//#include "npc/wf_survivors/npc_wf_combine_revolver.sp"
+//#include "npc/wf_survivors/npc_wf_combine_bazooka.sp"
+#include "npc/wf_survivors/npc_combine_pretorian_guard.sp"
+#include "npc/wf_survivors/npc_combine_supreme_overlord.sp"
+#include "npc/wf_survivors/npc_anti_chaos_robot.sp"
+#include "npc/wf_survivors/npc_boltsmasher.sp"
+#include "npc/wf_survivors/npc_combine_tank_commander.sp"
+#include "npc/wf_survivors/npc_combine_heavy_armored_titan.sp"
+#include "npc/wf_survivors/npc_combine_expert_fighter.sp"
+
+//#include "npc/raidmode_bosses/wf_survivors/npc_knight_of_the_curtain.sp"
+//#include "npc/raidmode_bosses/wf_survivors/npc_traitor_prescott.sp"

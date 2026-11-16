@@ -25,7 +25,7 @@ void VestanOfflineAvangard_MapStart()
 	strcopy(data.Plugin, sizeof(data.Plugin), "npc_avangard");
 	strcopy(data.Icon, sizeof(data.Icon), "victoria_avangard");
 	data.IconCustom = true;
-	data.Flags = 0;
+	data.Flags = MVM_CLASS_FLAG_MINIBOSS;
 	data.Category = Type_Vesta;
 	data.Precache = ClotPrecache;
 	data.Func = ClotSummon;
@@ -161,6 +161,12 @@ methodmap VestanOfflineAvangard < CClotBody
 		
 		if(StrContains(data, "awaiting_mechanist") != -1)
 			b_AdvansedConstruction[npc.index] = true;
+
+		if(StrContains(data, "surv") != -1)
+		{
+			b_NpcIsInvulnerable[npc.index] = true;
+			b_NoHealthbar[npc.index] = 1;
+		}
 
 		SetEntityRenderColor(npc.index, 80, 50, 50, 255);
 

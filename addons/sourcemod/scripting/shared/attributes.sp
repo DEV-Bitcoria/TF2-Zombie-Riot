@@ -67,7 +67,8 @@ enum
 	
 	Attrib_ASPD_StatusCalc,	// Only used in status_effect to determine their current ASPD amount
 	Attrib_RegenElementalOutOfBattleScaling = 4061,
-	Attrib_MaxHpNerfForAbility = 4062
+	Attrib_MaxHpNerfForAbility = 4062,
+	Attrib_Elemental_DmgBoost = 4063
 }
 
 enum
@@ -75,10 +76,18 @@ enum
 	Attrib_MaxArmor_Multiplier = 5000,
 	Attrib_MaxArmor_BaseAdditive = 5001,
 	Attrib_MaxArmor_FinalAdditive = 5002,
+	
 	Attrib_IsSniperRifle = 5003,
 	Attrib_ExplosiveHeadshot = 5004,
+	
 	Attrib_MaxHealthMulti = 5005,
+	
 	Attrib_DamageBonusFullCharge = 5006,
+	
+	Attrib_MaxHealthForNecro = 5007,
+	
+	Attrib_FlamethrowerDamageBonus = 5008,
+	
 };
 
 StringMap WeaponAttributes[MAXENTITIES + 1];
@@ -165,7 +174,10 @@ int ReplaceAttribute_Internally(int attribute)
 	{
 		//replace dmg attrib with another, this is due to the MVM hud on pressing inspect fucking crashing you at high dmges
 		case 2:
-			return 1000;
+		{
+			if(!Arena_Mode())
+				return 1000;
+		}
 	}
 	return attribute;
 }

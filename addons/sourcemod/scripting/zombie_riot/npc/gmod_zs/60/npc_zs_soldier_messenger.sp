@@ -3,6 +3,7 @@
 
 bool g_infected_messenger_died;
 float g_infected_messenger_die;
+
 static const char g_DeathSounds[][] =
 {
 	"vo/soldier_paincrticialdeath01.mp3",
@@ -48,9 +49,8 @@ static char g_SummonSounds[][] = {
 	"weapons/buff_banner_horn_red.wav",
 };
 
-void InfectedMessengerOnMapStart()
-{	
-	
+public void InfectedMessengerOnMapStart()
+{
 	NPCData data;
 	strcopy(data.Name, sizeof(data.Name), "Infected Messenger Soldier");
 	strcopy(data.Plugin, sizeof(data.Plugin), "npc_zs_soldier_messenger");
@@ -58,8 +58,20 @@ void InfectedMessengerOnMapStart()
 	data.IconCustom = false;
 	data.Flags = 0;
 	data.Category = Type_GmodZS;
+	data.Precache = ClotPrecache;
 	data.Func = ClotSummon;
 	NPC_Add(data);
+}
+
+static void ClotPrecache()
+{
+	PrecacheSoundArray(g_DeathSounds);
+	PrecacheSoundArray(g_HurtSounds);
+	PrecacheSoundArray(g_IdleAlertedSounds);
+	PrecacheSoundArray(g_MeleeHitSounds);
+	PrecacheSoundArray(g_MeleeAttackSounds);
+	PrecacheSoundArray(g_SummonSounds);
+	PrecacheModel("models/player/soldier.mdl");
 }
 
 static any ClotSummon(int client, float vecPos[3], float vecAng[3], int ally)
@@ -73,7 +85,6 @@ methodmap InfectedMessenger < CClotBody
 	{
 		if(this.m_flNextIdleSound > GetGameTime(this.index))
 			return;
-		
 		EmitSoundToAll(g_IdleAlertedSounds[GetRandomInt(0, sizeof(g_IdleAlertedSounds) - 1)], this.index, SNDCHAN_VOICE, NORMAL_ZOMBIE_SOUNDLEVEL, _, NORMAL_ZOMBIE_VOLUME);
 		this.m_flNextIdleSound = GetGameTime(this.index) + GetRandomFloat(12.0, 24.0);
 	}
@@ -292,7 +303,7 @@ static void ClotThink(int iNPC)
 	
 	if(!g_infected_messenger_died && ((npc.InWaves - (Waves_GetRoundScale()+1) <= 0) || RaidbossIgnoreBuildingsLogic(1) || LastMann))
 	{
-		CPrintToChatAll("{green}감염된 전령병{default}: 잘 있어라 멍청이들 난 간다");
+		CPrintToChatAll("{green}감염된 전령병{default}: 아 드디어 전역이다!!! 내일은 집에서 치킨 뜯어야지");
 		LastHitRef[npc.index] = -1;
 		float VecSelfNpc[3]; WorldSpaceCenter(npc.index, VecSelfNpc);
 		ParticleEffectAt(VecSelfNpc, "teleported_blue", 0.5);
@@ -324,60 +335,59 @@ static void ClotThink(int iNPC)
 		else if(gameTime + 3.0 > g_infected_messenger_die && i_SaidLineAlready[npc.index] < 9)
 		{
 			i_SaidLineAlready[npc.index] = 9;
-			CPrintToChatAll("{green}감염된 전령병{crimson}: 내일이 전역이란 말이다!!!!");
+			CPrintToChatAll("{green}감염된 전령병{crimson}: 너넨 모두 이 짓거리의 대가를 치루게 될것이다");
 		}
 		else if(gameTime + 5.0 > g_infected_messenger_die && i_SaidLineAlready[npc.index] < 8)
 		{
 			i_SaidLineAlready[npc.index] = 8;
-			CPrintToChatAll("{green}감염된 전령병{default}: 이런 식으로 죽고 싶지 않아!");
+			CPrintToChatAll("{green}감염된 전령병{crimson}: 내일이 전역이란 말이다!!!!!");
 		}
 		else if(gameTime + 8.0 > g_infected_messenger_die && i_SaidLineAlready[npc.index] < 7)
 		{
 			i_SaidLineAlready[npc.index] = 7;
-			CPrintToChatAll("{green}감염된 전령병{default}: 안돼...이런 식으로 죽고 싶진 않아....");
+			CPrintToChatAll("{green}감염된 전령병{default}: 젠장...내일이 전역이란 말이다.....");
 		}
 		else if(gameTime + 10.0 > g_infected_messenger_die && i_SaidLineAlready[npc.index] < 6)
 		{
 			i_SaidLineAlready[npc.index] = 6;
-			CPrintToChatAll("{green}감염된 전령병{default}: 대체 누가 내몸에 이런 짓을...빌어먹을 행보관인가?");
+			CPrintToChatAll("{green}감염된 전령병{default}: 이래서 이딴 곳에 오고싶지 않았는데 제길");
 		}
 		else if(gameTime + 12.0 > g_infected_messenger_die && i_SaidLineAlready[npc.index] < 5)
 		{
 			i_SaidLineAlready[npc.index] = 5;
-			CPrintToChatAll("{green}감염된 전령병{default}: 이런 젠장 이건 말도 안돼...");
+			CPrintToChatAll("{green}감염된 전령병{default}: 쿨럭....쿨럭....");
 		}
 		else if(gameTime + 14.0 > g_infected_messenger_die && i_SaidLineAlready[npc.index] < 4)
 		{
 			i_SaidLineAlready[npc.index] = 4;
-			CPrintToChatAll("{green}감염된 전령병{crimson}: 잠깐만");
+			CPrintToChatAll("{green}감염된 전령병{default}: 빌어먹을 행보관은 그저 정찰만 하면 되는 쉬운 임무라고 말해줬는데");
 		}
 		else if(gameTime + 16.0 > g_infected_messenger_die && i_SaidLineAlready[npc.index] < 3)
 		{
 			i_SaidLineAlready[npc.index] = 3;
-			CPrintToChatAll("{green}감염된 전령병{default}: 속이 뭔가 이상한데...뭔가 더부룩한게...");
+			CPrintToChatAll("{green}감염된 전령병{default}: 아무것도 안하고 짱박혀 있던 날 기어코 찾아내서 죽이다니...");
 		}
 		else if(gameTime + 18.0 > g_infected_messenger_die && i_SaidLineAlready[npc.index] < 2)
 		{
 			i_SaidLineAlready[npc.index] = 2;
-			CPrintToChatAll("{green}감염된 전령병{default}: 이대로 죽을빠에 이곳에 폭격지원을 요청하겠....우욱");
+			CPrintToChatAll("{green}감염된 전령병{default}: 젠장 내가 대체 무슨 잘못을 했길레...");
 		}
 		else if(gameTime + 20.0 > g_infected_messenger_die && i_SaidLineAlready[npc.index] < 1)
 		{
 			i_SaidLineAlready[npc.index] = 1;
-			CPrintToChatAll("{green}감염된 전령병{default}: 안돼....이대로 죽을순 없어...");
+			CPrintToChatAll("{green}감염된 전령병{default}: 쿨럭...쿨럭....");
 		}
 	}
-
     npc.PlayIdleSound();
 }
 
 public Action InfectedMessenger_OnTakeDamage(int victim, int &attacker, int &inflictor, float &damage, int &damagetype, int &weapon, float damageForce[3], float damagePosition[3], int damagecustom)
 {
 	InfectedMessenger npc = view_as<InfectedMessenger>(victim);
-		
+
 	if(attacker <= 0)
 		return Plugin_Continue;
-		
+
 	if (npc.m_flHeadshotCooldown < GetGameTime(npc.index))
 	{
 		npc.m_flHeadshotCooldown = GetGameTime(npc.index) + DEFAULT_HURTDELAY;
@@ -385,7 +395,7 @@ public Action InfectedMessenger_OnTakeDamage(int victim, int &attacker, int &inf
 	}
 	if(g_infected_messenger_died)
 		return Plugin_Continue;
-	
+
 	float maxhealth = float(ReturnEntityMaxHealth(npc.index));
 	float health = float(GetEntProp(npc.index, Prop_Data, "m_iHealth"));
 	float Ratio = health / maxhealth;
@@ -421,18 +431,28 @@ public Action InfectedMessenger_OnTakeDamage(int victim, int &attacker, int &inf
 			InfectedMessengerSpawnEnemy(npc.index,"npc_infected_tomislav_main",20000, RoundToCeil(4.0 * MultiGlobalEnemy));
 			InfectedMessengerSpawnEnemy(npc.index,"npc_zs_zombie_sniper_jarate",40000, RoundToCeil(2.0 * MultiGlobalEnemy));
 		}
-		else if(Ratio <= 0.20 && npc.g_TimesSummoned < 2)
+		else if(Ratio <= 0.50 && npc.g_TimesSummoned < 2)
 		{
 			npc.g_TimesSummoned = 2;
 			npc.m_flDoingSpecial = GetGameTime(npc.index) + 10.0;
 			npc.PlaySummonSound();
+			CPrintToChatAll("{crimson}감염된 전령병{default}: 이곳에 당장 암살부대를 보내 지금 당장!!!");
+			InfectedMessengerSpawnEnemy(npc.index,"npc_zs_ninja_zombie_spy",65, RoundToCeil(12.0 * MultiGlobalEnemy));
+			InfectedMessengerSpawnEnemy(npc.index,"npc_zs_sniper",6000, RoundToCeil(8.0 * MultiGlobalEnemy));
+		}
+		else if(Ratio <= 0.20 && npc.g_TimesSummoned < 3)
+		{
+			npc.g_TimesSummoned = 3;
+			npc.m_flDoingSpecial = GetGameTime(npc.index) + 10.0;
+			npc.PlaySummonSound();
 			CPrintToChatAll("{crimson}감염된 전령병{default}: 아직도 놈들이 살아있다!!! 이곳에 당장 공습을 때려!!!!");
-			InfectedMessengerSpawnEnemy(npc.index,"npc_zs_manhattan_parrot",30000, RoundToCeil(6.0 * MultiGlobalEnemy));
+			InfectedMessengerSpawnEnemy(npc.index,"npc_zs_manhattan_parrot",30000, RoundToCeil(12.0 * MultiGlobalEnemy));
 			InfectedMessengerSpawnEnemy(npc.index,"npc_zs_kamikaze_demo",6000, RoundToCeil(8.0 * MultiGlobalEnemy));
 		}
 	}
 	return Plugin_Changed;
 }
+
 static void Spawn_Chaos(InfectedMessenger npc)
 {
 	float pos[3]; GetEntPropVector(npc.index, Prop_Data, "m_vecAbsOrigin", pos);
@@ -442,7 +462,7 @@ static void Spawn_Chaos(InfectedMessenger npc)
 	int spawn_index;
 	heck= maxhealth;
 	maxhealth= heck;
-	CPrintToChatAll("{crimson} 전령병의 몸을 찢고 끔찍한 것들이 튀어나왔습니다...", NpcStats_ReturnNpcName(npc.index, true));
+	CPrintToChatAll("{crimson} 전령병의 강렬한 소원이 끔찍한 것을 소환했습니다..", NpcStats_ReturnNpcName(npc.index, true));
 
 	spawn_index = NPC_CreateByName("npc_zs_stranger", npc.index, pos, ang, GetTeam(npc.index));
 	NpcAddedToZombiesLeftCurrently(spawn_index, true);
@@ -472,7 +492,7 @@ static void Spawn_Chaos(InfectedMessenger npc)
 	}
 }
 
-void InfectedMessengerSpawnEnemy(int infectedmessenger, char[] plugin_name, int health = 0, int count, bool is_a_boss = false)
+static void InfectedMessengerSpawnEnemy(int infectedmessenger, char[] plugin_name, int health = 0, int count, bool is_a_boss = false)
 {
 	if(GetTeam(infectedmessenger) == TFTeam_Red)
 	{
@@ -542,6 +562,7 @@ void InfectedMessengerSpawnEnemy(int infectedmessenger, char[] plugin_name, int 
 
 	Zombies_Currently_Still_Ongoing += count;
 }
+
 static void ClotDeath(int entity)
 {
 	InfectedMessenger npc = view_as<InfectedMessenger>(entity);

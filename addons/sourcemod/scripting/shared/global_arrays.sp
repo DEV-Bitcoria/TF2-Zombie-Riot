@@ -31,6 +31,7 @@ float PreventRespawnsAll;
 #define PREFIX_ONESTAND 7
 #define NOSTALGICA 8
 #define KITERS_DREAM 9
+#define BAD_BALANCE 10
 
 
 #define PERK_NONE						0
@@ -52,6 +53,7 @@ float PreventRespawnsAll;
 #define PERK_HASTY_HOPS_X			(1 << 14)
 #define PERK_MARKSMAN_BEER_X		(1 << 15)
 #define PERK_ENERGY_DRINK_X			(1 << 16)
+#define PERK_SYMBIOSOS_SHOT			(1 << 17)
 
 #define HEAL_NO_RULES				0	 	 
 //Nothing special.
@@ -200,6 +202,8 @@ Handle g_hSetLocalAngles;
 Handle g_hSnapEyeAngles;
 Handle g_hSetAbsVelocity;
 ArrayList RecentSoundList[MAXPLAYERS];
+int PapModeDo = 0;
+int PerkModeDo = 0;
 
 float f_PlayerLastKeyDetected[MAXPLAYERS];
 float f_BotDelayShow[MAXPLAYERS];
@@ -225,6 +229,7 @@ ConVar mp_bonusroundtime;
 bool b_LagCompNPC_AwayEnemies;
 bool b_LagCompNPC_BlockInteral;
 bool b_LagCompAlliedPlayers; //Make sure this actually compensates allies.
+bool b_LagCompPvP; //Make sure this actually compensates allies.
 #endif
 
 Function func_WandOnTouch[MAXENTITIES];
@@ -639,6 +644,7 @@ float max_mana[MAXPLAYERS];
 
 
 
+float f_AniSoundSpam[MAXENTITIES];
 int Current_Mana[MAXPLAYERS];
 float Mana_Hud_Delay[MAXPLAYERS];
 int i_WandIdNumber[MAXENTITIES]; //This is to see what wand is even used. so it does its own logic and so on.
@@ -705,7 +711,7 @@ float f_BegPlayerR_TeethSet[MAXPLAYERS];
 //ATTRIBUTE ARRAY SUBTITIUTE
 bool b_ForceCollisionWithProjectile[MAXENTITIES];
 bool b_ProjectileCollideIgnoreWorld[MAXENTITIES];
-bool b_IsAProjectile[MAXENTITIES];
+int b_IsAProjectile[MAXENTITIES];
 bool b_Is_Player_Projectile_Through_Npc[MAXENTITIES];
 bool b_CannotBeHeadshot[MAXENTITIES];
 bool b_CannotBeBackstabbed[MAXENTITIES];
@@ -984,5 +990,6 @@ bool g_PrecachedMatrixNPCs;
 int ZoneMarkerRef[Zone_MAX] = {-1, ...};
 ArrayList CurrentCollection;
 ArrayList Artifacts;
-ArrayList E_AL_StatusEffects[MAXENTITIES];
 #endif
+bool CanUseBuilding[MAXENTITIES][MAXPLAYERS];
+ArrayList E_AL_StatusEffects[MAXENTITIES];

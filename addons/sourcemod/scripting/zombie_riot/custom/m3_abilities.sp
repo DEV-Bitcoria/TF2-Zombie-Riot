@@ -201,9 +201,10 @@ void M3_AbilitiesWaveEnd()
 	Addon_M3_WaveEnd();
 }
 
+#define MAX_MORPHINE_USES 9999
 bool MorphineMaxed(int client)
 {
-	return (i_MaxMorhpinesThisRound[client] >= 2);
+	return (i_MaxMorhpinesThisRound[client] >= MAX_MORPHINE_USES);
 }
 
 float MorphineChargeFunc(int client)
@@ -218,7 +219,10 @@ stock void GiveMorphineOnDamage(int client, int victim, float damage, int damage
 		
 	if(!(damagetype & DMG_CLUB))
 		return; //needs to be melee damage!
-
+	if(Arena_Mode())
+	{
+		damage *= 10.0;
+	}
 	if(MorphineMaxed(client))
 	{
 		MorphineCharge[client] = 0.0;
@@ -229,7 +233,14 @@ stock void GiveMorphineOnDamage(int client, int victim, float damage, int damage
 		MinCashMaxGain = 1000;
 
 	MinCashMaxGain -= 250;
+	if(Arena_Mode())
+	{
+		if(MinCashMaxGain >= 3000)
+		{
+			MinCashMaxGain = 3000;
+		}
 
+	}
 	if(MinCashMaxGain >= 100000)
 	{
 		MinCashMaxGain = 100000;
@@ -238,6 +249,7 @@ stock void GiveMorphineOnDamage(int client, int victim, float damage, int damage
 	float DamageForMaxCharge = (Pow(2.0 * MinCashMaxGain, 1.2) + MinCashMaxGain * 3.0);
 	
 	DamageForMaxCharge *= 0.5;
+	DamageForMaxCharge *= 0.9;
 	
 	if(b_thisNpcIsARaid[victim])
 		DamageForMaxCharge *= 0.85;
@@ -295,6 +307,7 @@ public void WeakDash(int client)
 	{
 		if (ability_cooldown[client] < GetGameTime())
 		{
+			/*
 			if(i_BurstpackUsedThisRound[client] >= 2)
 			{
 				ClientCommand(client, "playgamesound items/medshotno1.wav");
@@ -303,14 +316,22 @@ public void WeakDash(int client)
 				ShowSyncHudText(client,  SyncHud_Notifaction, "%t", "Burstpack Already Used This Round, Recharging");	
 				return;
 			}
+			*/
 			if (!Raigeki_OnBurstPack(client))	//Block Burst Pack while charging Raigeki. I intentionally did not copy/paste this to the downed version of Burst Pack, because Raigeki cannot even be charged while downed.
 			{
 				Utility_HUDNotification_Translation(client, "Raigeki Gear Blocked By Charge", true);
 				return;
 			}
+			float BurstpackCooldown = 60.0;
+			if(i_BurstpackUsedThisRound[client] >= 2)
+			{
+				BurstpackCooldown *= float(i_BurstpackUsedThisRound[client]);
+			}
 
-			i_BurstpackUsedThisRound[client] += 1;
-			ability_cooldown[client] = GetGameTime() + (60.0 * CooldownReductionAmount(client));
+			if(!Arena_Mode())
+				i_BurstpackUsedThisRound[client] += 1;
+
+			ability_cooldown[client] = GetGameTime() + (BurstpackCooldown * CooldownReductionAmount(client));
 			WeakDashLogic(client);
 		}
 		else
@@ -515,11 +536,11 @@ public Action Timer_Detect_Player_Near_Armor_Grenade(Handle timer, DataPack pack
 						EmitSoundToClient(target, SOUND_ARMOR_BEAM, target, _, 90, _, 0.7);
 						if(f_TimeUntillNormalHeal[target] > GetGameTime())
 						{
-							GiveArmorViaPercentage(target, 0.075 * 0.5, 1.0,_,_,client);
+							GiveArmorViaPercentage(target, 0.1 * 0.75, 1.0,_,_,client);
 						}
 						else
 						{
-							GiveArmorViaPercentage(target, 0.075, 1.0, _,_,client);
+							GiveArmorViaPercentage(target, 0.1, 1.0, _,_,client);
 						}
 						continue;
 					}
@@ -567,7 +588,7 @@ public void PlaceableTempomaryHealingGrenade(int client)
 	if (ability_cooldown[client] < GetGameTime())
 	{
 		EmitSoundToAll("weapons/slam/throw.wav", client, _, 80, _, 0.7);
-		ability_cooldown[client] = GetGameTime() + (140.0 * CooldownReductionAmount(client));
+		ability_cooldown[client] = GetGameTime() + (100.0 * CooldownReductionAmount(client));
 		
 		int entity;		
 		if(b_StickyExtraGrenades[client])
@@ -698,13 +719,13 @@ public Action Timer_Detect_Player_Near_Healing_Grenade(Handle timer, DataPack pa
 							EmitSoundToClient(target, SOUND_HEAL_BEAM, target, _, 90, _, 0.7);
 							if(i_CurrentEquippedPerk[client] & PERK_REGENE)
 							{
-								SetEntityHealth(target,  GetClientHealth(target) + 12);
-								dieingstate[target] -= 20;
+								SetEntityHealth(target,  GetClientHealth(target) + 20);
+								dieingstate[target] -= 30;
 							}
 							else
 							{
-								SetEntityHealth(target,  GetClientHealth(target) + 6);
-								dieingstate[target] -= 10;
+								SetEntityHealth(target,  GetClientHealth(target) + 10);
+								dieingstate[target] -= 15;
 							}
 							if(dieingstate[target] < 1)
 							{
@@ -797,6 +818,18 @@ public void ReconstructiveTeleporter(int client)
 					WorldSpaceCenter(client, WorldSpaceVec);
 					TeleportEntity(ally, WorldSpaceVec, NULL_VECTOR, NULL_VECTOR);
 				}
+				else if(i_NpcInternalId[ally] == NecroCombine_GetID()
+					&& IsEntityAlive(ally, true)
+					&& GetEntPropEnt(ally, Prop_Send, "m_hOwnerEntity") == client)
+				{
+					IsLiveBarrackUnits=true;
+					WorldSpaceCenter(ally, WorldSpaceVec);
+					ParticleEffectAt(WorldSpaceVec, "teleported_red", 0.5);
+					SetEntProp(ally, Prop_Data, "m_iHealth", RoundToCeil(float(ReturnEntityMaxHealth(ally)) * 1.5));
+					IncreaseEntityDamageTakenBy(ally, 0.05, 2.0);
+					WorldSpaceCenter(client, WorldSpaceVec);
+					TeleportEntity(ally, WorldSpaceVec, NULL_VECTOR, NULL_VECTOR);
+				}
 			}
 		}
 		if(!IsLiveBarrackUnits)
@@ -834,6 +867,11 @@ void HealPointToReinforce(int client, int healthvalue, float autoscale = 0.0)
 	if(!b_Reinforce[client])
 		return;
 
+	if(Arena_Mode())
+	{
+		healthvalue *= 2;
+		autoscale *= 2.5;
+	}
 	float Healing_Amount=Attributes_GetOnPlayer(client, 8, true, true)/2.0;
 	if(Healing_Amount<1.0)
 		Healing_Amount=1.0;
@@ -1018,7 +1056,7 @@ public void Reinforce(int client, bool NoCD)
 		WritePackFloat(Reinforcement, position[0]);
 		WritePackFloat(Reinforcement, position[1]);
 		WritePackFloat(Reinforcement, position[2]);
-		WritePackFloat(Reinforcement, 50.0);
+		WritePackFloat(Reinforcement, Arena_Mode() ? 50.0 : 25.0);
 		WritePackCell(Reinforcement, false);
 		WritePackFloat(Reinforcement, 1200.0);
 		WritePackString(Reinforcement, "ZR_ReinforcePOD_");
@@ -1471,6 +1509,7 @@ public void DeleteBuildingLookedAt(int client)
 							entity = objstats.m_iMasterBuilding;
 							
 							//change to master entity.
+						VestanAssaultVehicle_ResetObject(entity);
 						i_BuildingSelectedToBeDeleted[client] = EntIndexToEntRef(entity);
 						DataPack pack;
 						CreateDataTimer(0.1, DeleteBuildingTimer, pack, TIMER_FLAG_NO_MAPCHANGE|TIMER_REPEAT);
@@ -1602,15 +1641,15 @@ public void GearTesting(int client)
 	{
 		if (ability_cooldown[client] < GetGameTime())
 		{
-			ability_cooldown[client] = GetGameTime() + (350.0 * CooldownReductionAmount(client));
+			ability_cooldown[client] = GetGameTime() + (300.0 * CooldownReductionAmount(client));
 
 			SetEntityMoveType(client, MOVETYPE_NONE);
 
 			i_ClientHasCustomGearEquipped[client] = CUSTOMGEAR_QUANTUM_SUIT;
 
-			IncreaseEntityDamageTakenBy(client, 0.5, 3.0);
+			IncreaseEntityDamageTakenBy(client, 0.5, 2.0);
 			
-			CreateTimer(3.0, QuantumActivate, EntIndexToEntRef(client), TIMER_FLAG_NO_MAPCHANGE);
+			CreateTimer(2.0, QuantumActivate, EntIndexToEntRef(client), TIMER_FLAG_NO_MAPCHANGE);
 		//	ClientCommand(client, "playgamesound mvm/mvm_tank_start.wav");
 
 			EmitSoundToAll("mvm/mvm_tank_start.wav", client, SNDCHAN_STATIC, 70, _, 0.9);
@@ -1671,6 +1710,8 @@ public Action QuantumActivate(Handle cut_timer, int ref)
 			HealthMulti *= 0.025;
 
 			HealthMulti *= 1.1;
+
+			HealthMulti *= 0.5;
 				
 			SetEntityHealth(client, RoundToCeil(HealthMulti));
 
@@ -2109,6 +2150,7 @@ public Action OnBombDrop(const char [] output, int caller, int activator, float 
 				DHook_RespawnPlayer(RandomHELLDIVER);
 				ForcePlayerCrouch(RandomHELLDIVER, false);
 				DataPack pack;
+				ReviveAllyResetCD(RandomHELLDIVER);
 				CreateDataTimer(0.5, Timer_DelayTele, pack, TIMER_FLAG_NO_MAPCHANGE);
 				Music_EndLastmann(true);
 				LastMann = false;
@@ -2212,7 +2254,7 @@ bool CanPlayerBeSummoned(int client, int summoner)
 	if(!b_AntiLateSpawn_Allow[client])
 		return false;
 
-	if(summoner==client || GetTeam(client) != TFTeam_Red)
+	if(summoner==client || GetTeam(client) != GetTeam(summoner))
 		return false;
 
 	if(!WasHereSinceStartOfWave(client))

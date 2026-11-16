@@ -3662,11 +3662,23 @@
 		"it"	"Xeno infetto precocemente"
 		"ko"	"제노 초기 감염자"
 	}
+	"Xeno Very Early Infected"
+	{
+		"en"	"Xeno Very Early Infected"
+		"it"	"Xeno infetto precocemente"
+		"ko"	"제노 극초기 감염자"
+	}
 	"Xeno Patient Few"
 	{
 		"en"	"Xeno Patient Few"
 		"it"	"Pochi pazienti Xeno"
 		"ko"	"제노 한탄의 환자"
+	}
+	"Xeno Very Patient Few"
+	{
+		"en"	"Xeno Very Patient Few"
+		"it"	"Pochi pazienti Xeno"
+		"ko"	"제노 극소수 환자"
 	}
 	"Xeno Ouroboros Ekas"
 	{
@@ -8168,6 +8180,7 @@
 		"en"	"SIGMALLER"
 		"ko"	"시그마 전령병"
 	}
+	
 	"Ghoul"
 	{
 		"en"	"Ghoul"
@@ -8288,20 +8301,20 @@
 		"en"	"The Chicken Kiev"
 		"ko"	"치킨 키예프"
 	}
-	"Medimedes"
+	"ZS Kamrstein"
 	{
-		"en"	"Medimedes"
-		"ko"	"메디메데스"
+		"en"	"Kamrstein"
+		"ko"	"캄르스타인"
 	}
-	"Sir Shootsalot"
+	"ZS Worldchi"
 	{
-		"en"	"Sir Shootsalot"
-		"ko"	"사격의 기사"
+		"en"	"Worldchi"
+		"ko"	"월드치"
 	}
-	"Freedom Feathers"
+	"ZS Kranz"
 	{
-		"en"	"Freedom Feathers"
-		"ko"	"자유의 깃털"
+		"en"	"Kranz"
+		"ko"	"크란츠"
 	}
 	"ZS Unspeakable"
 	{
@@ -8467,5 +8480,336 @@
 	{
 		"en"	"Elemental damage gauge full.\nPheromones leaking from your body are attracting nearby infected."
 		"ko"	"원소 피해 게이지가 꽉 차면, 당신의 몸에서 흘러나오는 페로몬으로 인해서\n주변의 감염체들이 몰려옵니다."
+	}
+	
+	"Mecha Loader"
+	{
+		"en"	"Mecha Loader"
+		"ko"	"메카 로더"
+	}
+	"Mecha Duelist"
+	{
+		"en"	"Mecha Duelist"
+		"ko"	"기계 결전자"
+	}
+	"Mecha Heavy Particle Rifle"
+	{
+		"en"	"Mecha Heavy Particle Emitter"
+		"ko"	"중입자 방출자"
+	}
+	"Mecha Airstriker"
+	{
+		"en"	"Mecha Airstriker"
+		"ko"	"기계 공중 폭격수"
+	}
+	"Kommandant Stahlherz"
+	{
+		"en"	"Kommandant Stahlherz"
+		"ko"	"슈탈헤르츠 사령관"
+	}
+	"Mecha Dimension Ripper"
+	{
+		"en"	"Mecha Dimension Ripper"
+		"ko"	"차원 균열 생성자"
+	}
+	"Mecha Base Destroyer Buff"
+	{
+		"en"	"Mecha Base Destroyer - War Cry"
+		"ko"	"기지 파괴자 - 전투 함성"
+	}
+	"Mecha Base Destroyer Backup"
+	{
+		"en"	"Mecha Base Destroyer - Defensive Backup"
+		"ko"	"기지 파괴자 - 수비 지원"
+	}
+	"Mecha Base Destroyer Conch"
+	{
+		"en"	"Mecha Base Destroyer - Ancient Melody"
+		"ko"	"기지 파괴자 - 고대의 멜로디"
+	}
+	"Holy Overlord"
+	{
+		"en"	"Holy Overlord"
+		"ko"	"신성 대군주"
+	}
+	"Holy Golden Collos"
+	{
+		"en"	"Holy Golden Collos"
+		"ko"	"신성 황금 거인"
+	}
+	"Mecha Father Grigori"
+	{
+		"en"	"Mecha Father Grigori"
+		"ko"	"기계 그리고리 신부"
+	}
+	"Mecha Pyro Chef"
+	{
+		"en"	"Mecha Pyro Chef"
+		"ko"	"기계 파이로 셰프"
+	}
+	"Mecha Plunderer Pyro"
+	{
+		"en"	"Mecha Plunderer Pyro"
+		"ko"	"기계 약탈자 파이로"
+	}
+	"Intruso"
+	{
+		"en"	"Intruso"
+		"ko"	"인트루소"
+	}
+	"Sensal?"
+	{
+		"en"	"Sensal?"
+		"ko"	"센살?"
+	}
+	"Mecha Overclocker"
+	{
+		"en"	"Mecha Overclocker"
+		"ko"	"기계 오버클러커"
+	}
+	"Holy DDT"
+	{
+		"en"	"Holy DDT"
+		"ko"	"신성 DDT"
+	}
+	"Mecha Sniper Railgunner"
+	{
+		"en"	"Mecha Sniper Railgunner"
+		"ko"	"기계 레일건 스나이퍼"
+	}
+	"Mecha Conqueror"
+	{
+		"en"	"Mecha Conqueror"
+		"ko"	"기계 정복자"
+	}
+	"Medic Master Mage"
+	{
+		"en"	"Medic Master Mage"
+		"ko"	"대마법사 메딕"
+	}
+	"Mecha Sniper Main"
+	{
+		"en"	"Mecha Sniper Main"
+		"ko"	"기계 스나이퍼 메인"
+	}
+	"Sergeant Charbomb"
+	{
+		"en"	"Sergeant Charbomb"
+		"ko"	"차르봄 병장"
+	}
+	"Mecha Flaregun Main"
+	{
+		"en"	"Mecha Flaregun Main"
+		"ko"	"기계 조명탄 메인"
+	}
+	"Mecha Killing Order Pyro"
+	{
+		"en"	"Mecha Killing Order Pyro"
+		"ko"	"기계 살상 명령 파이로"
+	}
+	"Mecha Kamikaze Demo"
+	{
+		"en"	"Mecha Kamikaze Demo"
+		"ko"	"기계 카미카제 데모맨"
+	}	
+	"Perfected Sensal Clone"
+	{
+		"en"	"Perfected Sensal Clone"
+		"ko"	"완벽해진 센살 클론"
+	}
+	"Mecha Tornado Blitz"
+	{
+		"en"	"Mecha Tornado Blitz"
+		"ko"	"기계 토네이도 블리츠"
+	}
+	"Mecha Wizard Heavy"
+	{
+		"en"	"-"
+		"ko"	"기계 마법사 헤비"
+	}
+	"Mecha Flametail Scout"
+	{
+		"en"	"Mecha Flametail Scout"
+		"ko"	"기계 불꼬리 기사 스카웃"
+	}
+	"Mecha Elite Sniper"
+	{
+		"en"	"Mecha Elite Sniper"
+		"ko"	"기계 엘리트 스나이퍼"
+	}
+	"Mecha Berserker Demo"
+	{
+		"en"	"Mecha Berserker Demo"
+		"ko"	"기계 버서커 데모"
+	}
+	
+	"W.F. Suppressor"
+	{
+		"en"	"W.F. Suppressor"
+		"ko"	"W.F. 제압병"
+	}
+	"W.F. Grenadier"
+	{
+		"en"	"W.F. Grenadier"
+		"ko"	"W.F. 투척병"
+	}
+	"W.F. Marksman"
+	{
+		"en"	"W.F. Marksman"
+		"ko"	"W.F. 명사수"
+	}
+	"W.F. Expert Fighter"
+	{
+		"en"	"W.F. Expert Fighter"
+		"ko"	"W.F. 격투가"
+	}
+	"W.F. Rocketeer"
+	{
+		"en"	"W.F. Rocketeer"
+		"ko"	"W.F. 로켓사수"
+	}
+	"W.F. Pretorian Guard"
+	{
+		"en"	"W.F. Pretorian Guard"
+		"ko"	"W.F. 근위대"
+	}
+	"W.F. Supreme Overlord"
+	{
+		"en"	"W.F. Supreme Overlord"
+		"ko"	"W.F. 최고 대군주"
+	}
+	"Anti Chaos Robot"
+	{
+		"en"	"Anti Chaos Robot"
+		"ko"	"혼돈 섬멸 로봇"
+	}
+	"Captured Anti Chaos Robot"
+	{
+		"en"	"Captured Anti Chaos Robot"
+		"ko"	"노획된 혼돈 섬멸 로봇"
+	}
+	"W.F. Bolt Smasher"
+	{
+		"en"	"W.F. Bolt Smasher"
+		"ko"	"W.F. 볼트 스매셔"
+	}
+	"W.F. Tank Commander"
+	{
+		"en"	"W.F. Tank Commander"
+		"ko"	"W.F. 전차장"
+	}
+	"W.F. Heavy Armored Titan"
+	{
+		"en"	"W.F. Heavy Armored Titan"
+		"ko"	"W.F. 중장갑 거인"
+	}
+	
+	"Knight of the Curtain"
+	{
+		"en"	"Knight of the Curtain"
+		"ko"	"장막의 기사"
+	}
+	"Servant of the Curtain"
+	{
+		"en"	"Servant of the Curtain"
+		"ko"	"장막의 하수인"
+	}
+	"Traitor Prescott"
+	{
+		"en"	"Prescott The Traitor"
+		"ko"	"배신자 '프레스콧'"
+	}
+	
+	"Revived Knight"
+	{
+		"en"	"Revived Knight"
+		"ko"	"되살아난 기사"
+	}
+	
+	"Galahad"
+	{
+		"en"	"Galahad"
+		"ko"	"갤러해드"
+	}
+	
+	"Barracks Lab Combatant"
+	{
+		"en"	"Barracks Lab Combatant"
+		"ko"	"배럭 연구소 투사"
+	}
+	"Barracks Lab Huntsman"
+	{
+		"en"	"Barracks Lab Huntsman"
+		"ko"	"배럭 연구소 헌츠맨"
+	}
+	"Barracks Lab Crusher"
+	{
+		"en"	"Barracks Lab Crusher"
+		"ko"	"배럭 연구소 분쇄자"
+	}
+	
+	"Nothing There"
+	{
+		"en"	"Nothing There"
+		"ko"	"아무 것도 없는"
+	}
+	"Warm-up Vivithorn"
+	{
+		"en"	"Warm-up Vivithorn"
+		"ko"	"몸풀기 중인 비비쏜"
+	}
+	"Randomizer Lvl 1"
+	{
+		"en"	"Randomizer Lvl 1"
+		"it"	"Randomizzatore"
+		"ko"	"랜더마이저 레벨 1"
+	}
+	"Randomizer Lvl 2"
+	{
+		"en"	"Randomizer Lvl 2"
+		"it"	"Randomizzatore"
+		"ko"	"랜더마이저 레벨 2"
+	}
+	"Randomizer Lvl 3"
+	{
+		"en"	"Randomizer Lvl 3"
+		"it"	"Randomizzatore"
+		"ko"	"랜더마이저 레벨 3"
+	}
+	"Randomizer Lvl 4"
+	{
+		"en"	"Randomizer Lvl 4"
+		"it"	"Randomizzatore"
+		"ko"	"랜더마이저 레벨 4"
+	}
+	"Randomizer Lvl 5"
+	{
+		"en"	"Randomizer Lvl 5"
+		"it"	"Randomizzatore"
+		"ko"	"랜더마이저 레벨 5"
+	}
+	"Randomizer Lvl 6"
+	{
+		"en"	"Randomizer Lvl 6"
+		"it"	"Randomizzatore"
+		"ko"	"랜더마이저 레벨 6"
+	}
+	"Cruel Grigori Reanimation"
+	{
+		"en" 		"Cruel Grigori Reanimation"
+		"ru" 		"Отец Григорий"
+		"pt"		"Senhor Grigori"
+		"nl"		"Vader Grigori"
+		"it"		"Padre Grigori"
+		"ko" 		"그리고리의 잔혹한 부활체"
+	}
+	"Secondary Merc"
+	{
+		"en" 		"Secondary Merc"
+		"ru" 		"Повстанец"
+		"pt"		"Rebelde"
+		"nl"		"Rebel"
+		"it"		"Ribelle"
+		"ko" 		"두 번째 용병"
 	}
 }

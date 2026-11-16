@@ -27,7 +27,8 @@ void Natives_PluginLoad()
 	CreateNative("ZR_GetSpecialMode", Native_GetSpecialMode);
 	CreateNative("ZR_SetXpAndLevel", Native_ZR_SetXpAndLevel);
 	CreateNative("ZR_GetXp", Native_ZR_GetXp);
-
+	CreateNative("ZR_GetCyberGrindDifficulty", Native_ZR_GetCyberGrindDifficulty);
+	
 	OnDifficultySet = new GlobalForward("ZR_OnDifficultySet", ET_Ignore, Param_Cell, Param_String, Param_Cell);
 	OnClientLoaded = new GlobalForward("ZR_OnClientLoaded", ET_Ignore, Param_Cell);
 	OnClientWorldmodel = new GlobalForward("ZR_OnClientWorldmodel", ET_Event, Param_Cell, Param_Cell, Param_CellByRef, Param_CellByRef, Param_CellByRef, Param_CellByRef, Param_CellByRef);
@@ -227,7 +228,7 @@ public any Native_GiveNamedItem(Handle plugin, int numParams)
 public any Native_GetAliveStatus(Handle plugin, int numParams)
 {
 	int client = GetNativeCell(1);
-	if(TeutonType[client] == TEUTON_WAITING || GetClientTeam(client) != 2)
+	if(TeutonType[client] == TEUTON_WAITING || GetClientTeam(client) < 2)
 		return 4;	// *SPEC*
 	
 	if(!IsPlayerAlive(client))
@@ -249,8 +250,9 @@ public any Native_GetSpecialMode(Handle plugin, int numParams)
 		return Mode_Construction2;
 	if(Waves_InFreeplay())
 		return Mode_Freeplay;
+	if(Holdout_Mode())
+		return Mode_Holdout;
 	
-
 	if(Rogue_Mode())
 	{
 		if(Rogue_Theme() == 0)
@@ -271,7 +273,7 @@ public any Native_GetSpecialMode(Handle plugin, int numParams)
 	if(Classic_Mode())
 		return Mode_Survival;
 	
-	return Mode_Standard;	
+	return Mode_Standard;
 }
 public any Native_ZR_GetXp(Handle plugin, int numParams)
 {
@@ -289,4 +291,12 @@ public any Native_ZR_SetXpAndLevel(Handle plugin, int numParams)
 	//Reset!
 	GiveXP(client, XPSet, false, true);
 	return 0;
+}
+
+public any Native_ZR_GetCyberGrindDifficulty(Handle plugin, int numParams)
+{
+	if (!StrEqual(WhatDifficultySetting_Internal, "THE CYBER GRIND"))
+		return 0;
+	
+	return CyberGrind_InternalDifficulty;
 }

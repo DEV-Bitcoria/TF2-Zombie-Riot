@@ -196,6 +196,8 @@ public void SDKHook_ScoreThink(int entity)
 stock void SDKHook_HookClient(int client)
 {
 #if defined ZR || defined RPG
+	SDKUnhook(client, SDKHook_TraceAttack, NPC_TraceAttack);
+	SDKHook(client, SDKHook_TraceAttack, NPC_TraceAttack);
 	SDKUnhook(client, SDKHook_PreThinkPost, OnPreThinkPost);
 	SDKHook(client, SDKHook_PreThinkPost, OnPreThinkPost);
 	SDKUnhook(client, SDKHook_PostThink, OnPostThink);
@@ -571,8 +573,19 @@ public void OnPostThink(int client)
 			//standing ontop of raids now entirely debuffs you.
 			TF2_AddCondition(client, TFCond_LostFooting, 1.0);
 			TF2_AddCondition(client, TFCond_AirCurrent, 1.0);
-			float damageStand = 5.0;
-			NpcStuckZoneWarning(client, damageStand);
+			float damageTrigger = 5.0;
+			NpcStuckZoneWarning(client, damageTrigger, 0);	
+			if(damageTrigger > 1.0)
+			{
+				if(damageTrigger < 1000.0 && (i_CurrentEquippedPerk[client] & PERK_LOVER))
+				{
+					TeleportBackToLastSavePosition(client);
+				}
+				else
+				{
+					SDKHooks_TakeDamage(client, 0, 0, damageTrigger, DMG_OUTOFBOUNDS, -1,_,_,_,ZR_STAIR_ANTI_ABUSE_DAMAGE);
+				}
+			}
 		}
 	}
 #if defined ZR
@@ -647,7 +660,7 @@ public void OnPostThink(int client)
 				{
 					mana_regen[client] = 0.0;
 				}
-				if(HasSpecificBuff(client, "Dimensional Turbulence"))
+				if(HasSpecificBuff(client, "Dimensional Turbulence") && !OperaMute_WeaponHas(client))
 				{
 					Current_Mana[client] = 9999999;
 					mana_regen[client] = 9999999.9;
@@ -708,8 +721,19 @@ public void OnPostThink(int client)
 			//standing ontop of raids now entirely debuffs you.
 			TF2_AddCondition(client, TFCond_LostFooting, 1.0);
 			TF2_AddCondition(client, TFCond_AirCurrent, 1.0);
-			float damageStand = 5.0;
-			NpcStuckZoneWarning(client, damageStand);
+			float damageTrigger = 5.0;
+			NpcStuckZoneWarning(client, damageTrigger, 0);	
+			if(damageTrigger > 1.0)
+			{
+				if(damageTrigger < 1000.0 && (i_CurrentEquippedPerk[client] & PERK_LOVER))
+				{
+					TeleportBackToLastSavePosition(client);
+				}
+				else
+				{
+					SDKHooks_TakeDamage(client, 0, 0, damageTrigger, DMG_OUTOFBOUNDS, -1,_,_,_,ZR_STAIR_ANTI_ABUSE_DAMAGE);
+				}
+			}
 		}
 		//re using NPC value.
 		StatusEffect_TimerCallDo(client);
@@ -735,13 +759,13 @@ public void OnPostThink(int client)
 		if(f_LivingArmorPenalty[client] < GetGameTime() && Attributes_Get(client, Attrib_Armor_AliveMode, 0.0) != 0.0)
 		{
 			//regen armor if out of battle
-			if(f_TimeUntillNormalHeal[client] < GetGameTime() && dieingstate[client] == 0)
+			if((f_TimeUntillNormalHeal[client] - 1.0) < GetGameTime() && dieingstate[client] == 0)
 			{
-				if(Armor_Charge[client] >= 0)
-				{
-					float DefaultRegenArmor = 0.06666;
-					GiveArmorViaPercentage(client, DefaultRegenArmor, 1.0);
-				}
+				float DefaultRegenArmor = 0.06666;
+				DefaultRegenArmor *= 1.5;
+				if(Armor_Charge[client] < 0)
+					DefaultRegenArmor *= 0.5;
+				GiveArmorViaPercentage(client, DefaultRegenArmor, 1.0);
 			}
 		}
 
@@ -763,7 +787,7 @@ public void OnPostThink(int client)
 						
 					if(Rogue_Rift_HolyBlessing())
 						MaxHealth *= 2.0;
-					HealEntityGlobal(client, client, MaxHealth / 100.0, Rogue_Rift_HolyBlessing() ? 1.0 : 0.5, 0.0, HEAL_SELFHEAL|HEAL_PASSIVE_NO_NOTIF);	
+					HealEntityGlobal(client, client, MaxHealth / 100.0, Rogue_Rift_HolyBlessing() ? 1.0 : 0.75, 0.0, HEAL_SELFHEAL|HEAL_PASSIVE_NO_NOTIF);	
 					
 					float attrib = Attributes_Get(client, Attrib_BlessingBuff, 1.0);
 					if(f_TimeUntillNormalHeal[client] < GetGameTime())
@@ -774,7 +798,7 @@ public void OnPostThink(int client)
 							attrib -= 1.0; //1.0 is default
 							if(Rogue_Rift_HolyBlessing())
 								MaxHealth *= 0.5;
-							HealEntityGlobal(client, client, (MaxHealth * attrib), Rogue_Rift_HolyBlessing() ? 1.0 : 0.5, 0.0, HEAL_SELFHEAL|HEAL_PASSIVE_NO_NOTIF);	
+							HealEntityGlobal(client, client, (MaxHealth * attrib), Rogue_Rift_HolyBlessing() ? 1.0 : 0.75, 0.0, HEAL_SELFHEAL|HEAL_PASSIVE_NO_NOTIF);	
 					//		DefaultRegenArmor += attrib;
 						}
 					//	if(Armor_Charge[client] >= 0)
@@ -797,6 +821,13 @@ public void OnPostThink(int client)
 		if(weapon != -1)
 		{
 			attrib += Attributes_Get(weapon, 57, 0.0);
+			if(i_CurrentEquippedPerk[client] & PERK_ENERGY_DRINK || i_CurrentEquippedPerk[client] & PERK_ENERGY_DRINK_X)
+			{
+				if(TeutonType[client] == TEUTON_NONE)
+				{
+					Saga_ChargeReduction(client, weapon, 0.25, 5.0);
+				}
+			}
 		}
 		//Players should always have atleast 1 HP regen!
 		attrib += 1.0;
@@ -1273,7 +1304,7 @@ public void OnPostThink(int client)
 						red = 0;
 						
 					if(blue < 0)
-						blue = 0;		
+						blue = 0;	
 				}
 				else
 				{
@@ -1310,11 +1341,12 @@ public void OnPostThink(int client)
 
 				}
 	#endif
-
 				bool InfMana = false;
-				if(HasSpecificBuff(client, "Dimensional Turbulence"))
+#if defined ZR
+				OperaMute_ManaHud(client,red, green, blue);
+				if(HasSpecificBuff(client, "Dimensional Turbulence") && !OperaMute_WeaponHas(client))
 					InfMana = true;
-
+#endif
 				if(!InfMana)
 				{
 					for(int i=1; i<21; i++)
@@ -1697,7 +1729,7 @@ public void OnPostThink(int client)
 			Format(buffer2, sizeof(buffer2), "%s|---",buffer2);
 		}
 		
-		if(!SkillTree_InMenu(client) && !BetWar_Mode() && GetTeam(client) == TFTeam_Red && TeutonType[client] == TEUTON_NONE)
+		if(!SkillTree_InMenu(client) && !BetWar_Mode() && TeutonType[client] == TEUTON_NONE)
 		{
 			SetHudTextParams(0.175 + f_ArmorHudOffsetY[client], 0.9 + f_ArmorHudOffsetX[client], 0.81, red, green, blue, 255);
 			ShowSyncHudText(client, SyncHud_ArmorCounter, "%s\n%s", buffer, buffer2);
@@ -1802,7 +1834,6 @@ public void OnPostThinkPost(int client)
 
 public void Player_OnTakeDamageAlivePost(int victim, int attacker, int inflictor, float damage, int damagetype, int weapon, const float damageForce[3], const float damagePosition[3], int damagecustom)
 {
-#if defined ZR
 	TakeDamage_EnableMVM();
 	//PrintToConsole(victim, "[ZR] THIS IS DEBUG! IGNORE! Player_OnTakeDamageAlivePost");
 	if(!(damagetype & (DMG_OUTOFBOUNDS|DMG_FALL)))
@@ -1818,6 +1849,7 @@ public void Player_OnTakeDamageAlivePost(int victim, int attacker, int inflictor
 		}
 	}
 	
+#if defined ZR
 	if((damagetype & DMG_OUTOFBOUNDS))
 	{
 		//the player has died to a stuckzone.
@@ -1826,21 +1858,33 @@ public void Player_OnTakeDamageAlivePost(int victim, int attacker, int inflictor
 			TeleportBackToLastSavePosition(victim);
 		}
 	}
+	ArmorDisplayClient(victim);
+#endif
 	RegainTf2Buffs(victim);
 
 	Player_OnTakeDamage_Equipped_Weapon_Logic_Post(victim);
-	ArmorDisplayClient(victim);
 	StatusEffect_OnTakeDamagePostVictim(victim, attacker, damage, damagetype);
 	StatusEffect_OnTakeDamagePostAttacker(victim, attacker, damage, damagetype);
-	
+	if(inflictor > 0 && inflictor <= MaxClients)
+	{
+		GiveRageOnDamage(inflictor, damage);
+#if defined ZR
+		GiveMorphineOnDamage(inflictor, victim, damage, damagetype);
 #endif
+	}
+	else if(attacker > 0 && attacker <= MaxClients)
+	{
+		GiveRageOnDamage(attacker, damage);
+#if defined ZR
+		GiveMorphineOnDamage(attacker, victim, damage, damagetype);
+#endif
+	}
 #if defined RPG
 	f_FlatDamagePiercing[attacker] = 1.0;
 #endif
 	i_HexCustomDamageTypes[victim] = 0;
 }
 
-#if defined ZR
 void RegainTf2Buffs(int victim)
 {
 //	if(i_WasInUber[victim])
@@ -1873,7 +1917,6 @@ void RegainTf2Buffs(int victim)
 	i_WasInJarate[victim] = 0.0;
 	i_WasInResPowerup[victim] = 0.0;
 }
-#endif
 
 static stock void Player_OnTakeDamage_Equipped_Weapon_Logic_Post(int victim)
 {
@@ -1995,10 +2038,6 @@ public Action Player_OnTakeDamage(int victim, int &attacker, int &inflictor, flo
 		{
 			damagetype = DMG_TRUEDAMAGE;
 		}
-	}
-	if(damagetype & DMG_CRIT)
-	{
-		damagetype &= ~DMG_CRIT; //Remove Crit Damage at all times, it breaks calculations for no good reason.
 	}
 
 	if(!CheckInHud())
@@ -2237,6 +2276,13 @@ public Action Player_OnTakeDamage(int victim, int &attacker, int &inflictor, flo
 		}
 #endif	
 	}
+	// in PVP minium damage is 1
+	if(!CheckInHud() && Arena_Mode() && damage > 0.001 && damage <= 1.0)
+		damage = 1.0;
+	if(damagetype & DMG_CRIT)
+	{
+		damagetype &= ~DMG_CRIT; //Remove Crit Damage at all times, it breaks calculations for no good reason.
+	}
 	return Plugin_Changed;
 }
 
@@ -2327,12 +2373,12 @@ public Action Player_OnTakeDamageAlive_DeathCheck(int victim, int &attacker, int
 			return Plugin_Handled;
 		}
 		*/
-		else if((LastMann_BeforeLastman || LastMann || b_IsAloneOnServer) && ((b_IsAloneOnServer && !LastMann) || f_OneShotProtectionTimer[victim] < GameTime) && !SpecterCheckIfAutoRevive(victim))
+		else if(!Arena_Mode() &&(LastMann_BeforeLastman || LastMann || b_IsAloneOnServer) && f_OneShotProtectionTimer[victim] < GameTime && !SpecterCheckIfAutoRevive(victim))
 		{
 			f_OneShotProtectionTimer[victim] = GameTime + 60.0; // 60 second cooldown
 			if(!LastMann)
 			{
-				if(!PlayersLeftAlive(victim) && GameRules_GetRoundState() == RoundState_ZombieRiot)
+				if(!Arena_Mode() && !PlayersLeftAlive(victim) && GameRules_GetRoundState() == RoundState_ZombieRiot)
 				{
 					if(b_IsAloneOnServer)
 						i_AmountDowned[victim] = 999;
@@ -2358,7 +2404,12 @@ public Action Player_OnTakeDamageAlive_DeathCheck(int victim, int &attacker, int
 			//PrintToConsole(victim, "[ZR] THIS IS DEBUG! IGNORE! Player_OnTakeDamageAlive_DeathCheck 10");
 			//there was no one left, they are the only one left, trigger last man.
 			//make sure they are in a wave.
-			if(!PlayersLeftAlive(victim) && !SpecterCheckIfAutoRevive(victim) && GameRules_GetRoundState() == RoundState_ZombieRiot)
+			if(attacker > 0 && attacker <= MaxClients)
+			{
+				Attributes_OnKill(victim, attacker, weapon);
+				Npc_WeaponOnKillDo(victim, attacker, weapon);
+			}
+			if(!Arena_Mode() && !PlayersLeftAlive(victim) && !SpecterCheckIfAutoRevive(victim) && GameRules_GetRoundState() == RoundState_ZombieRiot)
 			{
 				// Trigger lastman
 				CheckAlivePlayers(_, victim);
@@ -2369,7 +2420,7 @@ public Action Player_OnTakeDamageAlive_DeathCheck(int victim, int &attacker, int
 			//this updates it .
 			//PrintToConsole(victim, "[ZR] THIS IS DEBUG! IGNORE! Player_OnTakeDamageAlive_DeathCheck 11");
 			
-			Rogue_PlayerDowned(victim);	
+			Rogue_PlayerDowned(victim);
 			
 			//there are players still left, down them.
 			int DownsLeft = TotalDowns();
@@ -2407,7 +2458,7 @@ public Action Player_OnTakeDamageAlive_DeathCheck(int victim, int &attacker, int
 				if(Rogue_Rift_VialityThing())
 					SetEntityHealth(victim, 300);
 				else
-					SetEntityHealth(victim, 200);
+					SetEntityHealth(victim, Arena_Mode() ? 100 : 200);
 
 				if(!b_LeftForDead[victim])
 				{
@@ -2456,11 +2507,11 @@ public Action Player_OnTakeDamageAlive_DeathCheck(int victim, int &attacker, int
 
 					entity = TF2_CreateGlow(victim);
 					i_DyingParticleIndication[victim][0] = EntIndexToEntRef(entity);
-					SetVariantColor(view_as<int>({0, 255, 0, 255}));
+					SetVariantColor(view_as<int>({0, 0, 255, 255}));
 					AcceptEntityInput(entity, "SetGlowColor");
-					if(!AtEdictLimit(EDICT_PLAYER))
+					if(!AtEdictLimit(EDICT_PLAYER) && !Arena_Mode())
 					{
-						entity = SpawnFormattedWorldText("DOWNED", {0.0,0.0,70.0}, 10, {0, 255, 0, 255}, victim);
+						entity = SpawnFormattedWorldText("DOWNED", {0.0,0.0,70.0}, 10, {0, 0, 255, 255}, victim);
 						i_DyingParticleIndication[victim][1] = EntIndexToEntRef(entity);
 						b_DyingTextOff[victim] = false;
 					}
@@ -3100,8 +3151,6 @@ void SDKHooks_UpdateMarkForDeath(int client, bool force_Clear = false)
 		*/	
 		return;
 	}
-	if (GetTeam(client) != TFTeam_Red)
-		force_Clear = true;
 
 	if (dieingstate[client] != 0)
 		force_Clear = true;
@@ -3332,6 +3381,34 @@ float ArmorPlayerReduction(int victim)
 	{
 		case 50:
 		{
+			return 0.9;
+		}
+		case 100:
+		{
+			return 0.85;
+		}
+		case 150:
+		{
+			return 0.8;
+		}
+		case 200:
+		{
+			return 0.75;
+		}
+		case 250, 300:
+		{
+			return 0.7;
+		}
+		default:
+		{
+			return 1.0;
+		}
+	}
+	/*
+	switch(Armor_Level[victim])
+	{
+		case 50:
+		{
 			return 0.95;
 		}
 		case 100:
@@ -3346,7 +3423,7 @@ float ArmorPlayerReduction(int victim)
 		{
 			return 0.9;
 		}
-		case 250:
+		case 250, 300:
 		{
 			return 0.88;
 		}
@@ -3355,6 +3432,7 @@ float ArmorPlayerReduction(int victim)
 			return 1.0;
 		}
 	}
+	*/
 }
 
 void DisplayCosmeticExtraClient(int client, bool deleteOverride = false)
@@ -3865,7 +3943,7 @@ void UpdatePerkName(int client)
 void SdkHooks_SetAndUpdateArmorClientText(int client)
 {
 	int ArmorText = EntRefToEntIndex(Armor_Wearable_HudText[client]);
-	if(!IsEntityAlive(client) || TeutonType[client] != TEUTON_NONE || dieingstate[client] != 0)
+	if(!IsEntityAlive(client) || TeutonType[client] != TEUTON_NONE || dieingstate[client] != 0 || Arena_Mode())
 	{
 		if(IsValidEntity(ArmorText))
 		{
@@ -3963,8 +4041,10 @@ bool PlayersLeftAlive(int victim)
 
 bool RechargeManaPassively(int client)
 {
+#if defined ZR
 	if(b_AggreviatedSilence[client])
 		return true;
+#endif
 	
 	if(HasSpecificBuff(client, "Mana Recharge"))
 	{

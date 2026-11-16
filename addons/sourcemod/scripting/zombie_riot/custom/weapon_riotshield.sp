@@ -13,14 +13,12 @@ static int ShieldModel;
 static int ViewmodelRef[MAXPLAYERS] = {INVALID_ENT_REFERENCE, ...};
 static int WearableRef[MAXPLAYERS] = {INVALID_ENT_REFERENCE, ...};
 static int RIOT_EnemiesHit[MAX_TARGETS_HIT_RIOT];
-static float f_AniSoundSpam[MAXPLAYERS+1]={0.0, ...};
 static float f_AbiltiyCooldownHidden[MAXPLAYERS+1]={0.0, ...};
 
 #define SOUND_RIOTSHIELD_ACTIVATION "weapons/air_burster_explode1.wav"
 
 void Weapon_RiotShield_Map_Precache()
 {
-	Zero(f_AniSoundSpam);
 	Zero(f_AbiltiyCooldownHidden);
 	PrecacheSound(SOUND_RIOTSHIELD_ACTIVATION);
 	ShieldModel = PrecacheModel("models/player/items/sniper/knife_shield.mdl");
@@ -78,7 +76,7 @@ static void Weapon_RiotShield_M2_Base(int client, int weapon, int slot, int pap)
 		StartLagCompensation_Base_Boss(client);
 		trace = TR_TraceHullFilterEx(fPos, endPoint, hullMin, hullMax, 1073741824, Shield_TraceTargets, client);	// 1073741824 is CONTENTS_LADDER?
 		CloseHandle(trace);
-		FinishLagCompensation_Base_boss();
+		FinishLagCompensation_Base_boss(.client = client);
 
 		bool RaidActive = false;
 
@@ -314,25 +312,18 @@ public Action ThirdPersonTransmit(int entity, int client)
 
 static bool Shield_TraceTargets(int entity, int contentsMask, int client)
 {
-	static char classname[64];
 	if (IsValidEntity(entity))
 	{
-		if(0 < entity)
+		if(IsValidEnemy(client, entity, true))
 		{
-			GetEntityClassname(entity, classname, sizeof(classname));
-			
-			if (((b_ThisWasAnNpc[entity] && !b_NpcHasDied[entity]) || !StrContains(classname, "func_breakable", true)) && (GetTeam(entity) != GetTeam(client)))
+			for(int i=1; i <= (MAX_TARGETS_HIT_RIOT -1 ); i++)
 			{
-				for(int i=1; i <= (MAX_TARGETS_HIT_RIOT -1 ); i++)
+				if(!RIOT_EnemiesHit[i])
 				{
-					if(!RIOT_EnemiesHit[i])
-					{
-						RIOT_EnemiesHit[i] = entity;
-						break;
-					}
+					RIOT_EnemiesHit[i] = entity;
+					break;
 				}
 			}
-			
 		}
 	}
 	return false;

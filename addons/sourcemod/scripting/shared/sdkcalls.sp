@@ -29,6 +29,9 @@ static Handle SDKBecomeRagdollOnClient;
 static Handle SDKSetSpeed;
 static Handle SDKGetSmoothedVelocity;
 
+static Handle SDKLookupBone;
+static Handle SDKGetBonePosition;
+
 void SDKCall_Setup()
 {
 	GameData gamedata = LoadGameConfigFile("sm-tf2.games");
@@ -186,6 +189,25 @@ void SDKCall_Setup()
 	
 	//copied from 
 	//https://github.com/bhopppp/Shavit-Surf-Timer/blob/289b9df123e61f2a0982ded688d2c611023b25f5/addons/sourcemod/scripting/shavit-replay-playback.sp#L204
+	
+	StartPrepSDKCall(SDKCall_Entity);
+	PrepSDKCall_SetFromConf(gamedata, SDKConf_Signature, "CBaseAnimating::LookupBone");
+	PrepSDKCall_AddParameter(SDKType_String, SDKPass_Pointer);
+	PrepSDKCall_SetReturnInfo(SDKType_PlainOldData, SDKPass_Plain);
+	SDKLookupBone = EndPrepSDKCall();
+	if(!SDKLookupBone)
+		LogError("[Gamedata] Could not find CBaseAnimating::LookupBone");
+	
+	// void CBaseAnimating::GetBonePosition ( int iBone, Vector &origin, QAngle &angles )
+	StartPrepSDKCall(SDKCall_Entity);
+	PrepSDKCall_SetFromConf(gamedata, SDKConf_Signature, "CBaseAnimating::GetBonePosition");
+	PrepSDKCall_AddParameter(SDKType_PlainOldData, SDKPass_Plain);
+	PrepSDKCall_AddParameter(SDKType_Vector, SDKPass_ByRef, .encflags = VENCODE_FLAG_COPYBACK);
+	PrepSDKCall_AddParameter(SDKType_QAngle, SDKPass_ByRef, .encflags = VENCODE_FLAG_COPYBACK);
+	SDKGetBonePosition = EndPrepSDKCall();
+	if(!SDKGetBonePosition)
+		LogError("[Gamedata] Could not find CBaseAnimating::GetBonePosition");
+	
 	delete gamedata;
 }
 
@@ -337,7 +359,7 @@ void SDKCall_BecomeRagdollOnClient(int entity, const float vec[3])
 }
 
 #if defined ZR || defined RPG
-void StartPlayerOnlyLagComp(int client, bool Compensate_allies)
+void StartPlayerOnlyLagComp(int client, bool Compensate_allies, bool CompPvp = false)
 {
 	if(g_GottenAddressesForLagComp)
 	{
@@ -346,6 +368,10 @@ void StartPlayerOnlyLagComp(int client, bool Compensate_allies)
 		if(Compensate_allies)
 		{
 			b_LagCompAlliedPlayers = true;
+		}
+		if(CompPvp)
+		{
+			b_LagCompPvP = true;
 		}
 		SDKCall(g_hSDKStartLagComp, g_hSDKStartLagCompAddress, client, (GetEntityAddress(client) + view_as<Address>(OffsetLagCompStart_UserInfoReturn())));
 //		StartLagCompensation_Base_Boss(client, true);
@@ -356,7 +382,7 @@ void EndPlayerOnlyLagComp(int client)
 {
 	if(g_GottenAddressesForLagComp)
 	{
-	//	FinishLagCompensation_Base_boss();
+	//	FinishLagCompensation_Base_boss(.client = client);
 		SDKCall(g_hSDKEndLagComp, g_hSDKEndLagCompAddress, client);
 	}
 }
@@ -555,4 +581,18 @@ stock void SDKCall_GetSmoothedVelocity(int entity, float vec[3])
 {
 	if(SDKGetSmoothedVelocity)
 		SDKCall(SDKGetSmoothedVelocity, entity, vec);
+}
+
+stock int SDKCall_LookupBone(int entity, const char[] bone)
+{
+	if(SDKLookupBone)
+		return SDKCall(SDKLookupBone, entity, bone);
+	
+	return -1;
+}
+
+stock void SDKCall_GetBonePosition(int entity, int iBone, float origin[3], float angles[3])
+{
+	if(SDKGetBonePosition)
+		SDKCall(SDKGetBonePosition, entity, iBone, origin, angles);
 }

@@ -27,6 +27,7 @@ enum SolidFlags_t
 	FSOLID_MAX_BITS	= 10
 };
 
+
 stock int abs(int x)
 {
 	return x < 0 ? -x : x;
@@ -774,8 +775,10 @@ stock void SetAmmo(int client, int type, int ammo)
 void AutobuyMetalDelay(int ref)
 {
 	int client = EntRefToEntIndex(ref);
+#if defined ZR
 	if(IsValidClient(client))
 		AutobuyMetal(client);
+#endif
 }
 #if defined _tf2items_included
 stock int SpawnWeapon(int client, char[] name, int index, int level, int qual, const int[] attrib, const float[] value, int count, int custom_classSetting = 0)
@@ -806,15 +809,12 @@ static int SpawnWeaponBase(int client, char[] name, int index, int level, int qu
 	TF2Items_SetQuality(weapon, qual);
 	TF2Items_SetNumAttributes(weapon, 0);
 
-#if defined ZR || defined RPG
-
 	TFClassType class = TF2_GetWeaponClass(index, CurrentClass[client], TF2_GetClassnameSlot(name, true));
 	if(custom_classSetting != 0)
 	{
 		class = view_as<TFClassType>(custom_classSetting);
 	}
 	TF2_SetPlayerClass_ZR(client, class, _, false);
-#endif
 	
 	int entity = TF2Items_GiveNamedItem(client, weapon);
 	delete weapon;
@@ -854,9 +854,7 @@ static int SpawnWeaponBase(int client, char[] name, int index, int level, int qu
 		EquipPlayerWeapon(client, entity);
 	}
 
-#if defined ZR || defined RPG
 	TF2_SetPlayerClass_ZR(client, CurrentClass[client], _, false);
-#endif
 	return entity;
 }
 
@@ -1258,8 +1256,9 @@ stock void StartBleedingTimer(int victim, int attacker, float damage, int amount
 		else if(victim > 0 && victim <= MaxClients)
 			Force_ExplainBuffToClient(victim, "Bleed");
 
+#if defined ZR
 		Gunsaw_Monologue_OnBleed(victim);
-
+#endif
 		BleedAmountCountStack[victim] += 1;
 		DataPack pack;
 		CreateDataTimer(0.5, Timer_Bleeding, pack, TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
@@ -1390,6 +1389,8 @@ stock int HealEntityGlobal(int healer,
 	  int MaxHealPermitted = 99999999,
 	  float &HealPenalty = 1.0)
 {
+	if(receiver <= 0)
+		return 0;
 	/*
 		MaxHealPermitted is used for HealEntityViaFloat
 		Good for ammo based healing.
@@ -1407,6 +1408,10 @@ stock int HealEntityGlobal(int healer,
 			if(!(flag_extrarules & (HEAL_FLAG_AM)))
 				HealTotal *= 0.5;
 
+	}
+	if(Arena_Mode())
+	{
+		HealTotal *= 1.25;
 	}
 	if(HealTotal < 0)
 	{
@@ -1457,7 +1462,6 @@ stock int HealEntityGlobal(int healer,
 		}
 #endif
 
-#if !defined RTS
 		float fNum = 1.0;
 		//Extra healing bonuses or penalty for all healing except absolute
 		if(receiver <= MaxClients)
@@ -1479,7 +1483,6 @@ stock int HealEntityGlobal(int healer,
 					HealPenalty *= fNum;
 			}
 		}
-#endif
 	}
 #if defined ZR
 	if(healer != receiver && HealOverThisDuration != 0.0)
@@ -2022,6 +2025,8 @@ public bool Trace_DontHitAlivePlayer(int entity, int mask, any data)
 		}
 	}
 #endif
+	if(GetTeam(entity) != GetTeam(data))
+		return false;
 	
 	return entity!=data;
 }
@@ -2976,11 +2981,7 @@ void TE_SendBeam(int client = -1, float m_vecMins[3], float m_vecMaxs[3], float 
 
 stock int Target_Hit_Wand_Detection(int owner_projectile, int other_entity)
 {
-	if(owner_projectile < 1)
-	{
-		return -1; //I dont exist?
-	}
-	if(other_entity < 0)
+	if(owner_projectile < 1 || other_entity < 0)
 	{
 		return -1; //I dont exist?
 	}
@@ -2998,7 +2999,7 @@ stock int Target_Hit_Wand_Detection(int owner_projectile, int other_entity)
 		return -1;
 	}
 #if defined ZR
-	else if(GetTeam(other_entity) == TFTeam_Red)
+	else if(GetTeam(other_entity) == GetTeam(owner_projectile))
 	{
 		if(b_NpcIsTeamkiller[owner_projectile])
 			return other_entity;
@@ -3006,7 +3007,7 @@ stock int Target_Hit_Wand_Detection(int owner_projectile, int other_entity)
 			return -1;
 	}
 #endif
-	else if(other_entity <= MaxClients)
+	if(other_entity <= MaxClients)
 	{
 #if defined RPG
 		if(RPGCore_PlayerCanPVP(owner_projectile, other_entity))
@@ -3033,6 +3034,8 @@ stock int Target_Hit_Wand_Detection(int owner_projectile, int other_entity)
 		else
 			return -1;
 	}
+	if(IsValidEnemy(owner_projectile, other_entity, true, true))
+		return other_entity;
 	return 0;
 }
 
@@ -3272,7 +3275,6 @@ int inflictor = 0)
 
 	float damage_reduction = 1.0;
 
-#if defined ZR || defined RPG
 	if(IsValidEntity(weapon))
 	{
 		float value = Attributes_Get(weapon, 99, 1.0);//increased blast radius attribute (Check weapon only)
@@ -3286,7 +3288,6 @@ int inflictor = 0)
 		if(explosion_range_dmg_falloff == EXPLOSION_RANGE_FALLOFF)
 			explosion_range_dmg_falloff = Attributes_Get(weapon, Attrib_OverrideExplodeDmgRadiusFalloff, EXPLOSION_RANGE_FALLOFF);
 	}
-#endif	
 /*
 	if(explosionRadius >= 2100.0)
 	{
@@ -3347,6 +3348,9 @@ int inflictor = 0)
 			}
 		} 
 	}
+	//incase
+	if(Arena_Mode())
+		spawnLoc[2] += 5.0;
 	
 	if(ZR_Get_Modifier() == NOSTALGICA)
 	{
@@ -3524,7 +3528,7 @@ int inflictor = 0)
 			static float vicpos[3];
 			vicpos = VicPos[ClosestTarget];
 			//if its a blue npc, then we want to do a trace to see if we even hit them.
-			if(FromBlueNpc)
+			if(FromBlueNpc || Arena_Mode())
 			{
 				Handle trace; 
 				trace = TR_TraceRayFilterEx(spawnLoc, vicpos, ( MASK_SOLID | CONTENTS_SOLID ), RayType_EndPoint, HitOnlyTargetOrWorld, ClosestTarget);
@@ -4529,7 +4533,6 @@ stock void SetDefaultHudPosition(int client, int red = 34, int green = 139, int 
 	SetHudTextParams(HudX, HudY, duration, red, green, blue, 255);
 }
 
-#if !defined RTS
 stock void ApplyTempAttrib(int entity, int index, float multi, float duration = 0.3)
 {
 #if defined RPG
@@ -4618,7 +4621,6 @@ public Action ApplyTempAttrib_Revert(Handle timer, DataPack pack)
 	}
 	return Plugin_Stop;
 }
-#endif
 
 /*
 void PlayFakeDeathSound(int client)
@@ -4720,6 +4722,18 @@ void AddEntityToThirdPersonTransitMode(int client, int entity)
 	SDKHook(entity, SDKHook_SetTransmit, ThirdersonTransmitEnvLaser);
 }
 
+public Action TransmitToOwnerOnly(int entity, int client)
+{
+	if(client > 0 && client <= MaxClients)
+	{
+		int owner = EntRefToEntIndex(i_OwnerEntityEnvLaser[entity]);
+		if(owner == client)
+		{
+			return Plugin_Continue;
+		}
+	}
+	return Plugin_Stop;
+}
 public Action ThirdersonTransmitEnvLaser(int entity, int client)
 {
 	if(client > 0 && client <= MaxClients)
@@ -5717,11 +5731,6 @@ stock int GetTeam(int entity)
 				return -1;
 		}
 
-//#if !defined RTS
-//		if(entity && entity <= MaxClients)
-//			return GetClientTeam(entity);
-//#endif
-
 		if(TeamNumber[entity] == -1)
 			TeamNumber[entity] = GetEntProp(entity, Prop_Data, "m_iTeamNum");
 		
@@ -5975,6 +5984,7 @@ enum
 	RedMist_WasInAbnorm = 9,
 	DontUpdateHudClient = 10,
 	KillAssist = 11,
+	ShieldGiveEffectCD = 12,
 }
 
 enum struct HitDetectionEnum
@@ -6257,7 +6267,6 @@ int GetPlayerFromShared(Address pShared)
 	return -1;
 }
 
-
 stock int GetUtf8SafeCutPos(const char[] str, int maxBytes)
 {
 	int len = strlen(str);
@@ -6302,3 +6311,19 @@ stock void PrintChatChunked(int client, const char[] text, int maxBytes, const c
 	}
 }
 
+void UTIL_ScreenFade(int client,int duration,int time,int flags,int r,int g,int b,int a)
+{
+	int clients[1];
+	Handle bf;
+	clients[0] = client;
+
+	bf = StartMessage("Fade", clients, 1);
+	BfWriteShort(bf, duration);
+	BfWriteShort(bf, time);
+	BfWriteShort(bf, flags);
+	BfWriteByte(bf, r);
+	BfWriteByte(bf, g);
+	BfWriteByte(bf, b);
+	BfWriteByte(bf, a);
+	EndMessage();
+}

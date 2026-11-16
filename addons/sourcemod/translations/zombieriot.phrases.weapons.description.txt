@@ -598,19 +598,13 @@
 	}
 	"Elite Sniper Pap 1"
 	{
-		"en"		"-Increased damage\n-applies apply debuff on hit\n-half charge within scope at minimum to apply debuff."
-		"fr"		"Dégats améliorés, et ralentis les cibles, les rendant plus vulnérables aux dégats.\nCet affaiblissement a besoin d'au moins une demie de charge."
-		"it"		"Per applicare il debuff, è necessario applicare almeno metà carica nel raggio d'azione."
-		"ko"		"-피해량 증가\n-조준 상태에서 50％ 이상 충전하여 적중시 대상에게 디버프 부여\n-디버프는 대상이 받는 피해를 증가시키고 이동 속도를 둔화시킴"
+		"en"		"-Increased damage\n-Consumes less ammo\n-Applies the Maimed debuff on hits with at least 70％ charge\n-Maimed enemies move slower"
+		"ko"		"-피해량 증가\n-탄약 소모량 감소\n-조준 상태에서 70％ 이상 충전하여 적중시 '신체 장애' 디버프 부여\n-신체 장애는 대상의 이동 속도를 둔화시킴"
 	}
 	"Elite Sniper Pap 2"
 	{
-		"en"		"-Increased damage\n-Calls in supply drops that gives extra ammo to\nall players and weapon consumes much less ammo."
-		"fr"		"Arme utilise moins de munitions.\nAbilité appèle pour des approvisionnements qui donne des munitions à tous les joueurs."
-		///"ru"		"Вызывает сброс припасов с воздуха, которые дают доп. патроны\nвсем игрокам, а оружие потребляет гораздо меньше патронов."
-		"chi"       "升级补给，给所有玩家额外的弹药和武器消耗更少的弹药。"
-		"it"		"Richiama i drop di rifornimento che danno munizioni extra a tutti i giocatori e l'arma consuma molte meno munizioni."
-		"ko"		"-피해량 증가\n-탄약을 보급할 수 있는 보급 상자를 호출할 수 있게 됩니다.\n-무기의 탄약 소모량이 감소."
+		"en"		"-Increased damage\n-Consumes less ammo\n-Can move at full speed while scoped\n-Calls in supply drops that deploy ammo pickups over teammates"
+		"ko"		"-피해량 증가\n-탄약 소모량 감소\n-조준 상태에서도 원래 이동 속도로 움직일 수 있음\n-아군의 위로 탄약 상자를 전달하는 보급품 투하를 호출할 수 있습니다"
 	}
 	"Elite Sniper Pap 3"
 	{
@@ -623,21 +617,13 @@
 	}
 	"Elite Sniper Pap 4"
 	{
-		"en"		"-Increased damage\n-Cripples targets heavily, making them slower and take more damage."
-		"fr"		"Infirme les ennemis, les ralentissant et les font prendre plus de dégats."
-		///"ru"		"Сильно калечит цели, делая их медленнее и нанося на больше урона."
-		"chi"       "严重致残目标，使他们变慢并受到的伤害。"
-		"it"		"Storpia pesantemente i bersagli, rendendoli più lenti e subendo più danni."
-		"ko"		"-피해량 증가\n-적중시 대상의 이동 속도를 둔화시키고 받는 피해를 40％ 증가시킴."
+		"en"		"-Increased damage\n-Consumes less ammo\n-Also applies the Crippled debuff on hits with at least 70％ charge\n-Crippled enemies take more damage"
+		"ko"		"-피해량 증가\n-탄약 소모량 감소\n-조준 상태에서 70％ 이상 충전하여 적중시 '신경 쇠약' 디버프 부여\n-신경 쇠약은 대상이 받는 피해량을 증가시킴"
 	}
 	"Elite Sniper Pap 5"
 	{
-		"en"		"-Increased damage\n-Decreased cooldown on supply drops, increased attack speed, and bouncing\n-bullets for all players is now smart and will target high health targets."
-		"fr"		"Cadence de tir amélioré, temps de rechargement de l'abilité réduite.\nBalles rebondissantes priorisent les cibles plus durables."
-		///"ru"		"Уменьшено время восст. сброса припасов, увеличена скорость атаки, а отскакивающие\nпули для всех игроков теперь умные и нацелены на цели с высоким уровнем здоровья."
-		"chi"       "加大补给掉落的频率，增加攻击速度\n所有玩家弹子弹现在是智能的，将瞄准高血量的目标"
-		"it"		"Il cooldown dei rifornimenti è diminuito, la velocità d'attacco è aumentata e i\nproiettili rimbalzanti per tutti i giocatori sono ora intelligenti e mirano a bersagli con salute elevata."
-		"ko"		"-피해량, 공격 속도, 탄환 튕김 증가\n-보급 상자 호출의 쿨타임 감소\n이제 튕기는 탄환은 현재 체력이 많은 적을 최우선으로 추적."
+		"en"		"-Increased damage and attack speed\n-Consumes less ammo\n-Adds one extra supply drop that gives a global powerup\n-All Elite Snipers' bouncing bullets now prioritize high health targets"
+		"ko"		"-피해량, 공격 속도 증가\n-탄약 소모량 감소\n-글로벌 파워업을 제공하는 보급품 추가\n-모든 튕겨진 탄환이 현재 체력이 많은 적을 최우선으로 추적"
 	}
 	"Elite Sniper Pap 6"
 	{
@@ -887,11 +873,8 @@
 	
 	"Knife Desc"
 	{
-		"en"	"-Backstabs enemies under correct conditions\n-Bleeds enemies on hit\n-If enemy attacks you, and you backstab them, you deal 2x damage\n-Raids take 2x backstab damage."
-		"fr"	"Le poignardage cause un long saignement.\nDégats du poignardage doublé contre les Raids."
-		"chi"	"可背刺造成大量流血。\n对boss造成*2伤害。"
-		"it"	"Può eseguire il backstab e infliggere emorragie per un lungo periodo di tempo."
-		"ko"	"-백스탭이 가능\n-적중 시 출혈 부여\n-자신을 목표로 하는 적을 백스탭 시 피해량 2배\n레이드 보스에게 주는 피해량 2배"
+		"en"	"-Backstabs enemies under correct conditions\n-Bleeds enemies on hit\n-If enemy attacks you, and you backstab them, you deal 2x damage\n-Raids take 2x backstab damage.\nBackstabs give a speedbonus, raid for longer"
+		"ko"	"-백스탭이 가능\n-적중 시 출혈 부여\n-자신을 목표로 하는 적을 백스탭 시 피해량 2배\n-레이드 보스에게 주는 피해량 2배\n-백스탭 시 잠시 동안 속도 증가, 레이드 보스라면 버프 시간 증가"
 	}
 	"Knife Pap 1"
 	{
@@ -1437,12 +1420,8 @@
 	
 	"Experimental Burst Pack Desc"
 	{
-		"en"	"-A weak dash, twice a round/Raid battle\n-While downed, you can dash again for a much higher seperate cooldown."
-		"fr"	"Propulsion faible. Peut être utilisé pendant que vous êtes KO."
-		///"ru"	"Слабый рывок. При падении используйте аварийный рывок с собственной перезарядкой!"
-		"chi"   "一个微弱的紧急冲刺。当被击倒时，可以激活。"
-		"it"	"Un colpo d'ala debole. Quando viene abbattuto, usa il colpo d'ala d'emergenza con il suo cooldown!"
-		"ko"	"-짧은 대쉬를 사용할 수 있습니다. 레이드나 라운드에서 2회만 사용 가능.\n-다운된 상태라면, 개별적인 더 긴 쿨타임이 있는 긴급 대쉬를 사용할 수 있음."
+		"en"	"-A weak dash, twice a round/Raid battle\n-While downed, you can dash again for a much higher seperate cooldown.\nUsing it more then twice a wave will massively increase the cooldown."
+		"ko"	"-짧은 대쉬를 사용할 수 있습니다. 레이드나 라운드에서 2회만 사용 가능.\n-다운된 상태라면, 개별적인 더 긴 쿨타임이 있는 긴급 대쉬를 사용할 수 있음.\n-웨이브 내에서 2번을 초과하여 사용 시 쿨타임이 대폭 증가합니다."
 	}
 	
 	"Throwable Survival Grenade Desc"
@@ -1456,8 +1435,8 @@
 	
 	"Deployable Quantum Suit Desc"
 	{
-		"en"	"-On use, frozen for 3 seconds, gain resitance during freeze\n-Gain a sepearte suit of armor, power scales with money spend\n-When reaching 0 health, or timer is over, return back to normal.\n-During raids, take extra damage\n-Elemental damage is normal damage to you instead"
-		"ko"	"-사용시, 3초간 고정됨. 고정된 상태에선 저항력 증가\n-퀀텀 슈트의 위력은 총합 자금 사용량에 비례하여 증가\n-이 슈트를 입은 상태로 체력이 0이 되거나 타이머가 0이 될 시, 슈트가 파괴됨\n-레이드 모드일 경우 피해를 더 많이 받습니다.\n-원소 피해가 부여될 경우 일반 피해로 적용됩니다."
+		"en"	"-On use, frozen for 2 seconds, gain resitance during freeze\n-Gain a sepearte suit of armor, power scales with money spend\n-When reaching 0 health, or timer is over, return back to normal.\n-During raids, take extra damage\n-Elemental damage is normal damage to you instead"
+		"ko"	"-사용시, 2초간 고정됨. 고정된 상태에선 저항력 증가\n-퀀텀 슈트의 위력은 총합 자금 사용량에 비례하여 증가\n-이 슈트를 입은 상태로 체력이 0이 되거나 타이머가 0이 될 시, 슈트가 파괴됨\n-레이드 모드일 경우 피해를 더 많이 받습니다.\n-원소 피해가 부여될 경우 일반 피해로 적용됩니다."
 	}
 	
 	"Ranged Spike Layer Desc"
@@ -1788,12 +1767,8 @@
 	
 	"Accurate Marksman Desc"
 	{
-		"en"	"-Gain 10％ more accuracy\n-Gain 20％ faster projectile speed"
-		"fr"	"10％ moins de déviation, +20％ vitesse des projectiles"
-		///"ru"	"На 10％ выше точность и на 20％ выше скорость снаряда."
-		"chi"   "射击精度提高10％、射速提高20％"
-		"it"	"10％ più precisione e 20％ più velocità del proiettile"
-		"ko"	"-집탄율 +10％\n-투사체 비행 속도 +20％"
+		"en"	"-Gain 10％ more accuracy\n-Gain 20％ faster projectile speed\n-Gain 25％ faster Sniper Rifle charge rate"
+		"ko"	"-집탄율 +10％\n-투사체 비행 속도 +20％\n-저격소총 충전 속도 +25％"
 	}
 	
 	"Ammo Coat Desc"
@@ -1865,9 +1840,14 @@
 	
 	"Hastening Potion Desc"
 	{
-		"en"	"-Gain 15％ Faster Mage Fire Speed\n-Gain 50％ Mana Regen and Max Mana\n-Gain 7％ more mage damage.\n-Gain 50+ HP\n-Gain 5％ melee resistance while magic weapon is active"
-		"it"	"15％ Velocità del fuoco del mago più veloce e 50％ Rigenerazione del mana e mana massimo, 50+ HP e 5％ resistenza in mischia, 7％ danni da mago in più."
-		"ko"	"-마법 공격 속도 +15％\n-최대 마나와 마나 재생량 +50％\n-마법 무기 피해량 +7％\n-최대 체력 +50\n-마법 무기 장착 시 근접 피해 저항력 +5％."
+		"en"	"-Gain 15％ Faster Mage Fire Speed\n-Gain 30％ Mana Regen and Max Mana\n-Gain 7％ more mage damage.\n-Gain 50+ HP\n-Gain 5％ melee resistance while magic weapon is active"
+		"it"	"15％ Velocità del fuoco del mago più veloce e 30％ Rigenerazione del mana e mana massimo, 50+ HP e 5％ resistenza in mischia, 7％ danni da mago in più."
+		"ko"	"-마법 공격 속도 +15％\n-최대 마나와 마나 재생량 +30％\n-마법 무기 피해량 +7％\n-최대 체력 +50\n-마법 무기 장착 시 근접 피해 저항력 +5％."
+	}
+	"Precision Potion Desc"
+	{
+		"en"	"-Gain 40％ Faster Mage Projectile Speed\n-Gain 20％ Mana Regen and Max Mana"
+		"ko"	"-마법 투사체 비행 속도 +40％\n-최대 마나와 마나 재생량 +20％"
 	}
 	
 	"The Bombinomicon Desc"
@@ -1912,7 +1892,8 @@
 		"en"	"-Increased Max Armor.\n-Gain +50HP\n-Extra Passive resistances if no armor is active."
 		"fr"	"Armure reçu et armure maximalle améliorées. +50 santé.\nDonne une résistance passive qui s'améliore avec vos améliorations pour armure, si votre armure est brisée."
 		"it"	"Aumento della quantità di armatura ottenuta per uso e tetto massimo.+50HP\nFornisce resistenza passiva in caso di rottura dell'armatura e aumenta con i potenziamenti dell'armatura."
-		"ko"	"-최대 아머 +150\n-최대 체력 +50\n-아머가 없으면 추가 저항력 증가(생존 개선에 따라 증가함)"
+		"ko"	"-최대 아머 증가\n-최대 체력 +50\n-아머가 없으면 추가 저항력 증가(생존 개선에 따라 증가함)"
+		//"ko"	"-최대 아머 +150\n-최대 체력 +50\n-아머가 없으면 추가 저항력 증가(생존 개선에 따라 증가함)"
 	}
 	
 	"Kevlar Desc"
@@ -1920,7 +1901,8 @@
 		"en"	"-Increased Max Armor.\n-Gain +100HP\n-Extra Passive resistances if no armor is active."
 		"fr"	"Armure reçu et armure maximalle améliorées. +100 santé.\nDonne une résistance passive qui s'améliore avec vos améliorations pour armure, si votre armure est brisée."
 		"it"	"Aumento della quantità di armatura ottenuta per uso e tetto massimo. +100HP\nFornisce resistenza passiva in caso di rottura dell'armatura e aumenta con i potenziamenti dell'armatura."
-		"ko"	"-최대 아머 +150\n-최대 체력 +100\n-아머가 없으면 추가 저항력 증가(생존 개선에 따라 증가함)"
+		"ko"	"-최대 아머 증가\n-최대 체력 +100\n-아머가 없으면 추가 저항력 증가(생존 개선에 따라 증가함)"
+		//"ko"	"-최대 아머 +150\n-최대 체력 +100\n-아머가 없으면 추가 저항력 증가(생존 개선에 따라 증가함)"
 	}
 	
 	"Heavy Vest Desc"
@@ -1928,30 +1910,45 @@
 		"en"	"-Increased Max Armor.\n-Gain +150HP\n-Extra Passive resistances if no armor is active."
 		"fr"	"Armure reçu et armure maximalle améliorées. +150 santé.\nDonne une résistance passive qui s'améliore avec vos améliorations pour armure, si votre armure est brisée."
 		"it"	"Aumento della quantità di armatura per uso e tetto massimo. +150 HP\nFornisce una resistenza passiva in caso di rottura dell'armatura e aumenta con i potenziamenti dell'armatura."
-		"ko"	"-최대 아머 2배\n-최대 체력 +150\n-아머가 없으면 추가 저항력 증가(생존 개선에 따라 증가함)"
+		"ko"	"-최대 아머 증가\n-최대 체력 +150\n-아머가 없으면 추가 저항력 증가(생존 개선에 따라 증가함)"
+		//"ko"	"-최대 아머 2배\n-최대 체력 +150\n-아머가 없으면 추가 저항력 증가(생존 개선에 따라 증가함)"
 	}
 	
 	"Grigori's Blessing Desc"
 	{
-		"en"	"-Gain +300 Health\n-Life regen 1％ of your max hp per second up to half your HP\n-During bleedout, you also will survive for longer.\n-Out of battle, heals extra with more melee upgrades."
-		"it"	"+300 Salute e rigenerazione della vita pari a 1％ dei tuoi hp massimi al secondo fino a metà dei tuoi HP, durante l'emorragia sopravviverai più a lungo.\nFuori dalla battaglia, guarisce ulteriormente con più potenziamenti in mischia."
-		"ko"	"-최대 체력 +300\n-초당 최대 체력의 1％만큼 체력을 회복하며 최대 체력의 절반까지 회복\n-다운시 더 오래 생존\n-비전투 상태라면 보유한 근접 개선에 따라 추가 회복"
+		"en"	"-Gain +300 Health\n-Life regen 1％ of your max hp per second up to 75％ max hp\n-During bleedout, you also will survive for longer.\n-Out of battle, heals extra with more melee upgrades."
+		"ko"	"-최대 체력 +300\n-초당 최대 체력의 1％만큼 체력을 회복하며 최대 체력의 75％까지 회복\n-다운시 더 오래 생존\n-비전투 상태라면 보유한 근접 개선에 따라 추가 회복"
 	}
 	
 	"Full Riot Gear Desc"
 	{
-		"en"	"-Increased Max Armor.\n-Gain +150HP\n-Extra Passive resistances if no armor is active."
-		"fr"	"Armure reçu et armure maximalle améliorées. +150 santé.\nDonne une résistance passive qui s'améliore avec vos améliorations pour armure, si votre armure est brisée."
-		"it"	"Aumento della quantità di armatura per uso e tetto massimo. +150 HP\nFornisce una resistenza passiva in caso di rottura dell'armatura e aumenta con i potenziamenti dell'armatura."
-		"ko"	"-최대 아머 2배\n-최대 체력 +150\n-아머가 없으면 추가 저항력 증가(생존 개선에 따라 증가함)"
+		"en"	"-Increased Max Armor.\n-Gain +200HP\n-Extra Passive resistances if no armor is active."
+		"fr"	"Armure reçu et armure maximalle améliorées. +200 santé.\nDonne une résistance passive qui s'améliore avec vos améliorations pour armure, si votre armure est brisée."
+		"it"	"Aumento della quantità di armatura per uso e tetto massimo. +200 HP\nFornisce una resistenza passiva in caso di rottura dell'armatura e aumenta con i potenziamenti dell'armatura."
+		"ko"	"-최대 아머 증가\n-최대 체력 +200\n-아머가 없으면 추가 저항력 증가(생존 개선에 따라 증가함)"
+		//"ko"	"-최대 아머 2배\n-최대 체력 +150\n-아머가 없으면 추가 저항력 증가(생존 개선에 따라 증가함)"
 	}
-	"Grigoris Special Antidote Desc"
+	"E.G.O. Mimicry Shell"
 	{
-		"en"	"You get an extra 350+ HP, and get 4％ dmg resistance to all sources."
+		"en"	"E.G.O. Mimicry Shell"
+		"ko"	"E.G.O. 미미크리 껍데기"
+	}
+	"E.G.O. Mimicry Shell Desc"
+	{
+		"en"	"-Increased Max Armor.\n-Gain +250HP\n-Extra Passive resistances if no armor is active.\nIncreases healing from all sources by 1.15x"
+		"ko"	"-최대 아머 증가\n-최대 체력 +250\n-아머가 없으면 추가 저항력 증가(생존 개선에 따라 증가함)\n-받는 모든 치유 효과가 1.15배로 증가"
+	}
+	"Explain NT Buff"
+	{
+		"en"	"While fighting nothing there you gain 2x ego duration and take 12 flat less damage\nYou also obtain this while having ''E.G.O. Mimicry Shell''"
+		"ko"	"'아무 것도 없는'과 전투 중 E.G.O. 발현 지속 시간이 2배로 증가, 피해를 고정적으로 12만큼 덜 받습니다.\n''E.G.O. 미미크리 껍데기''를 장착하는 동안에도 이 효과를 받습니다."
+	}
+	"Grigori's Special Antidote Desc"
+	{
+		"en"	"-Gain +350HP\n-Gain 4％ resistance to all sources"
 		"ko"	"-최대 체력 +350\n-모든 피해 저항력 +4％"
 		"it"	"Aumento della quantità di armatura per uso e tetto massimo. +150 HP\nFornisce una resistenza passiva in caso di rottura dell'armatura e aumenta con i potenziamenti dell'armatura."
 	}
-	
 	"Healthy Apple from Bob Desc"
 	{
 		"en"	"-Gain +1500 HP"
@@ -2545,12 +2542,9 @@
     }
 	"Monk Desc"
 	{
-		"en"	"Provides AOE damage around it but lacks self defense"
-		"fr"	"Peu de défense mais peut attaquer plusiers ennemis à la fois."
-		///"ru"	"Наносит урон вокруг себя, но не имеет самозащиты"
-		"chi"   "在周围提供AOE伤害，但缺乏自我防御"
-		"it"	"Fornisce danni AOE intorno a sé, ma manca di autodifesa"
-		"ko"	"주변 범위 내의 모든 적에게 광역 피해를 주지만, 자가 방어 수단이 부족한 유닛입니다."
+		"en"	"Provides AOE debuffs against enemies and heals for low health players, he's a support unit"
+		"it"	"Fornisce debuff AOE contro i nemici e cura i giocatori vicini, è un'unità di supporto"
+		"ko"	"적들에게 광역으로 디버프를 부여하는 동시에 체력이 낮은 플레이어를 치유하는 지원 유닛입니다."
 	}
 	"Hussar Desc"
 	{
@@ -2569,11 +2563,11 @@
 	}
 	"Song Of The Ocean Desc"
 	{
-		"en" 	"-Heals allies slowly around you and gives them a 10％ dmg buff.\n-Scales with medigun upgrades.\n-M1 Casts an extra heal onto allies.\n-M2 Applies a stronger 25％ dmg buff to all allies for 15 sec."
+		"en" 	"-Heals allies slowly around you and gives them a 10％ dmg buff, reduces cooldowns of active weapons.\n-Scales with medigun upgrades.\n-M1 Casts an extra heal onto allies and bigger cooldown rd.\n-M2 Applies a stronger 25％ dmg buff to all allies for 15 sec."
 		"fr" 	"Soigne les alliés proches et améliore leur dégats par 10％.\nAttaquez pour soigner directement vos alliés.\nAppuyez sur M2 pour améliorer les dégats de tous vos alliés par 25％, pour 15 secondes.\nCet arme s'améliore avec les améliorations Medigun."
 		"chi"	"缓慢治疗你附近的队友，提供+10％伤害buff。\n随着医疗枪升级。\nM1提供更多治疗，M2提供15秒的+25％伤害buff。"
 		"it"	"Cura lentamente gli alleati intorno a te e dà loro un buff di 10％ dmg.\nScala con i potenziamenti della medigun.\nM1 Lancia una guarigione extra sugli alleati.\nM2 Applica un buff più forte di 25％ dmg a tutti gli alleati per 15 sec."
-		"ko"	"-주변 아군을 서서히 치유하며 10％ 피해 증가를 부여\n-메디건 업그레이드로 효과가 향상\n-M1은 추가 치유 발동\n-우클릭 능력은 15초 동안 주위의 모든 아군에게 25％ 피해 증가 버프를 적용"
+		"ko"	"-주변 아군을 서서히 치유하며 10％ 피해량 증가를 부여 및 들고 있는 무기의 능력 쿨타임 감소\n-메디건 업그레이드로 효과가 향상\n-M1은 추가 치유를 발동하며 능력 쿨타임을 더 많이 감소\n-우클릭 능력은 15초 동안 주위의 모든 아군에게 25％ 피해량 증가 버프를 적용"
 	}
 	"Song Of The Ocean Desc 2"
 	{
@@ -4991,41 +4985,41 @@
 		"it"	"Come soddisfa la sua fame con ogni mezzo. Aumenta i punti salute dell'edificio del +90％, i danni dell'edificio del +100％ e la velocità di riparazione del +125％.\nAumenta la velocità di attacco delle sentinelle del +50％."
 		"ko"	"그가 모든걸 동원해서 굶주림을 채우는걸 보세요.\n-구조물 체력 +90％\n-구조물의 피해량 +100％\n-수리 효율 +125％\n-센트리 공격 속도 +50％"
 	}
-	"Birdeye Ammo Desc"
+	"Birdeye's Ammo Desc"
 	{
-		"en"	"He never misses.\nIncreases ranged damage by +75％, fire rate and reload speed by +5％.\nIncreases accuracy by +10％ and projectile speed by +10％."
+		"en"	"He never misses.\nIncreases ranged damage by +75％, fire rate and reload speed by +5％.\nIncreases accuracy by +10％ and projectile speed by +10％.\nIncreases max clip size by +5％ and Sniper Rifle charge rate by +5％."
 		"it"	"Non manca mai il bersaglio.\nAumenta il danno a distanza del +75％, la cadenza di fuoco e la velocità di ricarica del +5％.\nAumenta la precisione del +10％ e la velocità dei proiettili del +10％."
-		"ko"	"그는 절대로 놓치지 않습니다.\n-원거리 무기 피해량 +75％\n-재장전 속도, 공격 속도 +5％\n-명중률과 투사체 비행 속도 +10％"
+		"ko"	"그는 절대로 놓치지 않습니다.\n-원거리 무기 피해량 +75％\n-재장전 속도, 공격 속도 +5％\n-명중률과 투사체 비행 속도 +10％\n-장탄수 +5％\n-저격소총 충전 속도 +5％" 
 	}
 	"Waldch's Railgun Rounds Desc"
 	{
-		"en"	"How kind of him.\nIncreases ranged damage by +75％, fire rate by +7.5％ and reload speed by +10％.\nIncreases accuracy by +20％ and projectile speed by +25％."
+		"en"	"How kind of him.\nIncreases ranged damage by +75％, fire rate and reload speed by +10％.\nIncreases accuracy by +20％ and projectile speed by +25％.\nIncreases max clip size by +5％ and Sniper Rifle charge rate by +5％."
 		"it"	"Che gentile da parte sua.\nAumenta il danno a distanza del +75％, la cadenza di fuoco del +7.5％ e la velocità di ricarica del +10％.\nAumenta la precisione del +20％ e la velocità dei proiettili del +25％."
-		"ko"	"참 친절하여라.\n-원거리 무기 피해량 +75％\n-공격 속도 +7.5％\n-재장전 속도 +10％\n-명중률 +20％\n-투사체 비행 속도 +25％"
+		"ko"	"참 친절하여라.\n-원거리 무기 피해량 +75％\n-공격 속도 +10％\n-재장전 속도 +10％\n-명중률 +20％\n-투사체 비행 속도 +25％\n-장탄수 +5％\n-저격소총 충전 속도 +5％"
 	}
 	"Cheesy Doomsday Pack Desc"
 	{
-		"en"	"The package says ''Includes Molten Cheddar, literally!''\nIncreases ranged damage by +100％, fire rate and reload speed by +15％.\nIncreases accuracy by +35％ and projectile speed by +50％."
+		"en"	"The package says ''Includes Molten Cheddar, literally!''\nIncreases ranged damage by +100％, fire rate and reload speed by +15％.\nIncreases accuracy by +35％ and projectile speed by +50％.\nIncreases max clip size by +10％ and Sniper Rifle charge rate by +5％."
 		"it"	"La confezione riporta la dicitura ''Contiene formaggio cheddar fuso, letteralmente!''. Aumenta il danno a distanza del +100％, la cadenza di fuoco e la velocità di ricarica del +15％.\nAumenta la precisione del +35％ e la velocità dei proiettili del +50％."
-		"ko"	"포장에 ''말 그대로 녹아내린 체다가 포함되어 있습니다!''라고 되어있네요.\n-원거리 무기 피해량 +100％\n-재장전 속도, 공격 속도 +15％\n-명중률 +35％\n-투사체 비행 속도 +50％"
+		"ko"	"포장에 ''말 그대로 녹아내린 체다가 포함되어 있습니다!''라고 되어있네요.\n-원거리 무기 피해량 +100％\n-재장전 속도, 공격 속도 +15％\n-명중률 +35％\n-투사체 비행 속도 +50％\n-장탄수 +10％\n-저격소총 충전 속도 +5％"
 	}
 	"Twirl Magic Desc"
 	{
-		"en"	"This is as far as she can get with teaching magic to you.\n+200 HP, Increases mage damage by +75％ and mage attack speed by +10％.\nIncreases melee resist with wands out by +5％, and max mana by 25％."
+		"en"	"This is as far as she can get with teaching magic to you.\n+200 HP, Increases mage damage by +75％ and mage attack speed by +10％.\nIncreases melee resist with wands out by +5％, and max mana by 25％.\nIncreases projectile speed by +5％."
 		"it"	"Questo è il massimo che può fare per insegnarti la magia.\n+200 HP, aumenta il danno magico del +75％ e la velocità d'attacco magico del +10％.\nAumenta la resistenza in mischia con bacchette magiche del +5％ e il mana massimo del 25％."
-		"ko"	"그녀가 당신에게 마법을 가르쳐줄 수 있는 한계입니다.\n-최대 체력 +200\n-마법 무기 피해량 +75％\n-공격 속도 +10％.\n-마법 무기 장착 시 근접 피해 저항력 +5％\n-최대 마나 +25％"
+		"ko"	"그녀가 당신에게 마법을 가르쳐줄 수 있는 한계입니다.\n-최대 체력 +200\n-마법 무기 피해량 +75％\n-공격 속도 +10％.\n-마법 무기 장착 시 근접 피해 저항력 +5％\n-최대 마나 +25％\n-마법 투사체 비행 속도 +5％"
 	}
 	"Magical Fontina Aura Desc"
 	{
-		"en"	"What kind of magic is this?\n+300 HP, Increases mage damage by +85％ and mage attack speed by +10％.\nIncreases melee resist with wands out by +6％, and max mana by 25％."
+		"en"	"What kind of magic is this?\n+300 HP, Increases mage damage by +85％ and mage attack speed by +10％.\nIncreases melee resist with wands out by +6％, and max mana by 25％.\nIncreases projectile speed by +5％."
 		"it"	"Che tipo di magia è questa? +300 HP, aumenta il danno magico di +85％ e la velocità d'attacco magico di +10％.\nAumenta la resistenza in mischia con bacchette estratte di +6％ e il mana massimo del 25％."
-		"ko"	"이건 도대체가 무슨 마법이여?\n-최대 체력 +300\n-마법 무기 피해량 +85％\n-공격 속도 +10％\n-마법 무기 장착 시 근접 피해 저항력 +6％\n-최대 마나 +25％"
+		"ko"	"이건 도대체가 무슨 마법이여?\n-최대 체력 +300\n-마법 무기 피해량 +85％\n-공격 속도 +10％\n-마법 무기 장착 시 근접 피해 저항력 +6％\n-최대 마나 +25％\n-마법 투사체 비행 속도 +5％"
 	}
 	"Domain Expansion: Cheese Desc"
 	{
-		"en"	"Through Necropolis and Irln, you alone are the Cheesed one.\n+600 HP, Increases mage damage by +120％ and mage attack speed by +10％.\nIncreases melee resist with wands out by +10％, and max mana by 25％."
+		"en"	"Through Necropolis and Irln, you alone are the Cheesed one.\n+600 HP, Increases mage damage by +120％ and mage attack speed by +10％.\nIncreases melee resist with wands out by +10％, and max mana by 25％.\nIncreases projectile speed by +10％."
 		"it"	"Grazie a Necropolis e Irln, solo tu sei il Cheesed.\n+600 HP, aumenta il danno magico del +120％ e la velocità d'attacco magico del +10％.\nAumenta la resistenza in mischia con bacchette del +10％ e il mana massimo del 25％."
-		"ko"	"네크로폴리스상에릴렌하 치즈독존.\n-최대 체력 +600\n-마법 무기 피해량 +120％\n-공격 속도 +10％\n-마법 무기 장착 시 근접 피해 저항력 +10％\n-최대 마나 +25％"
+		"ko"	"네크로폴리스상에릴렌하 치즈독존.\n-최대 체력 +600\n-마법 무기 피해량 +120％\n-공격 속도 +10％\n-마법 무기 장착 시 근접 피해 저항력 +10％\n-최대 마나 +25％\n-마법 투사체 비행 속도 +10％"
 	}
 	"Bob's Willpower Desc"
 	{
@@ -5580,8 +5574,8 @@
 	}
 	"The Red Mist Desc 5"
 	{
-		"en"	"-Gain an upgrade point\nUnlocks new special card\n-Overall Stat Increases"
-		"ko"	"-개선 포인트 획득\n-새로운 특별 책장 해금\n-전반적인 능력치 증가"
+		"en"	"-Gain an upgrade point\nUnlocks new special card\n-Overall Stat Increases\n-Special card CD reduced on hit with any ability or melee."
+		"ko"	"-개선 포인트 획득\n-새로운 특별 책장 해금\n-전반적인 능력치 증가\n-능력 혹은 근접 적중 시 특별 책장의 쿨타임 감소"
 	}
 	"The Red Mist Desc 6"
 	{
@@ -5790,8 +5784,8 @@
 	}
 	"Gunsaw Mercenary Desc"
 	{
-		"en"	"-Shotgun and pistol, build cheap buildings, but no repairing\n-Able to body swap you to an enemy's body\n  -Takes the stats and weapons of the enemy\n  -Swap by killing a nearby enemy while downed"
-		"ko"	"-산탄총과 권총 보유, 저렴한 구조물을 건설할 수 있으나 수리 불가\n-적의 몸으로 육체를 치환 할 수 있음:\n   적의 능력치와 무기를 탈취\n   다운 상태일 때 적을 처치하여 치환"
+		"en"	"-Shotgun and pistol, build cheap buildings, but no repairing\n-Able to body swap you to an enemy's body\n  -Takes the stats and weapons of the enemy\n  -Mark enemy by melee hitting a nearby enemy while downed or crouched\n  -Swaps to this enemy's body when they're killed"
+		"ko"	"-산탄총과 권총 보유, 저렴한 구조물을 건설할 수 있으나 수리 불가\n-적의 몸으로 육체를 치환 할 수 있음:\n   적의 능력치와 무기를 탈취\n   다운 상태, 혹은 웅크리고 있을 때 적을 근접 무기로 적중하여 표식 부여\n  -해당 적이 처치될 시 이 적의 육체로 치환"
 	}
 	"Gunsaw Mercenary Pap 1"
 	{
@@ -5969,7 +5963,7 @@
 	}
 	"Dr DAM Staff Desc"
 	{
-		"en"		"-Increased Damage\n-Hp > 50％:\nM2: Lose 10% hp to heal allies around you\nR:Lose 50% hp to gain resistance and heal allies around you.\n \n-HP < 50%:\nGain res, heal on damage, lower range.\nM2:Lose 20% hp to deal AOE damage.\nR: Stun self but heal to full in 2 seconds."
+		"en"		"-Increased Damage\n-Hp > 50％:\nM2: Lose 10% hp to heal allies around you\nR:Lose 50％ hp to gain resistance and heal allies around you.\n \n-HP < 50%:\nGain res, heal on damage, lower range.\nM2:Lose 20% hp to deal AOE damage.\nR: Stun self but heal to full in 2 seconds."
 		"ko"		"-피해량 증가\n-체력 50％ 이상:\n우클릭: 체력 10％을 깎고 주변 아군 회복\nR키:체력 50％을 깎고 저항을 획득. 주변 아군을 치유\n-체력 50％ 이하:\n저항 획득, 적중 시 체력 회복, 사거리 감소\n우클릭: 체력 20％을 깎고 광역 피해\nR키: 기절 후 최대 체력까지 회복"
 	}
 	"Hel's Hoe Desc"
@@ -5981,5 +5975,20 @@
 	{
 		"en"		"-Increased Damage\n-When R is active:\nPress M2 To drain your hp, but drains enemies around you as well to heal you."
 		"ko"		"-피해량 증가\n-R키 능력 사용 중:\nM2 사용 시 체력을 서서히 깎지만 주변의 적에게서 체력을 흡수함"
+	}
+	"Opera of the Mute"
+	{
+		"en"	"Opera of the Mute"
+		"ko"	"고요한 오페라"
+	}
+	"Opera of the Mute Desc"
+	{
+		"en"	"-Being between 30％ and 70％ mana gives 40％ more damage\n-Consuming or gaining mana gives shield upto 50％ of your max mana\n-attacking enemies gives necrosis\n-every 5th hit deals 12 hits at once with increased necrosis damage\n-Alters mana logic\n-halved shield gain in battle too long"
+		"ko"	"-마나가 30％와 70％ 사이라면, 피해량이 40％ 증가합니다.\n-마나를 소모하거나 회복하면, 최대 마나의 50％까지 보호막을 획득합니다.\n-적중 시, 적에게 쇠약 원소 피해를 부여합니다.\n-5번째 공격마다 증가된 쇠약 원소 피해와 함께 12번의 피해를 한 번에 가합니다.\n-마나 시스템 변화\n-전투 상태가 오래 지속될 시 보호막 획득량 감소"
+	}
+	"Opera of the Mute Desc 2"
+	{
+		"en"	"-Increased damage, attackspeed and resistance"
+		"ko"	"-피해량 및 공격 속도, 피해 저항 증가"
 	}
 }

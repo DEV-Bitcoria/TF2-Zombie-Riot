@@ -341,6 +341,7 @@ methodmap GodAlaxios < CClotBody
 		}
 		if(StrContains(data, "seainfection") != -1)
 		{
+			WaveStart_SubWaveStart(GetGameTime() + 700.0);
 			b_NpcUnableToDie[npc.index] = true;
 			i_RaidGrantExtra[npc.index] = ALAXIOS_SEA_INFECTED;
 		}
@@ -1136,7 +1137,7 @@ public Action GodAlaxios_OnTakeDamage(int victim, int &attacker, int &inflictor,
 		{
 			if(RoundToCeil(damage) >= GetEntProp(npc.index, Prop_Data, "m_iHealth"))
 			{
-				GiveProgressDelay(55.0);
+				GiveProgressDelay(10.0);
 				b_angered_twice[npc.index] = true;
 				RaidModeTime = 9999999.9;
 				RaidBossActive = INVALID_ENT_REFERENCE;

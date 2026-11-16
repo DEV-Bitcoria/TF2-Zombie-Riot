@@ -642,6 +642,10 @@ public void Timer_Do_Melee_Attack_Internal(DataPack pack)
 			{
 				LanceDamageCalc(client, weapon, damage_test_validity, true);
 			}
+			case WEAPON_OPERAMUTE: //yes, if we miss, then we do other stuff.
+			{
+				OperaMute_DmgCalc(client, weapon, damage_test_validity, true);
+			}
 		}
 		if(damage_test_validity == 0.0) //here we put weapons that have special rules regarding attacking via a melee, can they even attack? etc etc.
 		{
@@ -660,7 +664,7 @@ public void Timer_Do_Melee_Attack_Internal(DataPack pack)
 			b_LagCompNPC_ExtendBoundingBox = true;
 		*/
 		float vecSwingForward[3];
-		StartLagCompensation_Base_Boss(client);
+		StartPlayerOnlyLagComp(client, false, true);
 		DoSwingTrace_Custom(swingTrace, client, vecSwingForward,_,_,_,_,aoeSwing, weapon);
 		
 		aoeSwing = i_EntitiesHitAtOnceMax;
@@ -697,7 +701,7 @@ public void Timer_Do_Melee_Attack_Internal(DataPack pack)
 				{
 					Weapon_ark_LapplandRangedAttack(client, weapon);
 					delete swingTrace;
-					FinishLagCompensation_Base_boss();
+					EndPlayerOnlyLagComp(client);
 					delete pack;
 					return;
 				}
@@ -705,7 +709,7 @@ public void Timer_Do_Melee_Attack_Internal(DataPack pack)
 				{
 					Weapon_ark_QuibaiRangedAttack(client, weapon);
 					delete swingTrace;
-					FinishLagCompensation_Base_boss();
+					EndPlayerOnlyLagComp(client);
 					delete pack;
 					return;
 				}
@@ -713,7 +717,7 @@ public void Timer_Do_Melee_Attack_Internal(DataPack pack)
 				{
 					Gladiia_RangedAttack(client, weapon);
 					delete swingTrace;
-					FinishLagCompensation_Base_boss();
+					EndPlayerOnlyLagComp(client);
 					delete pack;
 					return;
 				}	
@@ -726,6 +730,7 @@ public void Timer_Do_Melee_Attack_Internal(DataPack pack)
 		{
 			char SoundStringToPlay[256];
 			bool OverrideSound = false;
+			int Pitch = 100;
 #if defined ZR
 			switch(i_CustomWeaponEquipLogic[weapon])
 			{
@@ -734,13 +739,21 @@ public void Timer_Do_Melee_Attack_Internal(DataPack pack)
 					OverrideSound = true;
 					Format(SoundStringToPlay,sizeof(SoundStringToPlay),"replay/snip.wav");	
 				}
+				
+			}
+			if(IsRedMistWeapon(client, weapon) && RedMistFinalSwing(weapon))
+			{
+				OverrideSound = true;
+				
+				Format(SoundStringToPlay,sizeof(SoundStringToPlay),	"weapons/grappling_hook_impact_flesh.wav");
+				Pitch = 95;
 			}
 #endif
 			if(soundIndex == MELEE_HIT && OverrideSound)
 			{
 				
 				EmitSoundToAll(SoundStringToPlay, client, SNDCHAN_STATIC, RoundToNearest(90.0 * f_WeaponVolumeSetRange[weapon])
-				, _, 1.0 * f_WeaponVolumeStiller[weapon]);
+				, _, 1.0 * f_WeaponVolumeStiller[weapon], Pitch);
 			}
 			else if(i_WeaponSoundIndexOverride[weapon] != -1)
 			{
@@ -890,6 +903,10 @@ public void Timer_Do_Melee_Attack_Internal(DataPack pack)
 			i_EntitiesHitAoeSwing[i] = -1;
 		}
 #if defined ZR
+		if(IsRedMistWeapon(client, weapon))
+		{
+			RedMistEndGoodbye(client);
+		}
 		switch(i_CustomWeaponEquipLogic[weapon])
 		{
 			case WEAPON_SUPERUBERSAW: //yes, if we miss, then we do other stuff.
@@ -955,7 +972,7 @@ public void Timer_Do_Melee_Attack_Internal(DataPack pack)
 			}
 		}
 		delete swingTrace;
-		FinishLagCompensation_Base_boss();
+		EndPlayerOnlyLagComp(client);
 	}
 	delete pack;
 

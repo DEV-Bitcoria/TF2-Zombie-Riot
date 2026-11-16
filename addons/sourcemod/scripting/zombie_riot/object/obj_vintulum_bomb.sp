@@ -101,6 +101,9 @@ methodmap ObjectVintulumBomb < ObjectGeneric
 			float AOE_range = 350.0 * sentry_range;
 				
 			damage *= 5.0;
+			if(Arena_Mode())
+				damage *= 0.5;
+			
 			//its like 5 mortars at once.
 			Explode_Logic_Custom(damage, Owner, Owner, -1, pos, AOE_range, 0.75, _, false);
 			ExpidonsaGroupHeal(Owner, AOE_range, 99, 1.0, 1.0, true, VintulumBombSelf, .LOS = true, .VecDoAt = pos);
@@ -244,23 +247,6 @@ static void ClotDeath(int entity)
 }
 
 
-
-public Action Timer_ReduceLighting(Handle timer, any entid)
-{
-	int entity = EntRefToEntIndex(entid);
-	if(IsValidEntity(entity))
-	{
-		float brightness = GetEntPropFloat(entity, Prop_Send, "m_Radius");
-		brightness -= 50.0;
-		if(brightness <= 0.0)
-			brightness = 0.0;
-		SetEntPropFloat(entity, Prop_Send, "m_Radius", brightness);
-		SetEntPropFloat(entity, Prop_Send, "m_SpotRadius", brightness);
-		return Plugin_Continue;
-	}
-	else
-		return Plugin_Stop;
-}
 
 
 bool VintulumBombSelf(int entity, int victim, float &healingammount)

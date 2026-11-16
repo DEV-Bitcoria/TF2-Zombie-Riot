@@ -832,6 +832,12 @@ public Action Dhook_TeleportToCenter(Handle timer, int userid)
 	int client = GetClientOfUserId(userid);
 	if(IsValidClient(client))
 	{
+		if(Arena_Mode())
+		{
+			Arena_TeleportToCenter(client);
+			return Plugin_Stop;
+		}
+
 		if(!BasePosWasDone)
 		{
 		//	PrintToConsole(client, "Dhook_TeleportToCenter, Teleport Denied, %f, %f, %f", BasePosSave[0], BasePosSave[1], BasePosSave[2]);
@@ -1029,6 +1035,11 @@ void Dungeon_PlayerDowned(int client)
 {
 	if(dieingstate[client] <= 0)
 		LastKilledAt[client] = GetGameTime();
+}
+
+float Dungeon_LastKilledAt(int client)
+{
+	return LastKilledAt[client];
 }
 
 bool Dungeon_InRespawnTimer(int client)
@@ -2523,7 +2534,7 @@ public void ZRModifs_GiveRandomPrefix(int iNpc)
 		GiveOneGuranteed = false;
 		RetryBuffGiving = false;
 		
-		switch(GetRandomInt(1,46))
+		switch(GetRandomInt(1,45))
 		{
 			case 1:
 			{
@@ -2850,33 +2861,26 @@ public void ZRModifs_GiveRandomPrefix(int iNpc)
 			}
 			case 42:
 			{
-				if(HasSpecificBuff(iNpc, "Seraph Prefix"))
-					RetryBuffGiving = true;
-				else
-					ApplyStatusEffect(iNpc, iNpc, "Seraph Prefix", 999999.9);
-			}
-			case 43:
-			{
 				if(HasSpecificBuff(iNpc, "Party Popper Prefix"))
 					RetryBuffGiving = true;
 				else
 					ApplyStatusEffect(iNpc, iNpc, "Party Popper Prefix", 999999.9);
 			}
-			case 44:
+			case 43:
 			{
 				if(HasSpecificBuff(iNpc, "Gory Prefix"))
 					RetryBuffGiving = true;
 				else
 					ApplyStatusEffect(iNpc, iNpc, "Gory Prefix", 999999.9);
 			}
-			case 45:
+			case 44:
 			{
 				if(HasSpecificBuff(iNpc, "Aleph Prefix"))
 					RetryBuffGiving = true;
 				else
 					ApplyStatusEffect(iNpc, iNpc, "Aleph Prefix", 999999.9);
 			}
-			case 46:
+			case 45:
 			{
 				//free token
 				RetryBuffGiving = true;

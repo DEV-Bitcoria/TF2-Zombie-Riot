@@ -16,6 +16,21 @@
 		"en" "True Fusion Warrior"
 		"ko" "트루 퓨전 워리어"
 	}
+	"Puke Pus"
+	{
+		"en" "Puke Pus"
+		"ko" "푸크 퍼스"
+	}
+	"Mechanized Wall"
+	{
+		"en" "Mechanized Wall"
+		"ko" "기계화된 벽"
+	}
+	"Mechanized Wall Desc"
+	{
+		"en"	"This machine was designed to keeping the Frontline efficiently.\n-Each nearby unit of the same type as yourself gains increased resistance and damage, but has decreased movement speed."
+		"ko"	"이 기계는 전선을 효율적으로 유지하기 위해 제작됐습니다.\n-주변의 자신과 같은 유닛 한 명마다 저항 및 피해량이 증가하지만 이동속도가 감소됩니다."
+	}
 	
 	//등장 알람
 	"True Fusion Warrior Spawn"
@@ -26,7 +41,7 @@
 		"pt"	"O Verdadeiro Guerreiro da Fusão chegou."
 		"nl"	"De Ware Fuziekrijger is gearriveerd"
 		"chi"	"真正的融合战士已经到来。"
-		"ko"	"The True Fusion Warrior has arrived."
+		"ko"	"트루 퓨전 워리어가 등장했습니다."
 	}
 	
 	//웨이브
@@ -38,7 +53,7 @@
 	"CyberGrind_Fast Desc"
 	{
 		"en"	"Fight all Bosses! without resting\nStarting Cash:85000\nStarting Supplies: 1557"
-		"ko"	"쉬는시간 없이 모든 보스를 만날수있습니다!\n시작 자금:85000\n시작 보급품: 1557"
+		"ko"	"쉬는 시간 없이 모든 보스를 만날 수 있습니다!\n시작 자금:85000\n시작 보급품: 1557"
 	}
 	"CyberGrind_EX_Fast"
 	{
@@ -48,7 +63,7 @@
 	"CyberGrind_EX_Fast Desc"
 	{
 		"en"	"Simulates the Final Round of EX Hard.\nStarting Cash:129800\nStarting Supplies: 220"
-		"ko"	"EX 하드 마지막 라운드를 시뮬레이션 합니다.\n시작 자금:189800\n시작 보급품: 220"
+		"ko"	"EX 하드 마지막 라운드를 시뮬레이션합니다.\n시작 자금:189800\n시작 보급품: 220"
 	}
 	"CyberGrind_Normal"
 	{
@@ -58,7 +73,7 @@
 	"CyberGrind_Normal Desc"
 	{
 		"en"	"Normal difficulty. Raid Boss only.\nStarting Cash:5706\nStarting Supplies: 100"
-		"ko"	"통상 난이도 입니다. 레이드 보스만 등장합니다.\n시작 자금:5706\n시작 보급품: 100"
+		"ko"	"통상 난이도입니다. 레이드 보스만 등장합니다.\n시작 자금:5706\n시작 보급품: 100"
 	}
 	"CyberGrind_Hard"
 	{
@@ -88,7 +103,7 @@
 	"CyberGrind_EX_Hard Desc"
 	{
 		"en"	"It's joever...\nStarting Cash:4100\nStarting Supplies: 25"
-		"ko"	"우린 ㅈ되고말거에요\n시작 자금:4100\n시작 보급품: 25"
+		"ko"	"우린 ㅈ되고 말거에요\n시작 자금:4100\n시작 보급품: 25"
 	}
 	"THE CYBER GRIND"
 	{
@@ -98,7 +113,33 @@
 	"CYBER GRIND Desc"
 	{
 		"en"	"This is a simulation prepared by Mr. V\nYou can face all bosses, and you can unlock items by clearing Normal - EX Hard\nStarting money and starting supplies vary depending on the selected difficulty."
-		"ko"	"Mr.V가 준비한 시뮬레이션 입니다.\n모든 보스를 상대해 볼 수 있습니다, 보통-EX 하드를 클리어하면 아이템을 해금할 수 있습니다.\n시작 자금 및 시작 보급품은 선택된 난이도에 따라 다름"
+		"ko"	"Mr.V가 준비한 시뮬레이션 입니다.\n모든 보스를 상대해 볼 수 있습니다, 보통-EX 하드를 클리어하면 아이템을 해금할 수 있습니다.\n시작 자금 및 시작 보급품은 선택된 난이도에 따라 다릅니다."
+	}
+	
+	"FishyLab_Lore_1"
+	{
+		"en"		""
+		"ko"		"알락시오스가 군대를 이끌고 드웰러 무리를 유인하러 갔습니다.\n그동안 여러분은 드웰러의 본진으로 추정되는 이 곳을 탐사해야 합니다."
+	}
+	"FishyLab_Lore_2"
+	{
+		"en"		""
+		"ko"		"이 연구소는 오래 전에 폐쇄된 것처럼 보입니다. 이런 곳에서 드웰러가 탄생한 것 같지는 않아 보입니다.."
+	}
+	"FishyLab_Lore_3"
+	{
+		"en"		""
+		"ko"		"스텔라와 카를라스가 막아서는 이유가 뭘까요? 우리가 잘못된 길에 들어선 걸까요?"
+	}
+	"FishyLab_Lore_4"
+	{
+		"en"		""
+		"ko"		"무언가 잘못됐습니다. 이 연구소는 칼마티커스와 제노가 탄생한 곳에 더 가까워 보입니다."
+	}
+	"FishyLab_Lore_5"
+	{
+		"en"		""
+		"ko"		"더 이상 돌이킬 수는 없습니다. 일단 이 드웰러들을 막아낸다면, 이 연구소를 들어갈 기회가 생길 겁니다."
 	}
 	
 	//NPC 대사
@@ -160,7 +201,7 @@
 	"MrV Talk 12"
 	{
 		"en"	"Set non standard Difficulty, so it's going to be Really Hard."
-		"ko"	"스탠다드외 난이도가 설정되있던대, 많이 힘들꺼야."
+		"ko"	"기본보다 높은 난이도를 골랐던데, 많이 힘들꺼야."
 	}
 	
 	//트로피
@@ -250,7 +291,7 @@
 	}
 	"Grigori's Special Antidote"
 	{
-		"en"	"Grigori's Special Antidote "
+		"en"	"Grigori's Special Antidote"
 		"ko"	"그리고리의 특별 해독제"
 	}
 	"Inv Grigori's Special Antidote desc"
@@ -569,6 +610,26 @@
 		"en"	"Training and Research Speed increases."
 		"ko"	"훈련 및 연구 속도가 증가합니다."
 	}
+	"Machine Overclock"
+	{
+		"en"	"Machine Overclock"
+		"ko"	"기계 오버클럭"
+	}
+	"Machine Overclock Desc"
+	{
+		"en"	"Only specific machines can receive this effect.\nAttack speed doubles and movement speed increases by 25％."
+		"ko"	"특정 기계만 이 효과를 부여받을 수 있습니다.\n공격 속도가 2배가 되고, 이동 속도도 25％ 증가합니다."
+	}
+	"Alt Extra Machine"
+	{
+		"en"	"Lunatic Powered Machine"
+		"ko"	"달의 힘으로 움직이는 기계들"
+	}
+	"Alt Extra Machine Desc"
+	{
+		"en"	""
+		"ko"	"이 효과를 받는 적은 특수한 버프를 받을 수 있습니다."
+	}
 	
 	//무기 이름
 	"Chaos Infected Launcher"
@@ -630,11 +691,6 @@
 	{
 		"en"		"Beam Wand"
 		"ko"		"빔 완드"
-	}
-	"Necromancy Staff"
-	{
-		"en"		"Necromancy Staff"
-		"ko"		"부두술 스태프"
 	}
 	"Killing Order"
 	{
@@ -820,6 +876,18 @@
 		"ko"		"공성전"
 	}
 	
+	"Protethia"
+	{
+		"en"		"Protethia"
+		"ko"		"프로테시아"
+	}
+	
+	"Icicle Staff"
+	{
+		"en"		"Icicle Staff"
+		"ko"		"고드름 스태프"
+	}
+	
 	//무기 설명
 	"Chaos Infected Launcher desc"
 	{
@@ -895,23 +963,23 @@
 	}
 	"Minecraft Sword Pap 2"
 	{
-		"en"	"Forged from iron. Increased damage, increased attack speed"
-		"ko"	"철로 만들었습니다. 피해량 증가, 공속 증가"
+		"en"	"Forged from iron. Increased damage, increased attack speed\nR: Apply an Anvil effect; if used while looking at the sky, removes the Anvil effect"
+		"ko"	"철로 만들었습니다. 피해량 증가, 공속 증가\nR키: 모루 효과 부여, 하늘보고 사용할 경우, 모루 효과 삭제"
 	}
 	"Minecraft Sword Pap 3"
 	{
-		"en"	"Increased damage, greatly increased attack speed, -50％ cooldown on Sweeping Edge ability\nSome tinkering effects applied."
-		"ko"	"피해량 증가, 공속 대폭 증가, 휩쓸기 능력 재사용 대기시간 -50％\n전용 모루 효과 일부 적용"
+		"en"	"Increased damage, greatly increased attack speed, -50％ cooldown on Sweeping Edge ability\nSome tinkering effects applied.\nR: Maximum enhancement of the Anvil effect and cooldown reduction"
+		"ko"	"피해량 증가, 공속 대폭 증가, 휩쓸기 능력 재사용 대기시간 -50％\n전용 모루 효과 일부 적용\nR키 모루 효과 최대 강화및 쿨다운 감소"
 	}
 	"Minecraft Sword Pap 4"
 	{
-		"en"	"Diamond! Increased damage, attack speed, increased area damage."
-		"ko"	"다이아몬드! 피해량, 공속증가, 휩쓸기 충전 속도 +25％"
+		"en"	"Diamond! Increased damage, attack speed, increased area damage.\nR: Anvil effect buff and cooldown reduction"
+		"ko"	"다이아몬드! 피해량, 공속증가, 휩쓸기 충전 속도 +25％\nR키 모루 효과 강화및 쿨다운 감소"
 	}
 	"Minecraft Sword Pap 5"
 	{
-		"en"	"Netherite! Damage increased, attack range and area damage increased."
-		"ko"	"네더라이트! 피해량 증가, 휩쓸기 범위 +17％, 점프 공격 피해량 +10％"
+		"en"	"Netherite! Damage increased, attack range and area damage increased.\nR: Maximum enhancement of the Anvil effect and cooldown reduction"
+		"ko"	"네더라이트! 피해량 증가, 휩쓸기 범위 +17％, 점프 공격 피해량 +10％\nR키 모루 효과 최대 강화및 쿨다운 감소"
 	}
 	"Minecraft Sword Advancement"
 	{
@@ -999,24 +1067,23 @@
 	
 	"Necromancy Staff Desc"
 	{
-		"en"	"M2 Summons a minion.\nNot having your wand in your hand will half minion damage.\nMinion will only attack marked enemies\nM1 Marks enemies for 5 seconds"
-		"ko"	"우클릭으로 소환수를 소환합니다\n이 스태프를 들고 있지 않다면 소환수의 피해량이 반으로 감소합니다\n소환수는 오직 마킹한 적만 공격합니다\n좌클릭 공격은 5초 동안 적을 마킹합니다."
+		"en"	"M2 summons a minion, but it decreases your max health by 25％. (Max 3)\nR kill all minions.\nMinion will attack marked enemies first.\nM1 Marks enemies for 5 seconds."
+		"ko"	"우클릭으로 최대 체력 25％를 감소시키는 대신, 기사를 하나 소환합니다. (최대 3명)\nR키로 소환한 모든 소환수를 처치 가능합니다.\n기사는 마킹한 적을 우선적으로 공격합니다.\n좌클릭 공격은 5초 동안 적을 마킹합니다."
 	}
-	"Necromancy Staff Pap 1"
+	"Spookmaster's Hammer Desc"
 	{
-		"en"	"Increased damage and attackspeed"
-		"fr"	"Dégats et cadence des attaques améliorés"
-		"ru"	"Увеличенный урон и скорость атаки"
-		"chi"   "增加伤害和攻击速度"
-		"ko"	"피해량과 공격 속도 증가"
+		"en"	"M2 summons a skeleton.\nSummon doesn't decrease your maxhealth.\nNot having your wand in your hand will half minion damage.\nMinion will only attack marked enemies.\nMinion have 20 seconds of duration."
+		"ko"	"기사 대신 해골 하나를 소환합니다.\n해골 소환에는 최대 체력을 소모하지 않습니다.\n무기를 들고 있지 않을 땐 소환수의 피해량이 반으로 감소합니다.\n소환수는 오직 마킹한 적만 공격합니다.\n20초가 지나면 소환수가 소멸합니다."
 	}
-	"Necromancy Staff Pap 2"
+	"Necromancy Staff Pap 1 Shared"
 	{
-		"en"	"Increased damage and attackspeed"
-		"fr"	"Dégats et cadence des attaques améliorés"
-		"ru"	"Увеличенный урон и скорость атаки"
-		"chi"   "增加伤害和攻击速度"
-		"ko"	"피해량과 공격 속도 증가"
+		"en"	"Increased damage."
+		"ko"	"피해량 증가."
+	}
+	"Necromancy Staff Pap 2 Shared"
+	{
+		"en"	"Increased damage and attackspeed."
+		"ko"	"피해량과 공격 속도 증가."
 	}
 	
 	"Killing Order Pap 1"
@@ -1059,7 +1126,7 @@
 	"Survivalist Kit Pap 1 Desc"
 	{
 		"en"		"New melee alt-fire ability - Reserved Health:\nAttacking with melee will reserve health and consume via M2\nImproved stats."
-		"ko"		"근접 무기 우클릭 능력 해금 - 체력 비축:\n적을 근접 무기로 타격 시, 체력을 모으고 우클릭으로 소모하여 회복할 수 있음.\n전반적인 능력치 증가"
+		"ko"		"근접 무기 우클릭 능력 해금 - 체력 비축:\n적을 근접 무기로 타격 시, 체력을 모으고 우클릭으로 소모하여 회복할 수 있음.\n다운된 상태에서 적 처치 시, 소생 게이지가 차오르고, 다 채울 경우 부활함\n전반적인 능력치 증가"
 	}
 	"Survivalist Kit Pap 2 Desc"
 	{
@@ -1073,8 +1140,8 @@
 	}
 	"Survivalist Kit Pap 4 Desc"
 	{
-		"en"		"Improved stats."
-		"ko"		"전반적인 능력치 증가"
+		"en"		"Improved stats.\nReduce knife ability cooltime"
+		"ko"		"전반적인 능력치 증가\n체력 비축분 소모 쿨타임 감소"
 	}
 	"Survivalist Kit Pap 5 Desc"
 	{
@@ -1091,6 +1158,7 @@
 		"en"		"Improved stats."
 		"ko"		"전반적인 능력치 증가"
 	}
+	
 	"Dim Desc"
 	{
 		"en"		"Forbidden weapon known to mankind. \nBuild up charges by hitting enemies with projectiles \nM2 to summon your ally npcs \n Enhancing this weapon in different route will summon different set of npcs!"
@@ -1164,6 +1232,44 @@
 	{
 		"en"		"Pressing R increases the barracks training and research speed\nWhen hitting an marked enemy with another ranged weapon\nThis weapon's R cooldown is reduced"
 		"ko"		"R 키 사용 시, 배럭의 훈련 및 연구 속도가 증가합니다,\n다른 원거리 무기로 표적 상태인 대상 적중 시,\n이 무기의 R 키 쿨 다운이 감소합니다"
+	}
+	
+	"Protethia Desc"
+	{
+		"en"		"WIP"
+		"ko"		"WIP"
+	}
+	
+	"Icicle Staff Desc"
+	{
+		"en"		"-Initiate small snow storm.\n-Add Freeze elemental damage on hit."
+		"ko"		"-작은 눈보라를 전개합니다.\n-적중 시 한기 원소 피해를 가합니다."
+	}
+	"Icicle Staff Pap 1"
+	{
+		"en"		"-Increase damage and mana cost.\n-Increase initiate speed and Reduced attackspeed.\n-New M2 Abilities."
+		"ko"		"-피해량 및 마나 소모량 증가\n-전개 속도 증가 및 공격 속도 감소\n-신규 우클릭 능력 해금:\n능력 사용 시, 일정 시간 동안 눈보라 발생 횟수가 1 증가합니다."
+	}
+	"Icicle Staff Pap 2"
+	{
+		"en"		"-Increase damage and mana cost.\n-Increase initiate speed."
+		"ko"		"-피해량 및 마나 소모량 증가\n-전개 속도 증가"
+	}
+	"Icicle Staff Pap 3"
+	{
+		"en"		"-Increase damage and mana cost.\n-Increase initiate speed and Reduced attackspeed.\n-Now initiate 2 snow storms.\n-Add Cryo elemental damage on hit."
+		"ko"		"-피해량 및 마나 소모량 증가\n-전개 속도 증가 및 공격 속도 감소\n-착탄 지점에 눈보라가 한 번 더 발생합니다.\n-적중 시 냉동 원소 피해를 가합니다."
+	}
+	"Icicle Staff Pap 4"
+	{
+		"en"		"-Increase damage and mana cost.\n-Increase initiate speed."
+		"ko"		"-피해량 및 마나 소모량 증가\n-전개 속도 증가"
+	}
+	
+	"Icicle Staff Pap Alt"
+	{
+		"en"		"-Increase damage and mana cost.\n-Increase initiate speed.\n-New M2 Abilities."
+		"ko"		"-피해량 및 마나 소모량 증가\n-전개 속도 증가\n-신규 우클릭 능력 해금: 얼음 폭풍\n사용 시, 일정 시간 동안 자기 주변에 광역 피해를 가합니다."
 	}
 	
 	//추가 장비 이름
@@ -1600,7 +1706,7 @@
 	{
 		"#format"	"{1:N}"
 		"en"		"{crimson}{1} descended into a fanatical worship of Sigmar, and set out to cleanse the unrighteous themselves."
-		"ko"		"{crimson}정의를 더럽히는 자들을 시그마에 대한 광적인 신앙으로 정화하기 위해 {1}이 나섰다."
+		"ko"		"{crimson}정의를 더럽히는 자들을 시그마님을 향한 신앙심으로 정화하기 위해 {1}이 나섰다."
 	}
 	"Special_LastMann_Fractal"
 	{
@@ -1659,13 +1765,13 @@
 	{
 		"#format"	"{1:N}"
 		"en"		"{darkviolet}{1} decides to inject themselves with plasma as a last resort..."
-		"ko"		"{darkviolet}{1}이(가) 생각해낸 최후의 저항은, 자기 자신이 플라즈마가 되는 것이었다..."
+		"ko"		"{darkviolet}{1}이(가) 생각해낸 최후의 수단은, 자기 자신이 플라즈마가 되는 것이었다..."
 	}
 	"Special_LastMann_Arsenal"
 	{
 		"#format"	"{1:N}"
 		"en"		"{gold}{1} is now alone, however giving up isn't in their vocabulary."
-		"ko"		"{gold}{1}은 이제 혼자가 되었지만, 포기라는 단어는 그들의 사전에 없다."
+		"ko"		"{gold}{1}은 이제 혼자가 되었지만, 그들의 사전에 포기라는 단어는 없다."
 	}
 	"Special_LastMann_Purge"
 	{
@@ -1677,19 +1783,19 @@
 	{
 		"#format"	"{1:N}"
 		"en"		"{purple}What kindled this flame of wrath that burns within {1}..?"
-		"ko"		"{purple}{1}의 마음을 처참하게 찢어놓은 자는 누구인가.."
+		"ko"		"{purple}{1}의 마음을 이토록 처참하게 찢어놓은 자는 누구인가.."
 	}
 	"Special_LastMann_RedMist_MOSB"
 	{
 		"#format"	"{1:N}"
 		"en"		"{maroon}The mountain of dead bodies resonates with {darkgrey}{1}..."
-		"ko"		"{maroon}웃는 시체들의 산이 {darkgrey}{1}{maroon}와(과) 공명한다..."
+		"ko"		"{maroon}웃는 시체들의 산이 {darkgrey}{1}{maroon}와(과) 공명하기 시작한다..."
 	}
 	"Special_LastMann_RedMist"
 	{
 		"#format"	"{1:N}"
 		"en"		"{darkgrey}Even with all this strength {fullred}{1} {darkgrey}still failed to protect everyone."
-		"ko"		"{darkgrey}도시 최강의 무력으로도 {fullred}{1}{darkgrey}는 모두를 지킬 수 없었다.."
+		"ko"		"{darkgrey}도시 최강의 무력으로도 {fullred}{1}{darkgrey}는 모두를 지킬 수는 없었다.."
 	}
 	"Special_LastMann_Barracks_Shared"
 	{
@@ -1700,7 +1806,7 @@
 	"Special_LastMann_Barracks_Alt"
 	{
 		"en"		"{red}The remnants of Blitzkrieg army overcharge their systems to the maximum, it’s TOTAL BLITZKRIEG."
-		"ko"		"{red}블리츠크리그 잔당들은 시스템을 최대 한도로 과충전한다. 총력 전격전의 시작이다."
+		"ko"		"{red}블리츠크리그의 군대의 잔당들은 시스템의 최대 한도로 과충전한다. 총력 전격전이 시작된다."
 	}
 	"Special_LastMann_Barracks_Combine"
 	{
@@ -1709,7 +1815,7 @@
 	}
 	"Special_LastMann_Barracks_Almina"
 	{
-		"en"		"{blue}Soldiers arm their best gears, remembering what cruel fate they had to go through under Whiteflower and Dwellers"
+		"en"		"{blue}Soldiers arm their best gears, remembering what cruel fate they had to go through under Whiteflower and Dwellers."
 		"ko"		"{blue}병사들은 최고의 무기를 준비한다. 배풍등과 드웰러 밑에서 고통받던 잔혹한 기억을 떠올리며."
 	}
 	"Special_LastMann_Barracks_Expidonsa"
@@ -1720,34 +1826,39 @@
 	"Special_LastMann_Barracks_Alaxios"
 	{
 		"en"		"{red}A chanting of war can be heard from Alaxios army, they will not go down without a fight."
-		"ko"		"{red}알락시오스의 군대에서 전투의 함성이 들려온다. 그들은 절대 함락되지 않을 것이다."
+		"ko"		"{red}알락시오스의 군대에서 전투의 함성이 들려온다. 그들은 절대 무너지지 않을 것이다."
 	}
 	"Special_LastMann_Merc_RaidBoss"
 	{
 		"en"		"‼ - FOCUSED\n{crimson}Both of us die today. One, just a little later than the other."
-		"ko"		"‼ - (집중)\n{crimson}오늘 살아돌아가는 자는 없겠지. 하지만 먼저 죽는 건 너야."
+		"ko"		"‼ - 초집중\n{crimson}오늘 살아서 돌아가는 놈은 없겠지. 하지만 먼저 죽는 건 너야."
 	}
 	"Special_LastMann_Merc_RaidBoss_TimeOver"
 	{
 		"en"		"‼ - HORRIFIED\n{crimson}CAN'T FOCUS. CAN'T THINK. NOTHING ELSE MATTERS. RUN FOR YOUR LIFE OR FIGHT FOR IT!"
-		"ko"		"‼ - (공포)\n{crimson}집중할 수가 없어. 아무 생각도 못하겠어. 괜찮아. 도망치거나 맞서 싸워!"
+		"ko"		"‼ - 공포\n{crimson}생각할 틈도 없어! 집중할 시간도 없어! 다른 건 아무래도 좋아! 살고 싶다면 도망쳐! 아니라면 끝까지 싸워!"
 	}
 	"Special_LastMann_Merc"
 	{
 		"#format"	"{1:N}"
 		"en"		"☠ - Miserable\n{crimson}How does it feel, knowing you're not coming back up {1}..?"
-		"ko"		"☠ - (비참함)\n{crimson}저런, 다시는 올라올 수 없게 되었네. 기분이 어때, {1}..?"
+		"ko"		"☠ - 비참함\n{crimson}저런, 다시는 올라갈 수 없다는 걸 깨달은 기분이 어때, {1}..?"
 	}
 	"Special_LastMann_Prescript"
 	{
 		"#format"	"{1:N}"
 		"en"		"{blue}The Prescript demands you kill everyone in your sight who apposes you {crimson}{1}."
-		"ko"		"{blue}지령은... {crimson}{1}의 시야 안에 있는 모두를 죽이라는 군."
+		"ko"		"{blue}지령은... {crimson}{1}의 시야 안에 있는 모두를 죽이라는군."
 	}
 	"Special_LastMann_Survivalist"
 	{
-		"en"		"{crimson}Everyone here will die. But... the last one to be buried will be YOU."
-		"ko"		"{crimson}모두 이 곳에서 죽을 것이다. 하지만... 가장 마지막에 묻힐 사람은 바로 당신이겠지."
+		"en"		"{crimson}The sun is setting behind our fallen comrades... Will you live to see tomorrow morning?"
+		"ko"		"{crimson}쓰러진 동료들의 뒤로 해가 지고 있다.. 당신이라면 내일 아침 해를 볼 수 있을까?"
+	}
+	"Special_LastMann_Survivalist_Unique"
+	{
+		"en"		"{crimson}The sun is setting behind our fallen comrades... You’ll see tomorrow morning. I know you will."
+		"ko"		"{crimson}쓰러진 동료들의 뒤로 해가 지고 있다.. 당신이라면 내일 아침 해를 볼 수 있겠지."
 	}
 	
 	//Auto Loadout.
@@ -1778,6 +1889,16 @@
 	}
 	
 	// Tinker attributes.
+	"Custom Anvil Menu Main"
+	{
+		"en"		"Enchant Archive"
+		"ko"		"마법부여 보관소"
+	}
+	"Custom Anvil Enchant Refresh"
+	{
+		"en"		"Refresh"
+		"ko"		"새로고침"
+	}
 	"TinkerAttrib_PhysicalDamage"
 	{
 		"en"		"Physical Damage"
@@ -1833,13 +1954,257 @@
 		"en"		"Charge Rate"
 		"ko"		"충전 속도"
 	}
-	"TinkerAttrib_"
+	"TinkerAttrib_BulletsPerShot"
 	{
-		"en"		""
-		"ko"		""
+		"en"		"Bullets Per Shot"
+		"ko"		"발사되는 탄환 수"
+	}
+	"TinkerAttrib_MovementSpeed"
+	{
+		"en"		"Movement Speed"
+		"ko"		"이동 속도"
+	}
+	"TinkerAttrib_HealthRegen"
+	{
+		"en"		"Health Regen"
+		"ko"		"초당 체력 재생"
+	}
+	"TinkerAttrib_RepairRate"
+	{
+		"en"		"Repair Rate"
+		"ko"		"수리 효율"
+	}
+	"TinkerAttrib_ReloadSpeed"
+	{
+		"en"		"Reload Speed"
+		"ko"		"재장전 속도"
+	}
+	"TinkerAttrib_SweepingEdgeRange"
+	{
+		"en"		"Sweeping Edge Range"
+		"ko"		"휩쓸기 사거리"
+	}
+	"TinkerAttrib_BlastRadius"
+	{
+		"en"		"Blast Radius"
+		"ko"		"폭발 반경"
+	}
+	"TinkerAttrib_ProjectileRange"
+	{
+		"en"		"Projectile Range"
+		"ko"		"투사체 날아가는 거리"
+	}
+	"TinkerAttrib_ProjectileSpeed"
+	{
+		"en"		"Projectile Speed"
+		"ko"		"투사체 속도"
+	}
+	"TinkerAttrib_BulletSpread"
+	{
+		"en"		"Bullet Spread"
+		"ko"		"탄환 집탄도"
+	}
+	"TinkerAttrib_BleedDuration"
+	{
+		"en"		"Bleed Duration"
+		"ko"		"출혈 지속시간"
+	}
+	"TinkerAttrib_RangedResistance"
+	{
+		"en"		"Ranged Damage Resistance"
+		"ko"		"원거리 저항력"
+	}
+	"TinkerAttrib_MeleeResistance"
+	{
+		"en"		"Melee Damage Resistance"
+		"ko"		"근접 저항력"
+	}
+	"TinkerAttrib_KnockbackResistance"
+	{
+		"en"		"Knockback Resistance"
+		"ko"		"넉백 저항력"
+	}
+	"TinkerAttrib_SentryDamage"
+	{
+		"en"		"Sentry Damage"
+		"ko"		"센트리 피해량"
+	}
+	"TinkerAttrib_BuffDuration"
+	{
+		"en"		"Buff Duration"
+		"ko"		"버프 지속 시간"
+	}
+	"TinkerAttrib_JumpHeight"
+	{
+		"en"		"Jump Height"
+		"ko"		"점프 높이"
+	}
+	"TinkerAttrib_SentryFiringSpeed"
+	{
+		"en"		"Sentry Firing Speed"
+		"ko"		"센트리 공격 속도"
+	}
+	"TinkerAttrib_FireAspect"
+	{
+		"en"		"s Enemy is Burned"
+		"ko"		"초 동안 적이 불에 탐"
+	}
+	"TinkerAttrib_JumpCrit"
+	{
+		"en"		"Jump Critical Damage"
+		"ko"		"점프 치명타 피해량"
+	}
+	"TinkerAttrib_BaseDamage"
+	{
+		"en"		"Base Damage"
+		"ko"		"기본 피해량"
+	}
+	"TinkerAttrib_BaneofArthropods"
+	{
+		"en"		"s Enemy is Silence"
+		"ko"		"초 동안 적이 침묵 디버프가 적용됨"
+	}
+	"TinkerAttrib_Resistance"
+	{
+		"en"		"Damage Resistance"
+		"ko"		"모든 피해 저항력"
+	}
+	"TinkerAttrib_SweepingEdgeDamage"
+	{
+		"en"		"Sweeping Edge Damage"
+		"ko"		"휩쓸기 피해량"
+	}
+	"TinkerAttrib_MagicCost"
+	{
+		"en"		"Magic Shot Cost"
+		"ko"		"마나 소모량"
+	}
+	"TinkerAttrib_ExtraMeleeRange"
+	{
+		"en"		"Extra Melee Range"
+		"ko"		"근접 무기 사거리"
+	}
+	"TinkerAttrib_Overheal"
+	{
+		"en"		"More Medigun Overheal"
+		"ko"		"메디건 추가 과치료율"
+	}
+	"TinkerAttrib_TerrianResistance"
+	{
+		"en"		"Terrian Damage Resistance"
+		"ko"		"장판 피해 저항력"
+	}
+	"TinkerAttrib_ElementalResistance"
+	{
+		"en"		"Elemental Damage Resistance"
+		"ko"		"원소 피해 저항력"
+	}
+	"TinkerAttrib_SlowResistance"
+	{
+		"en"		"Slow Resistance"
+		"ko"		"둔화 저항력"
+	}
+	"TinkerAttrib_BuildingTerrianAbsorb"
+	{
+		"en"		"Building Terrian Absorb Chance"
+		"ko"		"구조물의 장판 흡수 확률"
+	}
+	"TinkerAttrib_WeaponArchetype"
+	{
+		"en"		"Weapon Archetype"
+		"ko"		"무기 유형"
+	}
+	"TinkerAttrib_MaxMana"
+	{
+		"en"		"Max Mana"
+		"ko"		"최대 마나"
+	}
+	"TinkerAttrib_ExplosiveHeadshot"
+	{
+		"en"		"Explosive Headshot Damage"
+		"ko"		"폭발성 헤드샷 피해량"
+	}
+	"TinkerAttrib_FullChargeDamage"
+	{
+		"en"		"Full Charge Damage Bonus"
+		"ko"		"완전 충전 시 피해량"
+	}
+	"TinkerAttrib_HeadshotDamage"
+	{
+		"en"		"Headshot Damage"
+		"ko"		"헤드샷 피해량"
+	}
+	"TinkerAttrib_BurnDamage"
+	{
+		"en"		"Burn Damage"
+		"ko"		"화상 피해량"
+	}
+	"TinkerAttrib_FlamethrowerAmmoConsumed"
+	{
+		"en"		"Flamethrower Ammo Consumed"
+		"ko"		"화염방사기 탄약 소모량"
+	}
+	"TinkerAttrib_ArmorOnHit"
+	{
+		"en"		"TinkerAttrib_ArmorOnHit"
+		"ko"		"적중 시 아머 회복량"
+	}
+	"TinkerAttrib_AcidRain_BleedDamage"
+	{
+		"en"		"Bleed Damage"
+		"ko"		"출혈 피해량"
+	}
+	"TinkerAttrib_AcidRain_Damage"
+	{
+		"en"		"Acid Rain Damage"
+		"ko"		"산성비 피해량"
+	}
+	"TinkerAttrib_MaxEnemiesHitExplode"
+	{
+		"en"		"Max Enemies Hit Per Explode"
+		"ko"		"폭발 최대 타겟 수"
+	}
+	"TinkerAttrib_ExplosionFalloff"
+	{
+		"en"		"Explosion Falloff"
+		"ko"		"폭발 타겟 당 피해량 감소율"
 	}
 	
-	
+	"Tinker_HasteMage"
+	{
+		"en"		"Hasty Mage"
+		"ko"		"성급한 마법사"
+	}
+	"Tinker_HeavyMage"
+	{
+		"en"		"Heavy Mage"
+		"ko"		"강격의 마법사"
+	}
+	"Tinker_ConcentratedMagic"
+	{
+		"en"		"Concentrated Magic"
+		"ko"		"집중형 마법"
+	}
+	"Tinker_TankMage"
+	{
+		"en"		"Resistive Mage"
+		"ko"		"튼튼한 마법사"
+	}
+	"Tinker_FrugalityMage"
+	{
+		"en"		"Frugality Mage"
+		"ko"		"근검절약의 마법사"
+	}
+	"Tinker_MageFragility"
+	{
+		"en"		"Mage Fragility"
+		"ko"		"마법사의 취약성"
+	}
+	"Tinker_HoardingDisorder"
+	{
+		"en"		"Hoarding Disorder Mage"
+		"ko"		"저장 강박의 마법사"
+	}
 	"Tinker_SharedGlassy"
 	{
 		"en"		"Glassy"
@@ -1860,25 +2225,10 @@
 		"en"		"Extended Hands"
 		"ko"		"늘어나는 팔"
 	}
-	"Tinker_HasteMage"
+	"Tinker_MeleePlateArmor"
 	{
-		"en"		"Hasty Mage"
-		"ko"		"성급한 마법사"
-	}
-	"Tinker_HeavyMage"
-	{
-		"en"		"Heavy Mage"
-		"ko"		"강격의 마법사"
-	}
-	"Tinker_ConcentratedMagic"
-	{
-		"en"		"Concentrated Magic"
-		"ko"		"집중형 마법"
-	}
-	"Tinker_TankMage"
-	{
-		"en"		"Resistive Mage"
-		"ko"		"튼튼한 마법사"
+		"en"		"Plate Armor"
+		"ko"		"판금 갑옷"
 	}
 	"Tinker_FastHeal"
 	{
@@ -2011,5 +2361,102 @@
 	{
 		"en"		"Hollow Point Bullets"
 		"ko"		"할로우 포인트 탄환"
+	}
+	
+	"Tinker_FT_HighPressureInjectionUnit"
+	{
+		"en"		"High-Pressure Injection Unit"
+		"ko"		"고압 사출 장치"
+	}
+	"Tinker_FT_LooseValve"
+	{
+		"en"		"Loose Valve"
+		"ko"		"느슨한 밸브"
+	}
+	"Tinker_FT_FaceMelter"
+	{
+		"en"		"Face Melter"
+		"ko"		"안면 융해"
+	}
+	"Tinker_FT_StickyCompound"
+	{
+		"en"		"Sticky Compound"
+		"ko"		"끈적한 화합물"
+	}
+	
+	"Tinker_AcidRain_HeavyStorm"
+	{
+		"en"		"Heavy Storm"
+		"ko"		"폭풍우"
+	}
+	"Tinker_AcidRain_Pollution"
+	{
+		"en"		"Heavy Metal Pollution"
+		"ko"		"중금속 오염"
+	}
+	
+	// Wave Vote.
+	"Vote Cooldown"
+	{
+		"en"		"Cooldown"
+		"ko"		"쿨다운"
+	}
+	
+	"Silvester & Waldch"
+	{
+		"en"		"Silvester & Waldch"
+		"ko"		"실베스터 & 왈츠"
+	}
+	"Zombie Survival"
+	{
+		"en"		"Zombie Survival"
+		"ko"		"좀비 서바이벌"
+	}
+	"Stella & Karlas"
+	{
+		"en"		"Stella & Karlas"
+		"ko"		"스텔라 & 카를라스"
+	}
+	"Laboratories"
+	{
+		"en"		"Laboratories"
+		"ko"		"어느 한 연구소"
+	}
+	"Interitus Group"
+	{
+		"en"		"Interitus Group"
+		"ko"		"인테리투스 그룹"
+	}
+	"THE CYBER GRIND"
+	{
+		"en"		"THE CYBER GRIND"
+		"ko"		"사이버 그라인드"
+	}
+	
+	"Sea Monster Annihilation ⚠"
+	{
+		"en"		"Sea Monster Annihilation ⚠"
+		"ko"		"바다 괴물 절멸 작전 ⚠"
+	}
+	"Xeno Investigation ⚠"
+	{
+		"en"		"Xeno Investigation ⚠"
+		"ko"		"제노 감염 조사 ⚠"
+	}
+	
+	"Combine Army [Omega]"
+	{
+		"en"		"Combine Army [Omega]"
+		"ko"		"콤바인 군대 [오메가]"
+	}
+	"Combine Army Fast [Omega]"
+	{
+		"en"		"Combine Army Fast [Omega]"
+		"ko"		"콤바인 군대 빠른 버전 [오메가]"
+	}
+	"Omega"
+	{
+		"en"		"Omega"
+		"ko"		"오메가"
 	}
 }

@@ -83,6 +83,12 @@ enum
 	EDICT_RAID,
 	EDICT_EFFECT
 }
+#define FFADE_IN            0x0001        // Just here so we don't pass 0 into the function
+#define FFADE_OUT           0x0002        // Fade out (not in)
+#define FFADE_MODULATE      0x0004        // Modulate (don't blend)
+#define FFADE_STAYOUT       0x0008        // ignores the duration, stays faded out until new ScreenFade message received
+#define FFADE_PURGE         0x0010        // Purges all other fades, replacing them with this one´
+
 //maybe doing this will help lag, as there are no aim layers in zombies, they always look forwards no matter what.
 
 //edit: No, makes you miss more often.
@@ -293,7 +299,7 @@ enum
 	#define DEFAULT_UPDATE_DELAY_FLOAT 0.0151 //rpg needs a bigger delay.
 #endif
 
-#define DEFAULT_HURTDELAY 0.35 //Make it 0 for now
+#define DEFAULT_HURTDELAY 0.3 //Make it 0 for now
 
 
 
@@ -321,8 +327,8 @@ enum
 
 //I put these here so we can change them on fly if we need to, cus zombies can be really loud, or quiet.
 
-#define NORMAL_ZOMBIE_SOUNDLEVEL	 80
-#define NORMAL_ZOMBIE_VOLUME	 0.8
+#define NORMAL_ZOMBIE_SOUNDLEVEL	 85
+#define NORMAL_ZOMBIE_VOLUME	 0.95
 
 #define BOSS_ZOMBIE_SOUNDLEVEL	 90
 #define BOSS_ZOMBIE_VOLUME	 1.0
@@ -731,6 +737,7 @@ int OriginalWeapon_AmmoType[MAXENTITIES];
 #include "../standalone/nog_core.sp"
 #endif
 
+#include "vscript.sp"
 /*
 	Below Are Non-Shared Variables/Defines
 */
@@ -823,6 +830,7 @@ public void OnPluginStart()
 #endif
 	checkOS();
 	FileNetwork_PluginStart();
+	VScript_PluginStart();
 
 	RegServerCmd("zr_update_blocked_nav", OnReloadBlockNav, "Reload Nav Blocks");
 	RegAdminCmd("sm_play_viewmodel_anim", Command_PlayViewmodelAnim, ADMFLAG_ROOT, "Testing viewmodel animation manually");
@@ -923,8 +931,8 @@ public void OnLibraryAdded(const char[] name)
 #if defined ZR
 	FileNetwork_LibraryAdded(name);
 	SteamWorks_LibraryAdded(name);
-	VScript_LibraryAdded(name);
 #endif
+	VScript_LibraryAdded(name);
 }
 
 public void OnLibraryRemoved(const char[] name)
@@ -932,8 +940,8 @@ public void OnLibraryRemoved(const char[] name)
 #if defined ZR
 	FileNetwork_LibraryRemoved(name);
 	SteamWorks_LibraryRemoved(name);
-	VScript_LibraryRemoved(name);
 #endif
+	VScript_LibraryRemoved(name);
 }
 
 /*
@@ -1033,6 +1041,8 @@ public void OnPluginEnd()
 //	Waves_MapEnd(); DO NOT CALL THIS ON PLUGIN END, plugin ends anways, why change anything???
 	RemoveMVMLogicSafety();
 	Vehicle_PluginEnd();
+	RandomPickup_Clear();
+	NPCStats_ClearPaintedWearables();
 #endif
 	float WaitingForPlayersTime = FindConVar("mp_waitingforplayers_time").FloatValue;
 	if(WaitingForPlayersTime <= 0.0)
@@ -1192,6 +1202,7 @@ public void OnMapStart()
 	Zero(f_StunExtraGametimeDuration);
 	CurrentGibCount = 0;
 	Zero(b_NetworkedCrouch);
+	Zero(f_AniSoundSpam);
 	
 #if defined VIEW_CHANGES
 	ViewChange_MapStart();
@@ -1312,6 +1323,7 @@ public void OnMapEnd()
 #if defined ZR
 	RemoveMVMLogicSafety();
 #endif
+	VScript_MapEnd();
 }
 
 public void OnConfigsExecuted()
@@ -1791,11 +1803,22 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 		buttons = 0;
 		return Plugin_Changed;
 	}
+
+
+#if defined ZR
+	if(Arena_Mode() && dieingstate[client] != 0)
+	{
+		//not being able to use any abilities or attack in arena mode as its quite unfair
+		buttons &= ~IN_ATTACK;
+		buttons &= ~IN_ATTACK2;
+		buttons &= ~IN_ATTACK3;
+		buttons &= ~IN_RELOAD;
+		return Plugin_Changed;
+	}
 	/*
 	Instant community feedback that T is very bad.
 	using idk what other button to use.
 	*/
-#if defined ZR
 	if(impulse == 201)
 	{
 		bool BlockImpulse = false;
@@ -2600,6 +2623,7 @@ public void OnEntityCreated(int entity, const char[] classname)
 //	PrintToChatAll("entity: %i| Clkassname %s",entity, classname);
 	if (entity > 0 && entity <= MAXENTITIES && IsValidEntity(entity))
 	{
+		b_Do_Not_Compensate[entity] = true;
 	//	h_TransmitHookType[entity] = 0;
 		f_TimeTillMeleeAttackShould[entity] = 0.0;
 		StatusEffectReset(entity, true);
@@ -2839,7 +2863,6 @@ public void OnEntityCreated(int entity, const char[] classname)
 		{
 			SDKHook(entity, SDKHook_SpawnPost, ApplyExplosionDhook_Fireball);
 #if defined ZR
-			SDKHook(entity, SDKHook_SpawnPost, Wand_Necro_Spell);
 			SDKHook(entity, SDKHook_SpawnPost, Wand_Calcium_Spell);
 #endif
 			npc.bCantCollidie = true;
@@ -2878,7 +2901,7 @@ public void OnEntityCreated(int entity, const char[] classname)
 			npc.bCantCollidie = true;
 			npc.bCantCollidieAlly = true;
 			SDKHook(entity, SDKHook_SpawnPost, Set_Projectile_Collision);
-			SetTeam(entity, TFTeam_Red);
+		//	SetTeam(entity, TFTeam_Red);
 			b_IsAProjectile[entity] = true;
 		}
 		else if(!StrContains(classname, "tf_projectile_flare"))
@@ -3076,6 +3099,13 @@ public void OnEntityCreated(int entity, const char[] classname)
 			b_ThisEntityIgnored_NoTeam[entity] = true;
 			b_EntityCantBeColoured[entity] = true;
  		}
+		else if(!StrContains(classname, "env_spritetrail"))
+		{
+		//	Hook_DHook_UpdateTransmitState(entity);
+			b_ThisEntityIgnored[entity] = true;
+			b_ThisEntityIgnored_NoTeam[entity] = true;
+			b_EntityCantBeColoured[entity] = true;
+ 		}
 		else if(!StrContains(classname, "info_target"))
 		{
 			b_ThisEntityIgnored[entity] = true;
@@ -3170,19 +3200,19 @@ void Set_Projectile_CollisionFrame(int ref)
 	if(!IsValidEntity(entity))
 		return;
 
-	if(GetTeam(entity) != view_as<int>(TFTeam_Blue))
-	{
-		SetEntityCollisionGroup(entity, 27);
-		
-#if defined RPG
-		int attacker = GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity");
-		if(RPGCore_PlayerCanPVP(attacker, attacker))
-		{
-			//set team to blue while in pvp, so all interactions work just fine, but only do this while in PVP.
-			SetEntProp(entity, Prop_Data, "m_iTeamNum", TFTeam_Blue);
-		}
-#endif
-	}
+//	if(Arena_Mode() || GetTeam(entity) != view_as<int>(TFTeam_Blue))
+//	{
+//		SetEntityCollisionGroup(entity, 27);
+//		
+//#if defined RPG
+//		int attacker = GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity");
+//		if(RPGCore_PlayerCanPVP(attacker, attacker))
+//		{
+//			//set team to blue while in pvp, so all interactions work just fine, but only do this while in PVP.
+//			SetEntProp(entity, Prop_Data, "m_iTeamNum", TFTeam_Blue);
+//		}
+//#endif
+//	}
 }
 public void Delete_instantly(int entity)
 {
@@ -3231,6 +3261,7 @@ public void OnEntityDestroyed(int entity)
 	{
 		EntityKilled_HitDetectionCooldown(entity);
 		WeaponWeaponAdditionOnRemoved(entity);
+		func_WandOnTouch[entity] = INVALID_FUNCTION;
 		CurrentEntities--;
 
 		if(entity > MaxClients)
@@ -3353,7 +3384,7 @@ void CheckIfAloneOnServer(bool CountOnly = false)
 #if defined ZR 
 	if(BetWar_Mode())
 		return;
-	if (players < 4 && players > 0)
+	if (players < 4 && players > 0 && !Arena_Mode())
 	{
 		if (Bob_Exists)
 			return;
@@ -3529,13 +3560,11 @@ stock bool InteractKey(int client, int weapon, bool Is_Reload_Button = false, in
 			static char buffer[64];
 			if(GetEntityClassname(entity, buffer, sizeof(buffer)))
 			{
-				if (GetTeam(entity) != TFTeam_Red)
-				{
-					if(Construction_Material_Interact(client, entity))
-						return false;
-
+				if(Construction_Material_Interact(client, entity))
 					return false;
-				}
+
+				if (GetTeam(entity) != TFTeam_Red && !Arena_Mode())
+					return false;
 				
 				if(Object_Interact(client, weapon, entity))
 					return true;
@@ -3749,6 +3778,15 @@ stock void TF2_SetPlayerClass_ZR(int client, TFClassType classType, bool weapons
 	}
 	
 	TF2_SetPlayerClass(client, classType, weapons, persistent);
+	
+	// This updates the player's hitboxes
+	if(Arena_Mode())
+	{
+		char LastModel[512];
+		GetEntPropString(client, Prop_Send, "m_iszCustomModel", LastModel, sizeof(LastModel));
+		SetVariantString(LastModel);
+		AcceptEntityInput(client, "SetCustomModel");
+	}
 }
 
 #if defined ZR
@@ -3918,7 +3956,7 @@ void FullyReviveClient(int target, int client, int extralogic = 0, bool teleport
 	SetEntityHealth(target, 50);
 	RequestFrame(SetHealthAfterRevive, EntIndexToEntRef(target));
 	Rogue_TriggerFunction(Artifact::FuncRevive, target);
-	//Gunsaw_TryBodySteal(target, false, pos);
+	Gunsaw_TryBodySteal(target, false, pos, true);
 	int entity, i;
 	while(TF2U_GetWearable(target, entity, i))
 	{
@@ -3976,7 +4014,7 @@ int TotalDowns()
 	if(ZR_Get_Modifier() == PREFIX_ONESTAND)
 		downsleft++;
 	
-	if(ZR_Get_Modifier() == OLD_TIMES || ZR_Get_Modifier() == NOSTALGICA)
+	if(ZR_Get_Modifier() == OLD_TIMES || ZR_Get_Modifier() == NOSTALGICA || NTReduceDowns())
 		downsleft--;
 	
 	downsleft += Dungeon_DownedBonus();
@@ -4053,6 +4091,8 @@ public void ArrowTouchNonCombatEntity(int entity, int other)
 		return;
 
 	if(!b_ThisWasAnNpc[other])
+		return;
+	if(other <= MaxClients)
 		return;
 
 		

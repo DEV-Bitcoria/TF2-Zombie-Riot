@@ -28,11 +28,11 @@ bool b_NpcHasBeenAddedToZombiesLeft[MAXENTITIES];
 int Zombies_Currently_Still_Ongoing;
 int RaidBossActive = INVALID_ENT_REFERENCE;					//Is the raidboss alive, if yes, what entref is the raid?
 float Medival_Difficulty_Level = 0.0;
-bool b_ThisNpcIsImmuneToNuke[MAXENTITIES];
 int i_NpcOverrideAttacker[MAXENTITIES];
-bool b_thisNpcHasAnOutline[MAXENTITIES];
 
 #endif
+bool b_ThisNpcIsImmuneToNuke[MAXENTITIES];
+bool b_thisNpcHasAnOutline[MAXENTITIES];
 int i_KillsMade[MAXPLAYERS];
 int i_Backstabs[MAXPLAYERS];
 int i_Headshots[MAXPLAYERS];	
@@ -68,7 +68,7 @@ float fl_rocket_particle_dmg[MAXENTITIES];
 float fl_rocket_particle_radius[MAXENTITIES];
 static float f_PredictPos[MAXENTITIES][3];
 static float f_PredictDuration[MAXENTITIES];
-static float f_UnstuckSuckMonitor[MAXENTITIES];
+float f_UnstuckSuckMonitor[MAXENTITIES];
 int i_TargetToWalkTo[MAXENTITIES];
 float f_TargetToWalkToDelay[MAXENTITIES];
 
@@ -580,26 +580,21 @@ methodmap CClotBody < CBaseCombatCharacter
 		f_LastBaseThinkTime[npc] = GetGameTime();
 
 #if defined ZR
-		if(Ally == TFTeam_Red)
+		if(Ally_Invince)
 		{
-			if(Ally_Invince)
-			{
-				b_ThisEntityIgnored[npc] = true;
-			}
-			SetTeam(npc, TFTeam_Red);
+			b_ThisEntityIgnored[npc] = true;
+		}
+
+		if(Ally == 999)
+		{
+			//setting it to 999 will just keep adding 1 so its a free for all!
+			SetTeam(npc, TeamFreeForAll++);
 		}
 		else
 		{
-			if(Ally == 999)
-			{
-				//setting it to 999 will just keep adding 1 so its a free for all!
-				SetTeam(npc, TeamFreeForAll++);
-			}
-			else
-			{
-				SetTeam(npc, Ally);
-			}
+			SetTeam(npc, Ally);
 		}
+		
 		b_NpcIgnoresbuildings[npc] = IgnoreBuildings;
 #elseif !defined RTS
 		if(Ally == 999)
@@ -813,7 +808,7 @@ methodmap CClotBody < CBaseCombatCharacter
 
 
 #if defined ZR
-		if(Ally == TFTeam_Red && !Ally_Collideeachother)
+		if(Ally == TFTeam_Red && !Arena_Mode() && !Ally_Collideeachother)
 		{
 			npcstats.m_iTeamGlow = TF2_CreateGlow(npc);
 			
@@ -2102,7 +2097,7 @@ methodmap CClotBody < CBaseCombatCharacter
 		CBaseNPC baseNPC = view_as<CClotBody>(this.index).GetBaseNPC();
 
 #if defined ZR
-		if(GetTeam(this.index) != TFTeam_Red && Zombie_DelayExtraSpeed() != 1.0)
+		if((GetTeam(this.index) != TFTeam_Red || Arena_Mode()) && Zombie_DelayExtraSpeed() != 1.0)
 		{
 			GetPercentageAdjust *= Zombie_DelayExtraSpeed();
 		}
@@ -2623,6 +2618,16 @@ methodmap CClotBody < CBaseCombatCharacter
 	}
 	public bool IsOnGround()
 	{
+		if(this.index <= MaxClients)
+		{
+			int RefGround =  GetEntPropEnt(this.index, Prop_Send, "m_hGroundEntity");
+			int GroundEntity = EntRefToEntIndex(RefGround);
+			if(GroundEntity >= 0 && GroundEntity < MAXENTITIES)
+			{
+				return true;
+			}
+			return false;
+		}
 		if(i_IsNpcType[this.index] == 1)
 		{
 			return true;
@@ -2850,7 +2855,9 @@ methodmap CClotBody < CBaseCombatCharacter
 			}
 		}
 	}
+	
 	// BUGBUG: Why do we need both of these?
+	// Do not use this. fmodf gives alway positive value. so it is dead code.
 	public float UTIL_AngleDiff( float destAngle, float srcAngle )
 	{
 		float delta;
@@ -3029,6 +3036,11 @@ methodmap CClotBody < CBaseCombatCharacter
 	public void GetVelocity(float vecOut[3])											   { this.GetLocomotionInterface().GetVelocity(vecOut);						   }	
 	public void SetVelocity(const float vec[3])	
 	{
+		if(this.index <= MaxClients)
+		{
+			TeleportEntity(this.index, NULL_VECTOR, NULL_VECTOR, vec);   
+			return;  
+		}
 		if(i_IsNpcType[this.index] == 1)
 			return;
 		//dont do anything.
@@ -3701,8 +3713,18 @@ methodmap CClotBody < CBaseCombatCharacter
 				}
 				if (this.m_iPose_MoveYaw != -1) 
 				{
-					//too lazy to code this :D
-					this.SetPoseParameter(this.m_iPose_MoveYaw, 0.0);
+					// too lazy to code this :D -> Huh?
+					// this.SetPoseParameter(this.m_iPose_MoveYaw, 0.0);
+					// MoveYaw is necessary for hl2 and mvm bot.
+					
+					float flYaw = RadToDeg(
+						ArcTangent2(
+							GetVectorDotProduct(vecMotion, vecRight),
+							GetVectorDotProduct(vecMotion, vecFwd)
+						)
+					);
+					
+					this.SetPoseParameter(this.m_iPose_MoveYaw, flYaw);
 				}
 			}	
 			this.GetBaseNPC().flRunSpeed = this.GetRunSpeed();
@@ -4011,6 +4033,13 @@ public void NPC_Base_InitGamedata()
 		.DefineBoolField("b_BlockDropChances")
 #if defined ZR
 		.DefineFloatField("m_flElementRes", Element_MAX)
+		
+		.DefineIntField("m_iBodyPitchPoseParameter")
+		.DefineIntField("m_iBodyYawPoseParameter")
+		.DefineFloatField("m_flLastBodyUpdateTime")
+		.DefineFloatField("m_flAimTargetSetTime")
+		.DefineBoolField("m_bYawHandedOff")
+		.DefineBoolField("m_bPitchHandedOff")
 #endif
 	.EndDataMapDesc();
 	EntityFactory.Install();
@@ -4196,7 +4225,7 @@ public void CBaseCombatCharacter_EventKilledLocal(int pThis, int iAttacker, int 
 	if(!b_NpcHasDied[pThis])
 	{
 		//we push back the entity in time to when lag comp happend, so gibs actually make sense.
-		FinishLagCompensation_Base_boss(pThis);
+		FinishLagCompensation_Base_boss_Internal(pThis);
 		RemoveEntityToLagCompList(pThis);
 		int client;
 #if defined ZR
@@ -5297,7 +5326,7 @@ stock bool IsValidEnemy(int index, int enemy, bool camoDetection=false, bool tar
 				
 				if(GetTeam(enemy) == TFTeam_Stalkers)
 				{
-					if(GetTeam(index) != TFTeam_Red)
+					if(GetTeam(index) != TFTeam_Red && !Arena_Mode())
 					{
 						return false;
 					}
@@ -5438,6 +5467,11 @@ stock int GetClosestTarget(int entity,
 
 	int SearcherNpcTeam = GetTeam(entity); //do it only once lol
 #if defined ZR
+	if(Arena_Mode())
+	{
+		if(Waves_InSetup())
+			return -1;
+	}
 	if(BetWar_Mode())
 	{
 		IgnorePlayers = false;
@@ -5503,7 +5537,7 @@ stock int GetClosestTarget(int entity,
 	{
 		ForceIgnorePlayers = true;
 	}
-	if(SearcherNpcTeam != TFTeam_Red && !IgnorePlayers && !ForceIgnorePlayers)
+	if(!IgnorePlayers && !ForceIgnorePlayers)
 #else
 	if(!IgnorePlayers)
 #endif
@@ -5522,7 +5556,6 @@ stock int GetClosestTarget(int entity,
 							continue;
 					}
 #endif
-
 					if(CanSee)
 					{
 						if(!Can_I_See_Enemy_Only(entity, i))
@@ -5553,7 +5586,7 @@ stock int GetClosestTarget(int entity,
 	//This is for Player sided NPCS.
 	//They have pretty much infinite range when targetting other npcs!
 #if defined ZR
-	if(SearcherNpcTeam == TFTeam_Red)
+	if(SearcherNpcTeam == TFTeam_Red && !Arena_Mode())
 #endif
 	{
 		for(int entitycount; entitycount<i_MaxcountNpcTotal; entitycount++)
@@ -5613,7 +5646,7 @@ stock int GetClosestTarget(int entity,
 		The npc is not on the player team, it will target players first
 		other enemy npcs are preffered only when too close.
 	*/
-	if(SearcherNpcTeam != TFTeam_Red && !IgnorePlayers)
+	if((SearcherNpcTeam != TFTeam_Red || Arena_Mode()) && !IgnorePlayers)
 	{
 		for(int entitycount; entitycount<i_MaxcountNpcTotal; entitycount++)
 		{
@@ -5649,7 +5682,7 @@ stock int GetClosestTarget(int entity,
 					}
 					if (!npc.m_bCamo || camoDetection)
 					{
-						if(GetTeam(entity_close) == TFTeam_Red)
+						if(GetTeam(entity_close) == TFTeam_Red && !Arena_Mode())
 							GetClosestTarget_AddTarget(entity_close, 3);
 						else
 							GetClosestTarget_AddTarget(entity_close, 2);
@@ -5664,7 +5697,7 @@ stock int GetClosestTarget(int entity,
 #if defined ZR
 	//In Construction2 we want them to always try to target buildings.
 	 //dunggons ignore this if its a raid attack
-	if(SearcherNpcTeam != TFTeam_Red && !RaidbossIgnoreBuildingsLogic(1) && !IgnoreBuildings && ((view_as<CClotBody>(entity).m_iTarget > 0 && i_IsABuilding[view_as<CClotBody>(entity).m_iTarget]) || IgnorePlayers ||
+	if((SearcherNpcTeam != TFTeam_Red || Arena_Mode()) && !RaidbossIgnoreBuildingsLogic(1) && !IgnoreBuildings && ((view_as<CClotBody>(entity).m_iTarget > 0 && i_IsABuilding[view_as<CClotBody>(entity).m_iTarget]) || IgnorePlayers ||
 	 (Dungeon_Mode() && Dungeon_AttackType() >= 2))) 
 	 //If the previous target was a building, then we try to find another, otherwise we will only go for collisions.
 #else
@@ -5857,7 +5890,7 @@ int GetClosestTarget_Internal(int entity, float fldistancelimit, float fldistanc
 							continue;
 						}
 					}
-
+					
 					if(dist < closeDist)
 					{
 						closeNav = area2;
@@ -6097,7 +6130,7 @@ stock bool IsSpaceOccupiedWorldOnly(const float pos[3], const float mins[3], con
 		hTrace = TR_TraceHullFilterEx(pos, pos, mins, maxs, MASK_PLAYERSOLID, TraceRayHitWorldOnly, entity);
 	}
 #if defined ZR
-	else if(GetTeam(entity) == TFTeam_Red)
+	else if(GetTeam(entity) == TFTeam_Red || Arena_Mode())
 	{
 		hTrace = TR_TraceHullFilterEx(pos, pos, mins, maxs, MASK_NPCSOLID | MASK_PLAYERSOLID, TraceRayHitWorldOnly, entity);
 	}
@@ -6120,7 +6153,7 @@ stock bool IsSpaceOccupiedWorldandBuildingsOnly(const float pos[3], const float 
 		hTrace = TR_TraceHullFilterEx(pos, pos, mins, maxs, MASK_PLAYERSOLID, TraceRayHitWorldAndBuildingsOnly, entity);
 	}
 #if defined ZR
-	else if(GetTeam(entity) == TFTeam_Red)
+	else if(GetTeam(entity) == TFTeam_Red || Arena_Mode())
 	{
 		hTrace = TR_TraceHullFilterEx(pos, pos, mins, maxs, MASK_NPCSOLID | MASK_PLAYERSOLID, TraceRayHitWorldAndBuildingsOnly, entity);
 	}
@@ -6143,7 +6176,7 @@ stock bool IsSpaceOccupiedIgnorePlayers(const float pos[3], const float mins[3],
 		hTrace = TR_TraceHullFilterEx(pos, pos, mins, maxs, MASK_PLAYERSOLID, TraceRayDontHitPlayersOrEntityCombat, entity);
 	}
 #if defined ZR
-	else if(GetTeam(entity) == TFTeam_Red)
+	else if(GetTeam(entity) == TFTeam_Red || Arena_Mode())
 	{
 		hTrace = TR_TraceHullFilterEx(pos, pos, mins, maxs, MASK_NPCSOLID | MASK_PLAYERSOLID, TraceRayDontHitPlayersOrEntityCombat, entity);
 	}
@@ -6166,7 +6199,7 @@ stock bool IsSpaceOccupiedDontIgnorePlayers(const float pos[3], const float mins
 		hTrace = TR_TraceHullFilterEx(pos, pos, mins, maxs, MASK_PLAYERSOLID, TraceRayHitPlayersOnly, entity);	
 	}
 #if defined ZR
-	else if(GetTeam(entity) == TFTeam_Red)
+	else if(GetTeam(entity) == TFTeam_Red || Arena_Mode())
 	{
 		hTrace = TR_TraceHullFilterEx(pos, pos, mins, maxs, MASK_NPCSOLID | MASK_PLAYERSOLID, TraceRayHitPlayersOnly, entity);	
 	}
@@ -6417,7 +6450,7 @@ void NpcDrawWorldLogic(int entity)
 	}
 #endif
 #if defined ZR
-	else if(GetTeam(entity) == TFTeam_Red)
+	else if(GetTeam(entity) == TFTeam_Red && !Arena_Mode())
 	{
 		SetEdictFlags(entity, SetEntityTransmitState(entity, FL_EDICT_ALWAYS));
 	}
@@ -6613,7 +6646,7 @@ public void NpcBaseThink(int iNPC)
 				HealingAmount *= 1.25;
 			
 			//Reduce Healing
-			if(GetTeam(iNPC) == TFTeam_Red)
+			if(GetTeam(iNPC) == TFTeam_Red || Arena_Mode())
 			{
 				HealingAmount *= 0.2;
 			}
@@ -6623,7 +6656,12 @@ public void NpcBaseThink(int iNPC)
 			
 			HealEntityGlobal(iNPC, iNPC, HealingAmount, 1.25, 0.0, HEAL_SELFHEAL);
 		}
+		
+		// borrowing this 0.1 sec timer
+		if (HasSpecificBuff(iNPC, "Trampling Prefix"))
+			ResolvePlayerCollisions_Npc(iNPC, 2.0, true);
 	}
+
 #endif
 #if defined RPG
 	if(i_HpRegenInBattle[iNPC] > 1 && f_QuickReviveHealing[iNPC] < GetGameTime() && !f_TimeFrozenStill[iNPC])
@@ -6727,7 +6765,7 @@ public void NpcBaseThink(int iNPC)
 stock float NpcDoHealthRegenScaling(int iNPC)
 {
 #if defined ZR
-	if(GetTeam(iNPC) == TFTeam_Red)
+	if(GetTeam(iNPC) == TFTeam_Red || Arena_Mode())
 		return 1.0;
 	//not allies.
 	
@@ -6773,7 +6811,7 @@ public void NpcOutOfBounds(CClotBody npc, int iNPC)
 #if defined RTS
 	if(!i_NpcIsABuilding[iNPC])
 #else
-	if(!IsEntityTowerDefense(iNPC) && GetTeam(iNPC) != TFTeam_Red)
+	if(!IsEntityTowerDefense(iNPC) && GetTeam(iNPC) != TFTeam_Red && !Arena_Mode())
 #endif
 	{
 		static float flMyPos[3];
@@ -6831,7 +6869,7 @@ public void NpcOutOfBounds(CClotBody npc, int iNPC)
 		}
 	}
 #if defined ZR
-	else if(GetTeam(iNPC) == TFTeam_Red)
+	else if(GetTeam(iNPC) == TFTeam_Red || Arena_Mode())
 	{
 		float GameTime = GetGameTime();
 		if(f_StuckOutOfBoundsCheck[iNPC] < GameTime)
@@ -7067,7 +7105,7 @@ void UnstuckStuckNpc(CClotBody npc)
 	static float vec3Origin[3];
 	npc.SetVelocity(vec3Origin);
 #if defined ZR
-	if(GetTeam(npc.index) != TFTeam_Red)
+	if(GetTeam(npc.index) != TFTeam_Red && !Arena_Mode())
 	{
 		//This was an enemy.
 		if(Rogue_Mode() || Dungeon_Mode())
@@ -7095,7 +7133,7 @@ void UnstuckStuckNpc(CClotBody npc)
 		{
 			if(IsClientInGame(i))
 			{
-				if(IsPlayerAlive(i) && GetClientTeam(i)==2 && TeutonType[i] == TEUTON_NONE)
+				if(IsPlayerAlive(i) && GetTeam(i)==GetTeam(npc.index) && TeutonType[i] == TEUTON_NONE)
 				{
 					target = i;
 					break;
@@ -7433,15 +7471,13 @@ bool Can_I_See_Enemy_Only(int attacker, int enemy, float pos_npc[3] = {0.0,0.0,0
 		WorldSpaceCenter(attacker, pos_npc);
 	if(enemy <= MaxClients)
 	{
+#if defined ZR
 		int vehicle = Vehicle_Driver(enemy);
 		if(vehicle != -1)
 		{
-#if defined ZR
 			enemy = Vehicle_Driver(enemy);
-#else
-			enemy = GetEntPropEnt(enemy, Prop_Data, "m_hPlayer");
-#endif
 		}
+#endif
 	}
 	WorldSpaceCenter(enemy, pos_enemy);
 
@@ -7892,7 +7928,7 @@ stock bool makeexplosion(
 		{
 
 #if defined ZR
-			if(GetTeam(attacker) != TFTeam_Red)
+			if(GetTeam(attacker) != TFTeam_Red && !Arena_Mode())
 #endif
 
 			{
@@ -8088,7 +8124,7 @@ int GetSolidMask(int npc)
 {
 	int Solidity;
 #if defined ZR
-	if(GetTeam(npc) == TFTeam_Red)
+	if(GetTeam(npc) == TFTeam_Red || Arena_Mode())
 		Solidity = (MASK_NPCSOLID|MASK_PLAYERSOLID);
 	else
 		Solidity = (MASK_NPCSOLID);
@@ -8128,6 +8164,16 @@ stock void PredictSubjectPosition(CClotBody npc, int subject, float Extra_lead =
 	vec = f_PredictPos[subject];
 }
 
+stock bool ClientAndNoTypeMove(int entity)
+{
+	if(entity > MaxClients)
+		return false;
+	if(GetEntityMoveType(entity) != MOVETYPE_NONE)
+		return false;
+
+	return true;
+}
+
 static void PredictSubjectPositionInternal(CClotBody npc, int subject, float Extra_lead = 0.0)
 {
 	float botPos[3];
@@ -8144,7 +8190,7 @@ static void PredictSubjectPositionInternal(CClotBody npc, int subject, float Ext
 #if defined RTS
 	if(IsObject(subject) || i_IsABuilding[subject])
 #elseif defined ZR
-	if(Npc_Is_Targeted_In_Air(npc.index) || i_IsABuilding[subject])
+	if(Npc_Is_Targeted_In_Air(npc.index) || i_IsABuilding[subject] || ClientAndNoTypeMove(subject))
 #else
 	if(i_IsABuilding[subject])
 #endif
@@ -8418,6 +8464,11 @@ stock void PredictSubjectPositionForProjectiles(CClotBody npc, int subject, floa
 	
 	float subjectPos[3];
 	WorldSpaceCenter(subject, subjectPos);
+	if(ClientAndNoTypeMove(subject))
+	{
+		pathTarget = subjectPos;
+		return;
+	}
 	
 	float to[3];
 	SubtractVectors(subjectPos, botPos, to);
@@ -8481,92 +8532,6 @@ stock void PredictSubjectPositionForProjectiles(CClotBody npc, int subject, floa
 	}
 	*/
 	//replace this with a trace.
-}
-
-stock void PredictSubjectPositionHook(CClotBody npc, int subject, float subjectPos[3])
-{
-	float botPos[3];
-	GetEntPropVector(npc.index, Prop_Data, "m_vecAbsOrigin", botPos);
-	
-	GetEntPropVector(subject, Prop_Data, "m_vecAbsOrigin", subjectPos);
-	
-	float to[3];
-	SubtractVectors(subjectPos, botPos, to);
-	to[2] = 0.0;
-	
-	float flRangeSq = GetVectorLength(to, true);
-
-	// don't lead if subject is very far away
-	float flLeadRadiusSq = npc.GetLeadRadius(); 
-	
-	if ( flRangeSq > flLeadRadiusSq )
-		return;
-	
-	// Normalize in place
-	float range = SquareRoot( flRangeSq );
-	to[0] /= ( range + 0.0001 );	// avoid divide by zero
-	to[1] /= ( range + 0.0001 );	// avoid divide by zero
-	to[2] /= ( range + 0.0001 );	// avoid divide by zero
-	
-	// estimate time to reach subject, assuming maximum speed
-	float leadTime = 0.1 + ( range / ( npc.GetRunSpeed() + 0.0001 ) );
-	
-	// estimate amount to lead the subject	
-	float SubjectAbsVelocity[3];
-	GetEntPropVector(subject, Prop_Data, "m_vecAbsVelocity", SubjectAbsVelocity);
-	float lead[3];	
-	lead[0] = leadTime * SubjectAbsVelocity[0];
-	lead[1] = leadTime * SubjectAbsVelocity[1];
-	lead[2] = 0.0;	
-
-	if(GetVectorDotProduct(to, lead) < 0.0)
-	{
-		// the subject is moving towards us - only pay attention 
-		// to his perpendicular velocity for leading
-		float to2D[3]; to2D = to;
-		to2D[2] = 0.0;
-		NormalizeVector(to2D, to2D);
-		
-		float perp[2];
-		perp[0] = -to2D[1];
-		perp[1] = to2D[0];
-
-		float enemyGroundSpeed = lead[0] * perp[0] + lead[1] * perp[1];
-
-		lead[0] = enemyGroundSpeed * perp[0];
-		lead[1] = enemyGroundSpeed * perp[1];
-	}
-
-	// compute our desired destination
-	float pathTarget[3];
-	AddVectors(subjectPos, lead, pathTarget);
-
-	// validate this destination
-
-	// don't lead through walls
-	if (GetVectorLength(lead, true) > 36.0)
-	{
-		float fraction;
-		if(view_as<CClotBody>(npc).GetLocomotionInterface().IsPotentiallyTraversable(botPos, subjectPos, IMMEDIATELY, fraction))
-		{
-			// tried to lead through an unwalkable area - clip to walkable space
-			pathTarget[0] = subjectPos[0] + fraction * ( pathTarget[0] - subjectPos[0] );
-			pathTarget[1] = subjectPos[1] + fraction * ( pathTarget[1] - subjectPos[1] );
-			pathTarget[2] = subjectPos[2] + fraction * ( pathTarget[2] - subjectPos[2] );
-		}
-	}
-	
-//	CNavArea leadArea = TheNavMesh.GetNavArea(pathTarget, 50.0);
-	CNavArea leadArea = TheNavMesh.GetNearestNavArea( pathTarget );
-	
-	
-	if (leadArea == NULL_AREA || leadArea.GetZ(pathTarget[0], pathTarget[1]) < pathTarget[2] - npc.GetMaxJumpHeight())
-	{
-		// would fall off a cliff
-		return;	
-	}
-
-	subjectPos = pathTarget;
 }
 
 
@@ -9043,13 +9008,13 @@ public void NPCStats_SetFuncsToZero(int entity)
 public void SetDefaultValuesToZeroNPC(int entity)
 {
 	StatusEffectReset(entity, true);
+	b_ThisNpcIsImmuneToNuke[entity] = false;
 #if defined ZR
 	b_NpcHasBeenAddedToZombiesLeft[entity] = false;
 	i_SpawnProtectionEntity[entity] = -1; 
 	i_TeamGlow[entity] = -1;
 	i_NpcOverrideAttacker[entity] = 0;
 	b_thisNpcHasAnOutline[entity] = false;
-	b_ThisNpcIsImmuneToNuke[entity] = false;
 	f_AvoidObstacleNavTime[entity] = 0.0;
 	b_NameNoTranslation[entity] = false;
 #endif
@@ -9809,9 +9774,16 @@ public void KillNpc(int ref)
 
 stock void FreezeNpcInTime(int npc, float Duration_Stun, bool IgnoreAllLogic = false)
 {
+	if(Arena_Mode())
+		IgnoreAllLogic = false;
 	if(HasSpecificBuff(npc, "Clear Head") && !IgnoreAllLogic)
 		return;
 
+	if(Arena_Mode())
+	{
+		if(Duration_Stun >= 2.0)
+			Duration_Stun = 2.0;
+	}
 	//Emergency incase it wasnt an npc.
 	if(!b_ThisWasAnNpc[npc])
 	{
@@ -9824,8 +9796,13 @@ stock void FreezeNpcInTime(int npc, float Duration_Stun, bool IgnoreAllLogic = f
 		
 		TF2_StunPlayer(npc, Duration_Stun, 1.0, TF_STUNFLAGS_NORMALBONK);
 		ApplyStatusEffect(npc, npc, "Stunned", Duration_Stun);	
+		if(Arena_Mode())
+			ApplyStatusEffect(npc, npc, "Clear Head", 20.0);	
+
 		return;
 	}
+	if(Arena_Mode())
+		ApplyStatusEffect(npc, npc, "Clear Head", 20.0);	
 
 	float GameTime = GetGameTime();
 	float TimeSinceLastStunSubtract;
@@ -10032,7 +10009,7 @@ bool IsSafePosition(int entity, float Pos[3], float mins[3], float maxs[3], bool
 	}
 
 #if defined ZR
-	else if(GetTeam(entity) == TFTeam_Red)
+	else if(GetTeam(entity) == TFTeam_Red || Arena_Mode())
 	{
 		SolidityFlags = MASK_NPCSOLID | MASK_PLAYERSOLID;
 	}
@@ -10084,7 +10061,7 @@ bool IsSafePosition(int entity, float Pos[3], float mins[3], float maxs[3], bool
 		}
 
 #if defined ZR
-		else if(GetTeam(entity) == TFTeam_Red)
+		else if(GetTeam(entity) == TFTeam_Red || Arena_Mode())
 		{
 			hTrace = TR_TraceHullFilterEx(Pos2Test, Pos2Test, mins, maxs, MASK_NPCSOLID | MASK_PLAYERSOLID, BulletAndMeleeTrace, entity);
 		}
@@ -10414,7 +10391,7 @@ stock void ResolvePlayerCollisions_Npc(int iNPC, float damage, bool CauseKnockba
 		hullcheckmins = view_as<float>( { -24.0, -24.0, 0.0 } );			
 	}
 	
-	static float flPosEnd[3];
+	float flPosEnd[3];
 	flPosEnd = flMyPos;
 	ScaleVector(vel, 0.1);
 	AddVectors(flMyPos, vel, flPosEnd);
@@ -10449,7 +10426,7 @@ stock void ResolvePlayerCollisions_Npc(int iNPC, float damage, bool CauseKnockba
 		}
 		
 		SDKHooks_TakeDamage(EntityHit, iNPC, iNPC, damage, DMG_CRUSH, -1, _);
-		if(CauseKnockback && GetTeam(iNPC) != TFTeam_Red)
+		if(CauseKnockback && GetTeam(iNPC) != TFTeam_Red && !Arena_Mode())
 		{
 			if(b_NpcHasDied[EntityHit])
 			{
@@ -10473,8 +10450,14 @@ stock void ResolvePlayerCollisions_Npc_Internal(const float startpos[3],const fl
 
 public bool ResolvePlayerCollisionsTrace(int entity,int filterentity)
 {
+
 	if(IsValidEnemy(filterentity, entity, true, true)) //Must detect camo.
 	{
+		Handle trace = TR_ClipCurrentRayToEntityEx(MASK_ALL, entity);
+		bool didHit = TR_DidHit(trace);
+		delete trace;
+		if (!didHit)
+			return true;
 		//This will automatically take care of all the checks, very handy. force it to also target invul enemies.
 		for(int i=0; i < MAXENTITIES; i++)
 		{
@@ -10555,7 +10538,7 @@ void NpcStartTouch(int TouchedTarget, int target, bool DoNotLoop = false)
 #if defined ZR
 	if(target > 0 && entity > MaxClients && i_npcspawnprotection[entity] > NPC_SPAWNPROT_INIT && i_npcspawnprotection[entity] != NPC_SPAWNPROT_UNSTUCK)
 	{
-		if(IsValidEnemy(entity, target, true, true)) //Must detect camo.
+		if(IsValidEnemy(entity, target, true, true) && GetTeam(target) != TFTeam_Stalkers) //Must detect camo.
 		{
 			int DamageFlags = DMG_CRUSH|DMG_TRUEDAMAGE;
 			float DamageDeal = float(ReturnEntityMaxHealth(target));
@@ -10824,7 +10807,7 @@ public bool TraceEntityEnumerator_EnumerateTriggers_StairTrigger(int entity, int
 	char classname[32];
 	if(!GetEntityClassname(entity, classname, sizeof(classname)))
 		return true;
-
+		
 	if((!StrContains(classname, "trigger_multiple")))
 	{
 		char name[32];
@@ -12293,6 +12276,21 @@ void NPCStats_HandlePaintedWearables()
 			h_ColoredWearables.Erase(i);
 		}
 	}
+}
+
+void NPCStats_ClearPaintedWearables()
+{
+	for (int i = 0; i < h_ColoredWearables.Length; i++)
+	{
+		WearableColor wearableColor;
+		h_ColoredWearables.GetArray(i, wearableColor);
+		if (IsValidEntity(wearableColor.wearableRef))
+			RemoveEntity(wearableColor.wearableRef);
+		
+		delete wearableColor.entities;
+	}
+	
+	h_ColoredWearables.Clear();
 }
 
 Action NPCStats_Timer_HandleCustomNPCChatNames(Handle timer)

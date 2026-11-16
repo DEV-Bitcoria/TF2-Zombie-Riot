@@ -112,7 +112,9 @@ void Building_GiveRewardsUse(int client, int trueOwner, int Cash, bool CashLimit
 	int owner = trueOwner;
 	if(!IsValidEntity(owner) || owner > MaxClients)
 		owner = client;
-	
+
+	if(Arena_Mode())
+		return;
 	//when using your own buildings, you get half as much.
 	if(client == owner)
 	{
@@ -584,6 +586,17 @@ static void BuildingMenu(int client)
 	AnyMenuOpen[client] = 1;
 }
 
+void ResetAllBuildingCooldowns(int client)
+{
+	BuildingInfo info;
+	int length = BuildingList.Length;
+	for(int i; i < length; i++)
+	{
+		BuildingList.GetArray(i, info);
+		info.Cooldowns[client] = 0.0;
+		BuildingList.SetArray(i, info);
+	}
+}
 static int BuildingMenuH(Menu menu, MenuAction action, int client, int choice)
 {
 	switch(action)
@@ -940,7 +953,7 @@ stock void ApplyBuildingCollectCooldown(int building, int client, float Duration
 	{
 		Building_Collect_Cooldown[building][client] = 0.0;
 	}
-	else if(GameRules_GetRoundState() == RoundState_BetweenRounds && !IgnoreVotingExtraCD)
+	else if(!Arena_Mode() && GameRules_GetRoundState() == RoundState_BetweenRounds && !IgnoreVotingExtraCD)
 	{
 		Building_Collect_Cooldown[building][client] = FAR_FUTURE;
 	}
@@ -2185,6 +2198,7 @@ void Barracks_UpdateEntityUpgrades(int entity, int client, bool firstbuild = fal
 	
 	if(!b_NpcHasDied[entity] && !i_IsABuilding[entity])
 	{
+		/*
 		int CurrentPlayerValue = RoundToNearest(Attributes_GetOnPlayer(client, Attrib_BuildingStatus_PreventAbuse));
 		int CurrentBarracksValue = RoundToNearest(Attributes_Get(entity, Attrib_BuildingStatus_PreventAbuse, 1.0));
 		if(CurrentBarracksValue > CurrentPlayerValue)
@@ -2196,6 +2210,7 @@ void Barracks_UpdateEntityUpgrades(int entity, int client, bool firstbuild = fal
 		}
 		//update value for the future
 		Attributes_Set(entity, Attrib_BuildingStatus_PreventAbuse, float(CurrentPlayerValue));
+		*/
 		float Attribute;
 		Attribute = Attributes_GetOnPlayer(client, Attrib_BarracksHealth, true, true);
 		if(f_FreeplayAlteredHealthOld_Barracks[entity] != Attribute)
@@ -2801,7 +2816,7 @@ void DeleteAndRefundBuilding(int client, int entity)
 		SetAmmo(client, Ammo_Metal, GetAmmo(client, Ammo_Metal) + MetalReturn);
 		CurrentAmmo[client][3] = GetAmmo(client, 3);
 	}
-
+	VestanAssaultVehicle_ResetObject(entity);
 	RemoveEntity(entity);
 }
 
